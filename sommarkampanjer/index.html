@@ -148,6 +148,7 @@ footer{margin-top:34px;border-top:1px solid var(--line);padding-top:14px;font-si
     <button data-tab="ins">Insats</button>
     <button data-tab="hav">Hävstång</button>
     <button data-tab="pri">Prioritet</button>
+    <button data-tab="bf">Beslut & frågor</button>
   </nav>
 
   <!-- TIDSLINJE -->
@@ -229,6 +230,36 @@ footer{margin-top:34px;border-top:1px solid var(--line);padding-top:14px;font-si
     <h2 class="section">Prioritet</h2>
     <p class="muted" style="margin-bottom:6px">Hur kampanjerna rangordnas på kassa × insats × säsongspassform.</p>
     <div class="rank" id="rankList" style="display:flex;flex-direction:column;gap:9px"></div>
+  </section>
+
+  <!-- BESLUT & FRÅGOR -->
+  <section class="tab" id="tab-bf">
+    <h2 class="section">Beslut tagna</h2>
+    <p class="muted" style="margin-bottom:14px">Sett som låst i v3. Säg till om något här ska öppnas upp igen.</p>
+    <div class="decisions" style="display:grid;grid-template-columns:200px 1fr;gap:14px 24px;font-size:14px;line-height:1.5">
+      <div style="font-weight:600;color:var(--ink)">Sommarrea-stege</div><div>Konstant 30–40% hela bandet (11/6 → 27/7).</div>
+      <div style="font-weight:600;color:var(--ink)">BOGO + sommarrea</div><div>BOGO ersätter sommarrean 21–30/6. Fullpris återställs, BOGO kör som ren mekanik på sortimentet (ex drops).</div>
+      <div style="font-weight:600;color:var(--ink)">AW26-content</div><div>Claude briefar aicontentgenerator-pipelinen (brief.md + job.yaml + execute).</div>
+      <div style="font-weight:600;color:var(--ink)">Members Days gating</div><div>Members + signup-trigger för icke-members. Popup visas alltid; icke-member får signup-incitament.</div>
+      <div style="font-weight:600;color:var(--ink)">GWP-tröskel</div><div>1200 SEK (matchar Members Days).</div>
+      <div style="font-weight:600;color:var(--ink)">GWP-innehåll</div><div>Option C: Care kit + White hard case + kedja (kundens val).</div>
+      <div style="font-weight:600;color:var(--ink)">Heritage Stories</div><div>Story 1: arkiv-historik · Story 2: hantverk/material.</div>
+      <div style="font-weight:600;color:var(--ink)">Natalie-släpp</div><div>Flyttat till Ons 3/6 (direkt efter 2-för-99 slut 1/6).</div>
+      <div style="font-weight:600;color:var(--ink)">Therese Dark Brown Sun</div><div>Ersätter Progressive Sun Reader Edit.</div>
+      <div style="font-weight:600;color:var(--ink)">Sommarrea-slut</div><div>Söndag 27/7.</div>
+      <div style="font-weight:600;color:var(--ink)">CRM-cadens</div><div>~2,6 mejl/vecka (13 kampanj-pulser + 8 fräsch).</div>
+    </div>
+
+    <h2 class="section" style="margin-top:36px">Öppna frågor</h2>
+    <p class="muted" style="margin-bottom:14px">Behöver svar från teamet innan vissa kampanjer kan låsas.</p>
+    <div class="questions" style="display:grid;grid-template-columns:240px 1fr;gap:14px 24px;font-size:14px;line-height:1.5">
+      <div style="font-weight:600;color:#9c6b7c">AW26 B2B-timing</div><div>Har retailers fått sina AW26-order innan publikt drop 3/8? Kritiskt — pulse I blockas annars.</div>
+      <div style="font-weight:600;color:#9c6b7c">Jasmine lins-typ</div><div>Vilka varianter släpps — Readers, Blue Light, Progressive?</div>
+      <div style="font-weight:600;color:#9c6b7c">Natalie Blush Nude lins-typ</div><div>Readers default — finns BL/Progressive också?</div>
+      <div style="font-weight:600;color:#9c6b7c">Heritage Stories modeller</div><div>Vilka specifika bågar / porträtt-subjekt? Löses vid bygget.</div>
+      <div style="font-weight:600;color:#9c6b7c">Shop-efter-tillfälle site-feature</div><div>Eget projekt: kollektion-pages + filter (work/home/middag/exteriör). Inte i denna runda.</div>
+      <div style="font-weight:600;color:#9c6b7c">Sommarrea exakta % per vecka</div><div>30 → 40 stegning? Eller konstant 35% hela vägen?</div>
+    </div>
   </section>
 
   <footer>
