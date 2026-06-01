@@ -3,82 +3,104 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GLAS Autumn 2026 — Valkort</title>
+<title>GLAS Autumn 2026 + AW26 — Komplett Valkort</title>
 <style>
   :root {
-    --bg: #FAFAF8;
-    --fg: #1B1D1A;
-    --muted: #6B6B66;
-    --line: #E6E4DE;
-    --accent: #1F2F1A;
-    --accent-soft: #DDE5D9;
+    --bg: #FAFAF8; --fg: #1B1D1A; --muted: #6B6B66; --line: #E6E4DE;
+    --accent: #1F2F1A; --accent-soft: #DDE5D9;
     --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
     font-family: -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased; }
-  header.top { padding: 56px 32px 24px; max-width: 1280px; margin: 0 auto; }
+  header.top { padding: 56px 32px 24px; max-width: 1320px; margin: 0 auto; }
   header.top h1 { margin: 0 0 8px; font-size: 28px; font-weight: 500; letter-spacing: -0.01em; }
-  header.top p.lead { margin: 0; color: var(--muted); font-size: 15px; max-width: 640px; line-height: 1.55; }
-  header.top .instructions { margin-top: 20px; padding: 16px 18px; background: #fff; border: 1px solid var(--line);
-    border-radius: 8px; font-size: 14px; color: var(--fg); max-width: 720px; }
+  header.top p.lead { margin: 0; color: var(--muted); font-size: 15px; max-width: 720px; line-height: 1.55; }
+  header.top .instructions { margin-top: 20px; padding: 16px 18px; background: #fff;
+    border: 1px solid var(--line); border-radius: 8px; font-size: 14px; max-width: 720px; }
   header.top .instructions strong { font-weight: 600; }
   header.top .instructions ol { margin: 8px 0 0; padding-left: 18px; color: var(--muted); }
   header.top .instructions li { margin-bottom: 4px; }
-  main { max-width: 1280px; margin: 0 auto; padding: 0 32px 160px; }
-  section.drop { margin-top: 56px; }
-  .drop-head h2 { margin: 0 0 6px; font-size: 22px; font-weight: 500; letter-spacing: -0.005em; }
-  .drop-head .meta { margin: 0; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; }
-  .drop-head .blurb { margin: 8px 0 24px; color: var(--fg); font-size: 14px; max-width: 720px; line-height: 1.55; }
+  main { max-width: 1320px; margin: 0 auto; padding: 0 32px 160px; }
+  section.group { margin-top: 56px; }
+  .group-head h2 { margin: 0 0 6px; font-size: 22px; font-weight: 500; letter-spacing: -0.005em; }
+  .group-head .meta { margin: 0; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.07em; }
+  .group-head .blurb { margin: 8px 0 24px; font-size: 14px; max-width: 760px; line-height: 1.55; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 16px;
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px;
     cursor: pointer; transition: transform .12s ease, box-shadow .18s ease, border-color .15s ease;
     position: relative; outline: none; user-select: none; }
   .card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
   .card:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-  .card .img-wrap { aspect-ratio: 1/1; background: #FAFAFA; border-radius: 6px; overflow: hidden;
-    display: flex; align-items: center; justify-content: center; }
+  .card .img-wrap { aspect-ratio: 1/1; background: #FAFAFA; border-radius: 6px;
+    overflow: hidden; position: relative; }
   .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .card h3 { margin: 12px 4px 4px; font-size: 13.5px; font-weight: 500; line-height: 1.35;
-    letter-spacing: -0.005em; }
-  .card .check { position: absolute; top: 16px; right: 16px; width: 28px; height: 28px;
+  .card h3 { margin: 12px 4px 0; font-size: 13.5px; font-weight: 500; letter-spacing: -0.005em; line-height: 1.35; }
+  .card .check { position: absolute; top: 10px; left: 10px; width: 28px; height: 28px;
     border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center;
     justify-content: center; font-size: 15px; font-weight: 700; opacity: 0; transform: scale(.8);
     transition: opacity .15s, transform .15s; pointer-events: none; box-shadow: var(--shadow); }
-  .card.selected { border-color: var(--accent); background: #fff; }
+  .card .zoom { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px;
+    border-radius: 50%; background: rgba(255,255,255,.96); border: 1px solid var(--line);
+    color: var(--fg); display: flex; align-items: center; justify-content: center;
+    font-size: 14px; cursor: pointer; transition: transform .12s, background .15s; }
+  .card .zoom:hover { transform: scale(1.08); background: #fff; }
+  .card.selected { border-color: var(--accent); }
   .card.selected .check { opacity: 1; transform: scale(1); }
   .card.selected .img-wrap { background: var(--accent-soft); }
+
+  /* lightbox */
+  .lightbox { position: fixed; inset: 0; background: rgba(20,20,18,.92);
+    z-index: 100; display: none; flex-direction: column; align-items: center;
+    justify-content: center; padding: 20px; }
+  .lightbox.open { display: flex; }
+  .lightbox .lb-content { position: relative; max-width: 1200px; width: 100%;
+    background: #fff; border-radius: 12px; padding: 28px; max-height: 92vh;
+    display: flex; flex-direction: column; }
+  .lightbox .lb-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .lightbox .lb-head h2 { margin: 0; font-size: 19px; font-weight: 500; }
+  .lightbox .lb-close { background: transparent; border: none; font-size: 22px;
+    cursor: pointer; color: var(--muted); padding: 4px 12px; }
+  .lightbox .lb-views { display: flex; gap: 6px; margin-bottom: 14px; }
+  .lightbox .lb-views.hidden { display: none; }
+  .lightbox .lb-views button { flex: 1; padding: 8px 12px; background: transparent;
+    border: 1px solid var(--line); border-radius: 6px; font: inherit; font-size: 13px;
+    color: var(--muted); cursor: pointer; transition: all .15s; }
+  .lightbox .lb-views button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .lightbox .lb-image-wrap { flex: 1; min-height: 0; display: flex; align-items: center;
+    justify-content: center; background: #FAFAFA; border-radius: 8px; overflow: hidden; }
+  .lightbox .lb-image-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .lightbox .lb-nav { display: flex; justify-content: space-between; margin-top: 14px;
+    font-size: 12px; color: var(--muted); }
 
   footer.bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,.96);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid var(--line); padding: 16px 32px; display: flex; align-items: center;
     justify-content: space-between; gap: 16px; z-index: 50; }
-  footer.bar .summary { font-size: 14px; color: var(--fg); }
+  footer.bar .summary { font-size: 14px; }
   footer.bar .summary strong { font-weight: 600; }
   footer.bar .summary .breakdown { color: var(--muted); margin-left: 12px; font-size: 13px; }
-  footer.bar .actions { display: flex; gap: 12px; align-items: center; }
+  footer.bar .actions { display: flex; gap: 12px; }
   footer.bar button { background: var(--accent); color: #fff; border: none; padding: 12px 22px;
     border-radius: 999px; font: inherit; font-weight: 500; font-size: 14px; cursor: pointer;
-    transition: opacity .15s, transform .12s; letter-spacing: 0.01em; }
+    transition: transform .12s; letter-spacing: 0.01em; }
   footer.bar button:hover { transform: translateY(-1px); }
   footer.bar button:disabled { background: #BFBFBA; cursor: not-allowed; transform: none; }
   footer.bar button.secondary { background: transparent; color: var(--muted); padding: 12px 14px; }
-  footer.bar button.secondary:hover { color: var(--fg); }
 
-  /* note input modal */
   dialog#note-dlg { border: none; border-radius: 12px; padding: 0; box-shadow: var(--shadow);
     width: min(560px, 92vw); background: #fff; }
   dialog#note-dlg::backdrop { background: rgba(20,20,18,.45); backdrop-filter: blur(4px); }
   dialog#note-dlg .dlg-body { padding: 24px; }
   dialog#note-dlg h3 { margin: 0 0 8px; font-size: 18px; font-weight: 500; }
   dialog#note-dlg p { margin: 0 0 14px; color: var(--muted); font-size: 13.5px; }
-  dialog#note-dlg textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--line);
-    border-radius: 8px; font: inherit; font-size: 14px; resize: vertical; outline: none; }
-  dialog#note-dlg textarea:focus { border-color: var(--accent); }
+  dialog#note-dlg textarea { width: 100%; min-height: 120px; padding: 12px;
+    border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 14px;
+    resize: vertical; outline: none; }
   dialog#note-dlg .dlg-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
-  dialog#note-dlg .dlg-actions button { padding: 10px 18px; border-radius: 999px; border: none;
-    font: inherit; font-size: 14px; cursor: pointer; }
+  dialog#note-dlg .dlg-actions button { padding: 10px 18px; border-radius: 999px;
+    border: none; font: inherit; font-size: 14px; cursor: pointer; }
   dialog#note-dlg .dlg-actions .cancel { background: transparent; color: var(--muted); }
   dialog#note-dlg .dlg-actions .submit { background: var(--accent); color: #fff; }
 
@@ -87,243 +109,437 @@
     main { padding: 0 20px 180px; }
     .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .card { padding: 10px; }
-    .card h3 { font-size: 12.5px; }
+    .card h3 { font-size: 12px; }
     footer.bar { padding: 12px 16px; flex-direction: column; align-items: stretch; }
     footer.bar .actions { justify-content: space-between; }
+    .lightbox .lb-content { padding: 18px; }
   }
 </style>
 </head>
 <body>
 <header class="top">
-  <h1>GLAS Autumn 2026 — Valkort</h1>
-  <p class="lead">36 packshots, 4 partner drops. Klicka för att välja styles per drop. När du är klar, skicka val via knappen längst ner — då går ett mail till Christoffer med din selection.</p>
+  <h1>GLAS Autumn 2026 + AW26 — Komplett Valkort</h1>
+  <p class="lead">43 packshots × 5 grupper: 4 partner drops + AW26 D2C capacity-fill. Klicka 🔍 för att förstora. Klicka kort för att markera. Skicka val via knappen längst ner.</p>
   <div class="instructions">
     <strong>Så funkar det</strong>
     <ol>
-      <li>Klicka på en bild för att markera (klicka igen för att avmarkera).</li>
-      <li>Välj så få eller så många du vill per drop — gärna 1–3 favoriter per drop som vi tar vidare.</li>
-      <li>Klicka <em>Skicka mina val</em> längst ner — din selection mailas till Christoffer.</li>
+      <li>Klicka 🔍 på en bild → större format. AW26-SKUer har 3 vyer (front · 3/4 · closeup), drop-SKUerna har 1 vy.</li>
+      <li>Klicka på kortet → markera/avmarkera (checkmark visas).</li>
+      <li>Lightbox: tangentbord ←/→ för att byta vy, Esc för att stänga.</li>
+      <li>Skicka val via "Skicka mina val" längst ner.</li>
     </ol>
   </div>
 </header>
 <main>
-    <section class="drop" id="01-travel">
-      <header class="drop-head">
-        <h2>Drop 1 — Travel Edition</h2>
+    <section class="group" id="drop-01-travel">
+      <header class="group-head">
+        <h2>Drop 1 — Travel Edition (Avolta)</h2>
         <p class="meta">Avolta · Dufry Arlanda/Landvetter/Vantaa/Helsinki · feb 2027</p>
-        <p class="blurb">Featherweight TR90 + heritage acetate. Nya färger på beprövade silhouetter + 3 nya pilot/D-frame/slim-oval styles.</p>
+        <p class="blurb">Featherweight readers + heritage acetate. 6 colorways på SS26-winners + 3 unika nya styles (Iris/Lovisa/Vilma).</p>
       </header>
       <div class="grid">
-        <article class="card" data-drop="01-travel" data-name="Hedda Tortoise Brass Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/01-travel/hedda-tortoise-brass-readers.jpg" alt="Hedda Tortoise Brass Readers"></div>
+        <article class="card" data-slug="hedda-tortoise-brass-readers" data-group="drop-01-travel" data-name="Hedda Tortoise Brass Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-01-travel/hedda-tortoise-brass-readers.jpg" alt="Hedda Tortoise Brass Readers">
+            <button class="zoom" data-slug="hedda-tortoise-brass-readers" data-group="drop-01-travel" data-name="Hedda Tortoise Brass Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Hedda Tortoise Brass Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="01-travel" data-name="Iris Tortoise Pilot" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/01-travel/iris-tortoise-pilot.jpg" alt="Iris Tortoise Pilot"></div>
+        <article class="card" data-slug="iris-tortoise-pilot" data-group="drop-01-travel" data-name="Iris Tortoise Pilot" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-01-travel/iris-tortoise-pilot.jpg" alt="Iris Tortoise Pilot">
+            <button class="zoom" data-slug="iris-tortoise-pilot" data-group="drop-01-travel" data-name="Iris Tortoise Pilot" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Iris Tortoise Pilot</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="01-travel" data-name="Lovisa Tortoise D-Frame" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/01-travel/lovisa-tortoise-d-frame.jpg" alt="Lovisa Tortoise D-Frame"></div>
+        <article class="card" data-slug="lovisa-tortoise-d-frame" data-group="drop-01-travel" data-name="Lovisa Tortoise D-Frame" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-01-travel/lovisa-tortoise-d-frame.jpg" alt="Lovisa Tortoise D-Frame">
+            <button class="zoom" data-slug="lovisa-tortoise-d-frame" data-group="drop-01-travel" data-name="Lovisa Tortoise D-Frame" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Lovisa Tortoise D-Frame</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="01-travel" data-name="Tove Cognac Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/01-travel/tove-cognac-readers.jpg" alt="Tove Cognac Readers"></div>
+        <article class="card" data-slug="tove-cognac-readers" data-group="drop-01-travel" data-name="Tove Cognac Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-01-travel/tove-cognac-readers.jpg" alt="Tove Cognac Readers">
+            <button class="zoom" data-slug="tove-cognac-readers" data-group="drop-01-travel" data-name="Tove Cognac Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Tove Cognac Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="01-travel" data-name="Tove Deep Ink Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/01-travel/tove-deep-ink-readers.jpg" alt="Tove Deep Ink Readers"></div>
+        <article class="card" data-slug="tove-deep-ink-readers" data-group="drop-01-travel" data-name="Tove Deep Ink Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-01-travel/tove-deep-ink-readers.jpg" alt="Tove Deep Ink Readers">
+            <button class="zoom" data-slug="tove-deep-ink-readers" data-group="drop-01-travel" data-name="Tove Deep Ink Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Tove Deep Ink Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="01-travel" data-name="Tove Honey Tinted" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/01-travel/tove-honey-tinted.jpg" alt="Tove Honey Tinted"></div>
+        <article class="card" data-slug="tove-honey-tinted" data-group="drop-01-travel" data-name="Tove Honey Tinted" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-01-travel/tove-honey-tinted.jpg" alt="Tove Honey Tinted">
+            <button class="zoom" data-slug="tove-honey-tinted" data-group="drop-01-travel" data-name="Tove Honey Tinted" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Tove Honey Tinted</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="01-travel" data-name="Tove Slate Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/01-travel/tove-slate-readers.jpg" alt="Tove Slate Readers"></div>
+        <article class="card" data-slug="tove-slate-readers" data-group="drop-01-travel" data-name="Tove Slate Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-01-travel/tove-slate-readers.jpg" alt="Tove Slate Readers">
+            <button class="zoom" data-slug="tove-slate-readers" data-group="drop-01-travel" data-name="Tove Slate Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Tove Slate Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="01-travel" data-name="Vera Silver Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/01-travel/vera-silver-readers.jpg" alt="Vera Silver Readers"></div>
+        <article class="card" data-slug="vera-silver-readers" data-group="drop-01-travel" data-name="Vera Silver Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-01-travel/vera-silver-readers.jpg" alt="Vera Silver Readers">
+            <button class="zoom" data-slug="vera-silver-readers" data-group="drop-01-travel" data-name="Vera Silver Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Vera Silver Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="01-travel" data-name="Vilma Champagne Slim Oval" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/01-travel/vilma-champagne-slim-oval.jpg" alt="Vilma Champagne Slim Oval"></div>
+        <article class="card" data-slug="vilma-champagne-slim-oval" data-group="drop-01-travel" data-name="Vilma Champagne Slim Oval" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-01-travel/vilma-champagne-slim-oval.jpg" alt="Vilma Champagne Slim Oval">
+            <button class="zoom" data-slug="vilma-champagne-slim-oval" data-group="drop-01-travel" data-name="Vilma Champagne Slim Oval" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Vilma Champagne Slim Oval</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
       </div>
     </section>
-    <section class="drop" id="02-nk-stockholm">
-      <header class="drop-head">
+    <section class="group" id="drop-02-nk-stockholm">
+      <header class="group-head">
         <h2>Drop 2 — NK Stockholm Capsule</h2>
-        <p class="meta">NK Stockholm · sep 2026 (launch) → q4 2026</p>
-        <p class="blurb">Sandstone tortoise + tobacco acetate. Nya färger på Klara-readers + 3 nya butterfly/cat-eye/modern-oval styles.</p>
+        <p class="meta">NK Stockholm · launch sep 2026 → q4 2026</p>
+        <p class="blurb">Sandstone tortoise + tobacco acetate. 5 colorways på Klara-readers + 3 unika styles (Lykke butterfly/Solveig cat-eye/Greta modern oval).</p>
       </header>
       <div class="grid">
-        <article class="card" data-drop="02-nk-stockholm" data-name="Greta Deep Plum Modern Oval" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/02-nk-stockholm/greta-deep-plum-modern-oval.jpg" alt="Greta Deep Plum Modern Oval"></div>
+        <article class="card" data-slug="greta-deep-plum-modern-oval" data-group="drop-02-nk-stockholm" data-name="Greta Deep Plum Modern Oval" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-02-nk-stockholm/greta-deep-plum-modern-oval.jpg" alt="Greta Deep Plum Modern Oval">
+            <button class="zoom" data-slug="greta-deep-plum-modern-oval" data-group="drop-02-nk-stockholm" data-name="Greta Deep Plum Modern Oval" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Greta Deep Plum Modern Oval</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="02-nk-stockholm" data-name="Klara Deep Plum Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/02-nk-stockholm/klara-deep-plum-readers.jpg" alt="Klara Deep Plum Readers"></div>
+        <article class="card" data-slug="klara-deep-plum-readers" data-group="drop-02-nk-stockholm" data-name="Klara Deep Plum Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-02-nk-stockholm/klara-deep-plum-readers.jpg" alt="Klara Deep Plum Readers">
+            <button class="zoom" data-slug="klara-deep-plum-readers" data-group="drop-02-nk-stockholm" data-name="Klara Deep Plum Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Klara Deep Plum Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="02-nk-stockholm" data-name="Klara Honey Translucent Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/02-nk-stockholm/klara-honey-translucent-readers.jpg" alt="Klara Honey Translucent Readers"></div>
+        <article class="card" data-slug="klara-honey-translucent-readers" data-group="drop-02-nk-stockholm" data-name="Klara Honey Translucent Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-02-nk-stockholm/klara-honey-translucent-readers.jpg" alt="Klara Honey Translucent Readers">
+            <button class="zoom" data-slug="klara-honey-translucent-readers" data-group="drop-02-nk-stockholm" data-name="Klara Honey Translucent Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Klara Honey Translucent Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="02-nk-stockholm" data-name="Klara Sage Tinted" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/02-nk-stockholm/klara-sage-tinted.jpg" alt="Klara Sage Tinted"></div>
+        <article class="card" data-slug="klara-sage-tinted" data-group="drop-02-nk-stockholm" data-name="Klara Sage Tinted" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-02-nk-stockholm/klara-sage-tinted.jpg" alt="Klara Sage Tinted">
+            <button class="zoom" data-slug="klara-sage-tinted" data-group="drop-02-nk-stockholm" data-name="Klara Sage Tinted" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Klara Sage Tinted</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="02-nk-stockholm" data-name="Klara Sandstone Tortoise Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/02-nk-stockholm/klara-sandstone-tortoise-readers.jpg" alt="Klara Sandstone Tortoise Readers"></div>
+        <article class="card" data-slug="klara-sandstone-tortoise-readers" data-group="drop-02-nk-stockholm" data-name="Klara Sandstone Tortoise Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-02-nk-stockholm/klara-sandstone-tortoise-readers.jpg" alt="Klara Sandstone Tortoise Readers">
+            <button class="zoom" data-slug="klara-sandstone-tortoise-readers" data-group="drop-02-nk-stockholm" data-name="Klara Sandstone Tortoise Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Klara Sandstone Tortoise Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="02-nk-stockholm" data-name="Klara Tobacco Tinted" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/02-nk-stockholm/klara-tobacco-tinted.jpg" alt="Klara Tobacco Tinted"></div>
+        <article class="card" data-slug="klara-tobacco-tinted" data-group="drop-02-nk-stockholm" data-name="Klara Tobacco Tinted" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-02-nk-stockholm/klara-tobacco-tinted.jpg" alt="Klara Tobacco Tinted">
+            <button class="zoom" data-slug="klara-tobacco-tinted" data-group="drop-02-nk-stockholm" data-name="Klara Tobacco Tinted" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Klara Tobacco Tinted</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="02-nk-stockholm" data-name="Lykke Black Butterfly" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/02-nk-stockholm/lykke-black-butterfly.jpg" alt="Lykke Black Butterfly"></div>
+        <article class="card" data-slug="lykke-black-butterfly" data-group="drop-02-nk-stockholm" data-name="Lykke Black Butterfly" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-02-nk-stockholm/lykke-black-butterfly.jpg" alt="Lykke Black Butterfly">
+            <button class="zoom" data-slug="lykke-black-butterfly" data-group="drop-02-nk-stockholm" data-name="Lykke Black Butterfly" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Lykke Black Butterfly</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="02-nk-stockholm" data-name="Solveig Sandstone Tortoise Cat-Eye" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/02-nk-stockholm/solveig-sandstone-tortoise-cat-eye.jpg" alt="Solveig Sandstone Tortoise Cat-Eye"></div>
+        <article class="card" data-slug="solveig-sandstone-tortoise-cat-eye" data-group="drop-02-nk-stockholm" data-name="Solveig Sandstone Tortoise Cat-Eye" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-02-nk-stockholm/solveig-sandstone-tortoise-cat-eye.jpg" alt="Solveig Sandstone Tortoise Cat-Eye">
+            <button class="zoom" data-slug="solveig-sandstone-tortoise-cat-eye" data-group="drop-02-nk-stockholm" data-name="Solveig Sandstone Tortoise Cat-Eye" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Solveig Sandstone Tortoise Cat-Eye</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
       </div>
     </section>
-    <section class="drop" id="03-bolighus-heritage">
-      <header class="drop-head">
+    <section class="group" id="drop-03-bolighus-heritage">
+      <header class="group-head">
         <h2>Drop 3 — Illum Bolighus Heritage</h2>
         <p class="meta">Illum Bolighus København · okt 2026 → jan 2027</p>
-        <p class="blurb">Heritage acetate-readers + brushed-steel temples. Sigrid-family + 3 nya architect-wire/hexagonal/oversized-square styles.</p>
+        <p class="blurb">Heritage acetate-readers + brushed-steel temples. Sigrid-family (5) + 3 unika styles (Idun architect-wire/Märta hexagonal/Hilma oversized-square).</p>
       </header>
       <div class="grid">
-        <article class="card" data-drop="03-bolighus-heritage" data-name="Hilma Honey Tortoise Oversized Square" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/03-bolighus-heritage/hilma-honey-tortoise-oversized-square.jpg" alt="Hilma Honey Tortoise Oversized Square"></div>
+        <article class="card" data-slug="hilma-honey-tortoise-oversized-square" data-group="drop-03-bolighus-heritage" data-name="Hilma Honey Tortoise Oversized Square" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-03-bolighus-heritage/hilma-honey-tortoise-oversized-square.jpg" alt="Hilma Honey Tortoise Oversized Square">
+            <button class="zoom" data-slug="hilma-honey-tortoise-oversized-square" data-group="drop-03-bolighus-heritage" data-name="Hilma Honey Tortoise Oversized Square" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Hilma Honey Tortoise Oversized Square</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="03-bolighus-heritage" data-name="Idun Gunmetal Architect Wire" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/03-bolighus-heritage/idun-gunmetal-architect-wire.jpg" alt="Idun Gunmetal Architect Wire"></div>
+        <article class="card" data-slug="idun-gunmetal-architect-wire" data-group="drop-03-bolighus-heritage" data-name="Idun Gunmetal Architect Wire" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-03-bolighus-heritage/idun-gunmetal-architect-wire.jpg" alt="Idun Gunmetal Architect Wire">
+            <button class="zoom" data-slug="idun-gunmetal-architect-wire" data-group="drop-03-bolighus-heritage" data-name="Idun Gunmetal Architect Wire" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Idun Gunmetal Architect Wire</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="03-bolighus-heritage" data-name="Märta Onyx Hexagonal" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/03-bolighus-heritage/marta-onyx-hexagonal.jpg" alt="Märta Onyx Hexagonal"></div>
+        <article class="card" data-slug="marta-onyx-hexagonal" data-group="drop-03-bolighus-heritage" data-name="Märta Onyx Hexagonal" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-03-bolighus-heritage/marta-onyx-hexagonal.jpg" alt="Märta Onyx Hexagonal">
+            <button class="zoom" data-slug="marta-onyx-hexagonal" data-group="drop-03-bolighus-heritage" data-name="Märta Onyx Hexagonal" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Märta Onyx Hexagonal</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="03-bolighus-heritage" data-name="Sigrid Forest Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/03-bolighus-heritage/sigrid-forest-readers.jpg" alt="Sigrid Forest Readers"></div>
+        <article class="card" data-slug="sigrid-forest-readers" data-group="drop-03-bolighus-heritage" data-name="Sigrid Forest Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-03-bolighus-heritage/sigrid-forest-readers.jpg" alt="Sigrid Forest Readers">
+            <button class="zoom" data-slug="sigrid-forest-readers" data-group="drop-03-bolighus-heritage" data-name="Sigrid Forest Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Sigrid Forest Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="03-bolighus-heritage" data-name="Sigrid Honey Brass Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/03-bolighus-heritage/sigrid-honey-brass-readers.jpg" alt="Sigrid Honey Brass Readers"></div>
+        <article class="card" data-slug="sigrid-honey-brass-readers" data-group="drop-03-bolighus-heritage" data-name="Sigrid Honey Brass Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-03-bolighus-heritage/sigrid-honey-brass-readers.jpg" alt="Sigrid Honey Brass Readers">
+            <button class="zoom" data-slug="sigrid-honey-brass-readers" data-group="drop-03-bolighus-heritage" data-name="Sigrid Honey Brass Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Sigrid Honey Brass Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="03-bolighus-heritage" data-name="Sigrid Onyx Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/03-bolighus-heritage/sigrid-onyx-readers.jpg" alt="Sigrid Onyx Readers"></div>
+        <article class="card" data-slug="sigrid-onyx-readers" data-group="drop-03-bolighus-heritage" data-name="Sigrid Onyx Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-03-bolighus-heritage/sigrid-onyx-readers.jpg" alt="Sigrid Onyx Readers">
+            <button class="zoom" data-slug="sigrid-onyx-readers" data-group="drop-03-bolighus-heritage" data-name="Sigrid Onyx Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Sigrid Onyx Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="03-bolighus-heritage" data-name="Sigrid Smoke Tinted" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/03-bolighus-heritage/sigrid-smoke-tinted.jpg" alt="Sigrid Smoke Tinted"></div>
+        <article class="card" data-slug="sigrid-smoke-tinted" data-group="drop-03-bolighus-heritage" data-name="Sigrid Smoke Tinted" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-03-bolighus-heritage/sigrid-smoke-tinted.jpg" alt="Sigrid Smoke Tinted">
+            <button class="zoom" data-slug="sigrid-smoke-tinted" data-group="drop-03-bolighus-heritage" data-name="Sigrid Smoke Tinted" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Sigrid Smoke Tinted</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="03-bolighus-heritage" data-name="Sigrid Walnut Readers" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/03-bolighus-heritage/sigrid-walnut-readers.jpg" alt="Sigrid Walnut Readers"></div>
+        <article class="card" data-slug="sigrid-walnut-readers" data-group="drop-03-bolighus-heritage" data-name="Sigrid Walnut Readers" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-03-bolighus-heritage/sigrid-walnut-readers.jpg" alt="Sigrid Walnut Readers">
+            <button class="zoom" data-slug="sigrid-walnut-readers" data-group="drop-03-bolighus-heritage" data-name="Sigrid Walnut Readers" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Sigrid Walnut Readers</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
       </div>
     </section>
-    <section class="drop" id="04-cocopanda-tinted">
-      <header class="drop-head">
+    <section class="group" id="drop-04-cocopanda-tinted">
+      <header class="group-head">
         <h2>Drop 4 — Cocopanda Tinted Edition</h2>
         <p class="meta">Blivakker.no + Cocopanda.de · nov 2026 → jan 2027</p>
-        <p class="blurb">Eyewear som beauty-layer. 4 befintliga sunglasses-shapes i nya tinted lenses + 3 nya wire-oval/shield/Y2K styles.</p>
+        <p class="blurb">Eyewear som beauty-layer. 8 befintliga sun-shapes i nya tinted lenses + 3 unika styles (Maja wire-oval/Selma shield/Frida Y2K).</p>
       </header>
       <div class="grid">
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Ebba Plum Gradient Sunglasses" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/ebba-plum-gradient-sunglasses.jpg" alt="Ebba Plum Gradient Sunglasses"></div>
+        <article class="card" data-slug="ebba-plum-gradient-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Ebba Plum Gradient Sunglasses" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/ebba-plum-gradient-sunglasses.jpg" alt="Ebba Plum Gradient Sunglasses">
+            <button class="zoom" data-slug="ebba-plum-gradient-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Ebba Plum Gradient Sunglasses" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Ebba Plum Gradient Sunglasses</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Ebba Smoke Sunglasses" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/ebba-smoke-sunglasses.jpg" alt="Ebba Smoke Sunglasses"></div>
+        <article class="card" data-slug="ebba-smoke-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Ebba Smoke Sunglasses" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/ebba-smoke-sunglasses.jpg" alt="Ebba Smoke Sunglasses">
+            <button class="zoom" data-slug="ebba-smoke-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Ebba Smoke Sunglasses" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Ebba Smoke Sunglasses</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Filippa Honey Gradient Sunglasses" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/filippa-honey-gradient-sunglasses.jpg" alt="Filippa Honey Gradient Sunglasses"></div>
+        <article class="card" data-slug="filippa-honey-gradient-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Filippa Honey Gradient Sunglasses" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/filippa-honey-gradient-sunglasses.jpg" alt="Filippa Honey Gradient Sunglasses">
+            <button class="zoom" data-slug="filippa-honey-gradient-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Filippa Honey Gradient Sunglasses" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Filippa Honey Gradient Sunglasses</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Filippa Terracotta Sunglasses" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/filippa-terracotta-sunglasses.jpg" alt="Filippa Terracotta Sunglasses"></div>
+        <article class="card" data-slug="filippa-terracotta-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Filippa Terracotta Sunglasses" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/filippa-terracotta-sunglasses.jpg" alt="Filippa Terracotta Sunglasses">
+            <button class="zoom" data-slug="filippa-terracotta-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Filippa Terracotta Sunglasses" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Filippa Terracotta Sunglasses</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Frida Honey Y2K Slim Rectangular" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/frida-honey-y2k-slim-rectangular.jpg" alt="Frida Honey Y2K Slim Rectangular"></div>
+        <article class="card" data-slug="frida-honey-y2k-slim-rectangular" data-group="drop-04-cocopanda-tinted" data-name="Frida Honey Y2K Slim Rectangular" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/frida-honey-y2k-slim-rectangular.jpg" alt="Frida Honey Y2K Slim Rectangular">
+            <button class="zoom" data-slug="frida-honey-y2k-slim-rectangular" data-group="drop-04-cocopanda-tinted" data-name="Frida Honey Y2K Slim Rectangular" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Frida Honey Y2K Slim Rectangular</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Linnea Amber Sunglasses" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/linnea-amber-sunglasses.jpg" alt="Linnea Amber Sunglasses"></div>
+        <article class="card" data-slug="linnea-amber-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Linnea Amber Sunglasses" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/linnea-amber-sunglasses.jpg" alt="Linnea Amber Sunglasses">
+            <button class="zoom" data-slug="linnea-amber-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Linnea Amber Sunglasses" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Linnea Amber Sunglasses</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Linnea Champagne Sunglasses" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/linnea-champagne-sunglasses.jpg" alt="Linnea Champagne Sunglasses"></div>
+        <article class="card" data-slug="linnea-champagne-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Linnea Champagne Sunglasses" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/linnea-champagne-sunglasses.jpg" alt="Linnea Champagne Sunglasses">
+            <button class="zoom" data-slug="linnea-champagne-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Linnea Champagne Sunglasses" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Linnea Champagne Sunglasses</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Maja Antique Gold Wire Oval" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/maja-antique-gold-wire-oval.jpg" alt="Maja Antique Gold Wire Oval"></div>
+        <article class="card" data-slug="maja-antique-gold-wire-oval" data-group="drop-04-cocopanda-tinted" data-name="Maja Antique Gold Wire Oval" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/maja-antique-gold-wire-oval.jpg" alt="Maja Antique Gold Wire Oval">
+            <button class="zoom" data-slug="maja-antique-gold-wire-oval" data-group="drop-04-cocopanda-tinted" data-name="Maja Antique Gold Wire Oval" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Maja Antique Gold Wire Oval</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Saga Blush Sunglasses" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/saga-blush-sunglasses.jpg" alt="Saga Blush Sunglasses"></div>
+        <article class="card" data-slug="saga-blush-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Saga Blush Sunglasses" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/saga-blush-sunglasses.jpg" alt="Saga Blush Sunglasses">
+            <button class="zoom" data-slug="saga-blush-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Saga Blush Sunglasses" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Saga Blush Sunglasses</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Saga Sage Sunglasses" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/saga-sage-sunglasses.jpg" alt="Saga Sage Sunglasses"></div>
+        <article class="card" data-slug="saga-sage-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Saga Sage Sunglasses" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/saga-sage-sunglasses.jpg" alt="Saga Sage Sunglasses">
+            <button class="zoom" data-slug="saga-sage-sunglasses" data-group="drop-04-cocopanda-tinted" data-name="Saga Sage Sunglasses" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Saga Sage Sunglasses</h3>
-          <div class="check" aria-hidden="true">✓</div>
         </article>
-        <article class="card" data-drop="04-cocopanda-tinted" data-name="Selma Black Shield" tabindex="0">
-          <div class="img-wrap"><img loading="lazy" src="thumbs/04-cocopanda-tinted/selma-black-shield.jpg" alt="Selma Black Shield"></div>
+        <article class="card" data-slug="selma-black-shield" data-group="drop-04-cocopanda-tinted" data-name="Selma Black Shield" data-views="3q" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/drop-04-cocopanda-tinted/selma-black-shield.jpg" alt="Selma Black Shield">
+            <button class="zoom" data-slug="selma-black-shield" data-group="drop-04-cocopanda-tinted" data-name="Selma Black Shield" data-views="3q" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
           <h3>Selma Black Shield</h3>
-          <div class="check" aria-hidden="true">✓</div>
+        </article>
+      </div>
+    </section>
+    <section class="group" id="aw26-capacity-fill">
+      <header class="group-head">
+        <h2>AW26 Capacity-Fill — D2C launch</h2>
+        <p class="meta">Shopify D2C · Wave A oct 2026 + Wave B dec 2026</p>
+        <p class="blurb">7 unika silhouetter, alla med 3 vyer (front + 3/4 + closeup). Net-new modeller med egna feminin Scandi-namn — packshot-AI:n skapade unika shapes, ej colorways av existing.</p>
+      </header>
+      <div class="grid">
+        <article class="card" data-slug="signe-deep-plum-sunglasses" data-group="aw26-capacity-fill" data-name="Signe Deep Plum Sunglasses" data-views="3q,front,closeup" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/aw26-capacity-fill/signe-deep-plum-sunglasses.jpg" alt="Signe Deep Plum Sunglasses">
+            <button class="zoom" data-slug="signe-deep-plum-sunglasses" data-group="aw26-capacity-fill" data-name="Signe Deep Plum Sunglasses" data-views="3q,front,closeup" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
+          <h3>Signe Deep Plum Sunglasses</h3>
+        </article>
+        <article class="card" data-slug="hedvig-forest-readers" data-group="aw26-capacity-fill" data-name="Hedvig Forest Readers" data-views="3q,front,closeup" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/aw26-capacity-fill/hedvig-forest-readers.jpg" alt="Hedvig Forest Readers">
+            <button class="zoom" data-slug="hedvig-forest-readers" data-group="aw26-capacity-fill" data-name="Hedvig Forest Readers" data-views="3q,front,closeup" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
+          <h3>Hedvig Forest Readers</h3>
+        </article>
+        <article class="card" data-slug="lotta-deep-plum-readers" data-group="aw26-capacity-fill" data-name="Lotta Deep Plum Readers" data-views="3q,front,closeup" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/aw26-capacity-fill/lotta-deep-plum-readers.jpg" alt="Lotta Deep Plum Readers">
+            <button class="zoom" data-slug="lotta-deep-plum-readers" data-group="aw26-capacity-fill" data-name="Lotta Deep Plum Readers" data-views="3q,front,closeup" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
+          <h3>Lotta Deep Plum Readers</h3>
+        </article>
+        <article class="card" data-slug="pia-grey-tortoise-readers" data-group="aw26-capacity-fill" data-name="Pia Grey Tortoise Readers" data-views="3q,front,closeup" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/aw26-capacity-fill/pia-grey-tortoise-readers.jpg" alt="Pia Grey Tortoise Readers">
+            <button class="zoom" data-slug="pia-grey-tortoise-readers" data-group="aw26-capacity-fill" data-name="Pia Grey Tortoise Readers" data-views="3q,front,closeup" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
+          <h3>Pia Grey Tortoise Readers</h3>
+        </article>
+        <article class="card" data-slug="vilja-chocolate-readers" data-group="aw26-capacity-fill" data-name="Vilja Chocolate Readers" data-views="3q,front,closeup" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/aw26-capacity-fill/vilja-chocolate-readers.jpg" alt="Vilja Chocolate Readers">
+            <button class="zoom" data-slug="vilja-chocolate-readers" data-group="aw26-capacity-fill" data-name="Vilja Chocolate Readers" data-views="3q,front,closeup" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
+          <h3>Vilja Chocolate Readers</h3>
+        </article>
+        <article class="card" data-slug="helga-milky-brown-sunglasses" data-group="aw26-capacity-fill" data-name="Helga Milky Brown Sunglasses" data-views="3q,front,closeup" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/aw26-capacity-fill/helga-milky-brown-sunglasses.jpg" alt="Helga Milky Brown Sunglasses">
+            <button class="zoom" data-slug="helga-milky-brown-sunglasses" data-group="aw26-capacity-fill" data-name="Helga Milky Brown Sunglasses" data-views="3q,front,closeup" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
+          <h3>Helga Milky Brown Sunglasses</h3>
+        </article>
+        <article class="card" data-slug="ronja-champagne-gold-tinted" data-group="aw26-capacity-fill" data-name="Ronja Champagne Gold Tinted" data-views="3q,front,closeup" tabindex="0">
+          <div class="img-wrap">
+            <img loading="lazy" src="thumbs/aw26-capacity-fill/ronja-champagne-gold-tinted.jpg" alt="Ronja Champagne Gold Tinted">
+            <button class="zoom" data-slug="ronja-champagne-gold-tinted" data-group="aw26-capacity-fill" data-name="Ronja Champagne Gold Tinted" data-views="3q,front,closeup" aria-label="Visa större bild" type="button">🔍</button>
+            <div class="check" aria-hidden="true">✓</div>
+          </div>
+          <h3>Ronja Champagne Gold Tinted</h3>
         </article>
       </div>
     </section>
 </main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+  <div class="lb-content">
+    <div class="lb-head">
+      <h2 id="lb-title"></h2>
+      <button class="lb-close" id="lb-close" aria-label="Stäng">×</button>
+    </div>
+    <div class="lb-views" id="lb-views">
+      <button data-view="3q" class="active">Three-quarter</button>
+      <button data-view="front">Front</button>
+      <button data-view="closeup">Close-up</button>
+    </div>
+    <div class="lb-image-wrap"><img id="lb-image" alt=""></div>
+    <div class="lb-nav">
+      <span id="lb-nav-hint">Tryck ←/→ för att byta vy · Esc för att stänga</span>
+    </div>
+  </div>
+</div>
+
 <footer class="bar">
   <div class="summary">
     <strong><span id="count">0</span> valda</strong>
@@ -338,7 +554,7 @@
 <dialog id="note-dlg">
   <div class="dlg-body">
     <h3>En sista not?</h3>
-    <p>Valfritt — om du vill skicka med en kommentar (t.ex. "vänta med drop 3", "blush istället för terracotta"), skriv den här.</p>
+    <p>Valfritt — kommentar om valen (t.ex. "vänta med drop 3", "kör hellre Lotta i forest istället för plum").</p>
     <textarea id="note" placeholder="Kommentar (valfritt)…"></textarea>
     <div class="dlg-actions">
       <button type="button" class="cancel" id="dlg-cancel">Avbryt</button>
@@ -349,8 +565,12 @@
 
 <script>
 (function() {
-  const KEY = "glas-valkort-autumn-2026-v1";
+  const KEY = "glas-valkort-combined-v1";
   const RECIPIENT = "christoffer@glaseyewear.com";
+  const GROUP_TITLES = {
+    "drop-01-travel": "Drop 1 — Travel Edition (Avolta)",    "drop-02-nk-stockholm": "Drop 2 — NK Stockholm Capsule",    "drop-03-bolighus-heritage": "Drop 3 — Illum Bolighus Heritage",    "drop-04-cocopanda-tinted": "Drop 4 — Cocopanda Tinted Edition",    "aw26-capacity-fill": "AW26 Capacity-Fill — D2C launch"
+  };
+  const VIEW_LABELS = { "3q": "Three-quarter", "front": "Front", "closeup": "Close-up" };
 
   const cards = document.querySelectorAll(".card");
   const countEl = document.getElementById("count");
@@ -359,47 +579,114 @@
   const clearBtn = document.getElementById("clear");
   const dlg = document.getElementById("note-dlg");
   const noteEl = document.getElementById("note");
+  const lightbox = document.getElementById("lightbox");
+  const lbTitle = document.getElementById("lb-title");
+  const lbImage = document.getElementById("lb-image");
+  const lbViews = document.getElementById("lb-views");
+  const lbViewBtns = lbViews.querySelectorAll("button");
+  const lbNavHint = document.getElementById("lb-nav-hint");
 
-  // restore from localStorage
   let saved;
   try { saved = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e) { saved = []; }
   const selected = new Set(saved);
   cards.forEach(c => {
-    const k = c.dataset.drop + "|" + c.dataset.name;
+    const k = c.dataset.group + "|" + c.dataset.slug;
     if (selected.has(k)) c.classList.add("selected");
   });
   update();
 
   function update() {
     countEl.textContent = selected.size;
-    const byDrop = {};
-    selected.forEach(k => {
-      const [drop] = k.split("|");
-      byDrop[drop] = (byDrop[drop] || 0) + 1;
-    });
-    const parts = [];
-    ["01-travel","02-nk-stockholm","03-bolighus-heritage","04-cocopanda-tinted"].forEach((d,i) => {
-      const n = byDrop[d] || 0;
-      if (n > 0) parts.push(`Drop ${i+1}: ${n}`);
-    });
-    breakdownEl.textContent = parts.length ? `(${parts.join(" · ")})` : "";
     submitBtn.disabled = selected.size === 0;
     clearBtn.disabled = selected.size === 0;
+    const byGroup = {};
+    selected.forEach(k => {
+      const g = k.split("|")[0];
+      byGroup[g] = (byGroup[g] || 0) + 1;
+    });
+    const parts = Object.entries(byGroup).map(([g, n]) => `${g.replace("drop-0", "D").replace("aw26-capacity-fill","AW26")}: ${n}`);
+    breakdownEl.textContent = parts.length ? `(${parts.join(" · ")})` : "";
     localStorage.setItem(KEY, JSON.stringify([...selected]));
   }
 
   function toggle(card) {
-    const k = card.dataset.drop + "|" + card.dataset.name;
+    const k = card.dataset.group + "|" + card.dataset.slug;
     if (selected.has(k)) { selected.delete(k); card.classList.remove("selected"); }
     else { selected.add(k); card.classList.add("selected"); }
     update();
   }
 
   cards.forEach(card => {
-    card.addEventListener("click", () => toggle(card));
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".zoom")) return;
+      toggle(card);
+    });
     card.addEventListener("keydown", e => {
       if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(card); }
     });
+  });
+
+  // lightbox
+  let currentSlug = null, currentGroup = null, currentViews = [], currentViewIdx = 0;
+
+  function openLightbox(slug, group, name, views) {
+    currentSlug = slug; currentGroup = group;
+    currentViews = views.split(",");
+    currentViewIdx = 0;
+    lbTitle.textContent = name;
+    // toggle view buttons
+    if (currentViews.length > 1) {
+      lbViews.classList.remove("hidden");
+      lbViewBtns.forEach(b => {
+        b.style.display = currentViews.includes(b.dataset.view) ? "" : "none";
+      });
+      lbNavHint.textContent = "Tryck ←/→ för att byta vy · Esc för att stänga";
+    } else {
+      lbViews.classList.add("hidden");
+      lbNavHint.textContent = "Esc för att stänga";
+    }
+    setView(0);
+    lightbox.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("open");
+    document.body.style.overflow = "";
+    currentSlug = null;
+  }
+
+  function setView(idx) {
+    currentViewIdx = (idx + currentViews.length) % currentViews.length;
+    const view = currentViews[currentViewIdx];
+    lbImage.src = `large/${currentGroup}/${currentSlug}_${view}.jpg`;
+    lbImage.alt = lbTitle.textContent + " " + VIEW_LABELS[view];
+    lbViewBtns.forEach(b => {
+      b.classList.toggle("active", b.dataset.view === view);
+    });
+  }
+
+  document.querySelectorAll(".zoom").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openLightbox(btn.dataset.slug, btn.dataset.group, btn.dataset.name, btn.dataset.views);
+    });
+  });
+  lbViewBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idx = currentViews.indexOf(btn.dataset.view);
+      if (idx >= 0) setView(idx);
+    });
+  });
+  document.getElementById("lb-close").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("open")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") setView(currentViewIdx - 1);
+    if (e.key === "ArrowRight") setView(currentViewIdx + 1);
   });
 
   clearBtn.addEventListener("click", () => {
@@ -418,36 +705,28 @@
   document.getElementById("dlg-cancel").addEventListener("click", () => dlg.close());
 
   document.getElementById("dlg-submit").addEventListener("click", () => {
-    const dropTitles = {
-      "01-travel": "Drop 1 — Travel Edition (Avolta)",
-      "02-nk-stockholm": "Drop 2 — NK Stockholm Capsule",
-      "03-bolighus-heritage": "Drop 3 — Illum Bolighus Heritage",
-      "04-cocopanda-tinted": "Drop 4 — Cocopanda Tinted Edition",
-    };
     const grouped = {};
     selected.forEach(k => {
       const idx = k.indexOf("|");
-      const drop = k.slice(0, idx);
-      const name = k.slice(idx + 1);
-      (grouped[drop] = grouped[drop] || []).push(name);
+      const g = k.slice(0, idx), slug = k.slice(idx + 1);
+      const card = document.querySelector(`.card[data-group="${g}"][data-slug="${slug}"]`);
+      const name = card ? card.dataset.name : slug;
+      (grouped[g] = grouped[g] || []).push(name);
     });
-    let body = "Maria's val — GLAS Autumn 2026\n";
-    body += "=".repeat(40) + "\n\n";
-    Object.keys(dropTitles).forEach(drop => {
-      const items = grouped[drop] || [];
-      body += dropTitles[drop] + "\n";
-      if (items.length === 0) {
-        body += "  (inga val)\n";
-      } else {
-        items.sort().forEach(n => { body += "  ✓ " + n + "\n"; });
-      }
+    let body = "Marias val — GLAS Autumn 2026 + AW26\n";
+    body += "=".repeat(48) + "\n\n";
+    Object.keys(GROUP_TITLES).forEach(g => {
+      const items = grouped[g] || [];
+      body += GROUP_TITLES[g] + "\n";
+      if (items.length === 0) body += "  (inga val)\n";
+      else items.sort().forEach(n => body += "  ✓ " + n + "\n");
       body += "\n";
     });
     body += "Totalt: " + selected.size + " styles valda\n";
     const note = noteEl.value.trim();
-    if (note) { body += "\nNot från Maria:\n" + note + "\n"; }
+    if (note) body += "\nNot från Maria:\n" + note + "\n";
     body += "\n---\nSkickat via valkort: " + window.location.href;
-    const subject = "Autumn 2026 — Maria's val (" + selected.size + " styles)";
+    const subject = "Autumn 2026 + AW26 — Marias val (" + selected.size + " styles)";
     const url = "mailto:" + RECIPIENT + "?subject=" + encodeURIComponent(subject)
               + "&body=" + encodeURIComponent(body);
     dlg.close();
