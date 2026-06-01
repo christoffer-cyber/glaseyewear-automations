@@ -50,7 +50,7 @@ h2.section{font-family:"Fraunces",serif;font-weight:400;font-size:26px;margin:0 
 
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;letter-spacing:.01em;border-radius:30px;padding:3px 10px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
 .chip .d{width:8px;height:8px;border-radius:50%}
-.tag-crm{border-color:#9aa6b0;color:#56707e}
+.tag-crm{background:#f0d8dc;border-color:#9c6b7c;color:#6e4658;font-weight:500}
 .tag-site{border-color:var(--sage);color:var(--sage)}
 .build-lag{color:var(--sage)} .build-medel{color:var(--taupe)} .build-hog{color:var(--clay);font-weight:600}
 
@@ -79,6 +79,7 @@ h2.section{font-family:"Fraunces",serif;font-weight:400;font-size:26px;margin:0 
 .ev.hol{background:transparent;border:1px dashed var(--line);color:var(--ink-soft)}
 .ev.retail{background:var(--card-2);border:1px solid var(--clay);color:var(--clay)}
 .ev.live{background:var(--clay);color:#fff}
+.ev.crm-fr{background:#f0d8dc;border:1px solid #9c6b7c;color:#6e4658;font-weight:500;cursor:pointer}
 .calsrc{font-size:11px;color:var(--ink-faint);margin-top:6px;line-height:1.5}
 
 /* TESEN */
@@ -137,7 +138,7 @@ footer{margin-top:34px;border-top:1px solid var(--line);padding-top:14px;font-si
     <div class="brand">GLAS · Reframing</div>
     <h1>Sommarkampanjer 2026 — <em>kampanjbok</em></h1>
     <span class="ver">v3 · whiteboard-versionen</span>
-    <p class="sub">Hela planen 5 juni → 1 september, uppdaterad efter whiteboard-sessionen. Sommarrea löper länge, augusti = Back-to-Work + Members Days hela månaden. Klicka en kampanj för asset-manifest.</p>
+    <p class="sub">Hela planen 5 juni → 1 september, uppdaterad efter whiteboard-sessionen. 13 kampanj-pulser + 8 CRM Fräsch-mejl mellan dem = ~2,6 mejl/vecka i snitt. Klicka en kampanj för asset-manifest.</p>
   </header>
 
   <nav id="nav">
@@ -160,6 +161,7 @@ footer{margin-top:34px;border-top:1px solid var(--line);padding-top:14px;font-si
       <span class="lg"><span class="sw" style="background:var(--card-2);border:1px solid var(--clay)"></span>Extern rea/wholesale</span>
       <span class="lg"><span class="sw" style="background:var(--clay)"></span>Pågående rea (vår)</span>
       <span class="lg"><span class="sw" style="background:var(--aw)"></span>Members Days / tema</span>
+      <span class="lg"><span class="sw" style="background:#f0d8dc;border:1px solid #9c6b7c"></span>CRM Fräsch-mejl</span>
     </div>
     <div id="cals"></div>
     <div class="calsrc">Sommarrea ≈ 11/6 → 27/7, upp till 50% (exakt rabatt-fördelning TBD). Members Days hela augusti (-30% > 1200 SEK på ett köp + pre-access till alla aug-släpp). NK 2026-datum ej offentligt. Wholesale: AW26 till återförsäljare *innan* publikt drop 1–10/8 — bekräfta.</div>
@@ -339,26 +341,29 @@ const pulseToId={};CAMP.forEach(c=>pulseToId[c.pulse]=c.prio);
 const EV={
  // JUNI
  "2026-06-01":[{t:"2-för-119/99 slutar",k:"live"}],
+ "2026-06-11":[{t:"C · Sommarrea LANSERING (+Option D boost)",k:"launch",p:"C"},{t:"CRM-fräsch v24 · Sommaren startar",k:"crm-fr"}],
  "2026-06-03":[{t:"B · Natalie Blush Nude LANSERING",k:"launch",p:"B"}],
  "2026-06-04":[{t:"Corpus Christi · DE/AT",k:"hol"}],
  "2026-06-09":[{t:"A · Members-aktivering",k:"launch",p:"A"}],
- "2026-06-11":[{t:"C · Sommarrea LANSERING (+Option D boost)",k:"launch",p:"C"}],
  "2026-06-16":[{t:"D · Pastel early access",k:"send",p:"D"}],
  "2026-06-18":[{t:"D · Pastel Pearls LANSERING",k:"launch",p:"D"}],
  "2026-06-19":[{t:"Midsommarafton · SE/FI",k:"hol"}],
  "2026-06-20":[{t:"Midsommardagen",k:"hol"}],
  "2026-06-21":[{t:"F · BOGO LANSERING",k:"launch",p:"F"}],
  "2026-06-23":[{t:"E · Grace-arc",k:"send",p:"E"},{t:"Sankthans · NO/DK",k:"hol"}],
- "2026-06-25":[{t:"E · Grace ends tonight",k:"send",p:"E"}],
+ "2026-06-25":[{t:"E · Grace ends tonight",k:"send",p:"E"},{t:"CRM-fräsch v26 · Customer story 1",k:"crm-fr"}],
  "2026-06-27":[{t:"NK/UK sommarrea ~ (ej bekräftat)",k:"retail"}],
  "2026-06-29":[{t:"E · Grace last units",k:"send",p:"E"}],
  "2026-06-30":[{t:"F · BOGO last day",k:"send",p:"F"}],
  // JULI
  "2026-07-01":[{t:"BE sommarrea (1–31/7)",k:"retail"}],
+ "2026-07-02":[{t:"CRM-fräsch v27 · Behind the scenes — hantverk",k:"crm-fr"}],
  "2026-07-06":[{t:"G · Therese Sun early access",k:"send",p:"G"}],
  "2026-07-08":[{t:"G · Therese Dark Brown Sun LANSERING",k:"launch",p:"G"}],
  "2026-07-14":[{t:"C · Sommarrea djupare-stege",k:"send",p:"C"}],
+ "2026-07-16":[{t:"CRM-fräsch v29 · Sun readers vs vanliga solglas",k:"crm-fr"}],
  "2026-07-21":[{t:"C · Sommarrea sista vecka",k:"send",p:"C"},{t:"Belgiens nationaldag",k:"hol"}],
+ "2026-07-23":[{t:"CRM-fräsch v30 · Customer story 2",k:"crm-fr"}],
  "2026-07-27":[{t:"C · Sommarrea SLUT",k:"send",p:"C"},{t:"DE sommarrea ~27/7",k:"retail"}],
  "2026-07-28":[{t:"H · Heritage Story 1",k:"send",p:"H"}],
  "2026-07-31":[{t:"H · Heritage Story 2",k:"send",p:"H"}],
@@ -368,14 +373,18 @@ const EV={
  "2026-08-05":[{t:"I · AW26 Dahlia LANSERING",k:"launch",p:"I"}],
  "2026-08-07":[{t:"I · AW26 Jasmine LANSERING",k:"launch",p:"I"}],
  "2026-08-12":[{t:"J · Reading Light early access (members)",k:"send",p:"J"}],
+ "2026-08-13":[{t:"CRM-fräsch v33 · Skärmtrötthet & Blue Light — vetenskapen",k:"crm-fr"}],
  "2026-08-14":[{t:"J · Reading Light LANSERING",k:"launch",p:"J"}],
  "2026-08-15":[{t:"Mariä Himmelfahrt · AT/DE-kat",k:"hol"}],
  "2026-08-17":[{t:"K · Blue Light-veckan + gratis BL-uppgrade",k:"launch",p:"K"}],
  "2026-08-20":[{t:"J · Reading Light reminder",k:"send",p:"J"}],
  "2026-08-21":[{t:"L · GWP Care Set LANSERING (members pre-access)",k:"launch",p:"L"},{t:"K · Blue Light reminder",k:"send",p:"K"}],
  "2026-08-24":[{t:"L · GWP reminder",k:"send",p:"L"}],
+ "2026-08-27":[{t:"CRM-fräsch v35 · Den vi missade — best-seller spotlight",k:"crm-fr"}],
  "2026-08-28":[{t:"L · GWP last week",k:"send",p:"L"}],
- "2026-08-31":[{t:"M · Members Days SLUT",k:"send",p:"M"},{t:"UK Summer BH",k:"hol"}]
+ "2026-08-31":[{t:"M · Members Days SLUT",k:"send",p:"M"},{t:"UK Summer BH",k:"hol"}],
+ // SEPTEMBER
+ "2026-09-01":[{t:"CRM-fräsch v36 · Ditt par i varje rum",k:"crm-fr"}]
 };
 
 const monthsMeta=[
