@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AW26 Capacity-Fill — Valkort</title>
+<style>
+  :root {
+    --bg: #FAFAF8; --fg: #1B1D1A; --muted: #6B6B66; --line: #E6E4DE;
+    --accent: #1F2F1A; --accent-soft: #DDE5D9;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased; }
+  header.top { padding: 56px 32px 24px; max-width: 1280px; margin: 0 auto; }
+  header.top h1 { margin: 0 0 8px; font-size: 28px; font-weight: 500; letter-spacing: -0.01em; }
+  header.top p.lead { margin: 0; color: var(--muted); font-size: 15px; max-width: 720px; line-height: 1.55; }
+  header.top .instructions { margin-top: 20px; padding: 16px 18px; background: #fff;
+    border: 1px solid var(--line); border-radius: 8px; font-size: 14px; max-width: 720px; }
+  header.top .instructions strong { font-weight: 600; }
+  header.top .instructions ol { margin: 8px 0 0; padding-left: 18px; color: var(--muted); }
+  header.top .instructions li { margin-bottom: 4px; }
+  main { max-width: 1280px; margin: 0 auto; padding: 0 32px 160px; }
+  section.drop { margin-top: 40px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 18px;
+    cursor: pointer; transition: transform .12s ease, box-shadow .18s ease, border-color .15s ease;
+    position: relative; outline: none; user-select: none; }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .card:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .card .img-wrap { aspect-ratio: 1/1; background: #FAFAFA; border-radius: 6px;
+    overflow: hidden; position: relative; }
+  .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card h3 { margin: 14px 4px 6px; font-size: 14.5px; font-weight: 500; letter-spacing: -0.005em; }
+  .card .rationale { margin: 0 4px; font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .card .check { position: absolute; top: 12px; left: 12px; width: 28px; height: 28px;
+    border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center;
+    justify-content: center; font-size: 15px; font-weight: 700; opacity: 0; transform: scale(.8);
+    transition: opacity .15s, transform .15s; pointer-events: none; box-shadow: var(--shadow); }
+  .card .zoom { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px;
+    border-radius: 50%; background: rgba(255,255,255,.96); border: 1px solid var(--line);
+    color: var(--fg); display: flex; align-items: center; justify-content: center;
+    font-size: 16px; cursor: pointer; transition: transform .12s, background .15s;
+    box-shadow: var(--shadow); }
+  .card .zoom:hover { transform: scale(1.08); background: #fff; }
+  .card.selected { border-color: var(--accent); }
+  .card.selected .check { opacity: 1; transform: scale(1); }
+  .card.selected .img-wrap { background: var(--accent-soft); }
+
+  /* lightbox */
+  .lightbox { position: fixed; inset: 0; background: rgba(20,20,18,.92);
+    z-index: 100; display: none; flex-direction: column; align-items: center;
+    justify-content: center; padding: 20px; }
+  .lightbox.open { display: flex; }
+  .lightbox .lb-content { position: relative; max-width: 1200px; width: 100%;
+    background: #fff; border-radius: 12px; padding: 28px; max-height: 92vh;
+    display: flex; flex-direction: column; }
+  .lightbox .lb-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .lightbox .lb-head h2 { margin: 0; font-size: 19px; font-weight: 500; }
+  .lightbox .lb-close { background: transparent; border: none; font-size: 22px;
+    cursor: pointer; color: var(--muted); padding: 4px 12px; }
+  .lightbox .lb-close:hover { color: var(--fg); }
+  .lightbox .lb-views { display: flex; gap: 6px; margin-bottom: 14px; }
+  .lightbox .lb-views button { flex: 1; padding: 8px 12px; background: transparent;
+    border: 1px solid var(--line); border-radius: 6px; font: inherit; font-size: 13px;
+    color: var(--muted); cursor: pointer; transition: all .15s; }
+  .lightbox .lb-views button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .lightbox .lb-image-wrap { flex: 1; min-height: 0; display: flex; align-items: center;
+    justify-content: center; background: #FAFAFA; border-radius: 8px; overflow: hidden; }
+  .lightbox .lb-image-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .lightbox .lb-nav { display: flex; justify-content: space-between; margin-top: 14px;
+    font-size: 12px; color: var(--muted); }
+
+  footer.bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,.96);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line); padding: 16px 32px; display: flex; align-items: center;
+    justify-content: space-between; gap: 16px; z-index: 50; }
+  footer.bar .summary { font-size: 14px; }
+  footer.bar .summary strong { font-weight: 600; }
+  footer.bar .summary .breakdown { color: var(--muted); margin-left: 12px; font-size: 13px; }
+  footer.bar .actions { display: flex; gap: 12px; }
+  footer.bar button { background: var(--accent); color: #fff; border: none; padding: 12px 22px;
+    border-radius: 999px; font: inherit; font-weight: 500; font-size: 14px; cursor: pointer;
+    transition: opacity .15s, transform .12s; letter-spacing: 0.01em; }
+  footer.bar button:hover { transform: translateY(-1px); }
+  footer.bar button:disabled { background: #BFBFBA; cursor: not-allowed; transform: none; }
+  footer.bar button.secondary { background: transparent; color: var(--muted); padding: 12px 14px; }
+
+  dialog#note-dlg { border: none; border-radius: 12px; padding: 0; box-shadow: var(--shadow);
+    width: min(560px, 92vw); background: #fff; }
+  dialog#note-dlg::backdrop { background: rgba(20,20,18,.45); backdrop-filter: blur(4px); }
+  dialog#note-dlg .dlg-body { padding: 24px; }
+  dialog#note-dlg h3 { margin: 0 0 8px; font-size: 18px; font-weight: 500; }
+  dialog#note-dlg p { margin: 0 0 14px; color: var(--muted); font-size: 13.5px; }
+  dialog#note-dlg textarea { width: 100%; min-height: 120px; padding: 12px;
+    border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 14px;
+    resize: vertical; outline: none; }
+  dialog#note-dlg textarea:focus { border-color: var(--accent); }
+  dialog#note-dlg .dlg-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+  dialog#note-dlg .dlg-actions button { padding: 10px 18px; border-radius: 999px;
+    border: none; font: inherit; font-size: 14px; cursor: pointer; }
+  dialog#note-dlg .dlg-actions .cancel { background: transparent; color: var(--muted); }
+  dialog#note-dlg .dlg-actions .submit { background: var(--accent); color: #fff; }
+
+  @media (max-width: 640px) {
+    header.top { padding: 32px 20px 16px; }
+    main { padding: 0 20px 180px; }
+    .grid { grid-template-columns: repeat(1, 1fr); }
+    footer.bar { padding: 12px 16px; flex-direction: column; align-items: stretch; }
+    footer.bar .actions { justify-content: space-between; }
+    .lightbox .lb-content { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>GLAS AW26 — Packshot-valkort</h1>
+  <p class="lead">7 nya unika silhouetter för AW26-launch (oct/dec 2026). Alla färger + shapes är net-new — packshot-AI:n skapade unika modeller (inte färgvarianter av existing). Namnen är feminin Scandi och verifierat lediga i Shopify-katalogen. Packshots är AI-genererade previews — riktigt photoshoot sker när factory-samples landar.</p>
+  <div class="instructions">
+    <strong>Så funkar det</strong>
+    <ol>
+      <li>Klicka 🔍 på en bild för att se den i större format med alla 3 vyer (front · 3/4 · closeup).</li>
+      <li>Klicka på själva kortet för att markera/avmarkera (checkmark visas uppe i vänstra hörnet).</li>
+      <li>När du är klar — tryck <em>Skicka mina val</em> längst ner, din selection mailas till Christoffer.</li>
+    </ol>
+  </div>
+</header>
+<main>
+  <section class="drop">
+    <div class="grid">
+      <article class="card" data-slug="signe-deep-plum-sunglasses" data-name="Signe Deep Plum Sunglasses" tabindex="0">
+        <div class="img-wrap">
+          <img loading="lazy" src="thumbs/signe-deep-plum-sunglasses.jpg" alt="Signe Deep Plum Sunglasses">
+          <button class="zoom" data-slug="signe-deep-plum-sunglasses" data-name="Signe Deep Plum Sunglasses" aria-label="Visa större bild" type="button">🔍</button>
+          <div class="check" aria-hidden="true">✓</div>
+        </div>
+        <h3>Signe Deep Plum Sunglasses</h3>
+        <p class="rationale">Unik oxblood-burgundy soft-square sun + smoke-plum gradient + champagne-gold metal. Anchor: deep-plum cross-cutting AW26 gap + top SS26-revenue-segment</p>
+      </article>
+      <article class="card" data-slug="hedvig-forest-readers" data-name="Hedvig Forest Readers" tabindex="0">
+        <div class="img-wrap">
+          <img loading="lazy" src="thumbs/hedvig-forest-readers.jpg" alt="Hedvig Forest Readers">
+          <button class="zoom" data-slug="hedvig-forest-readers" data-name="Hedvig Forest Readers" aria-label="Visa större bild" type="button">🔍</button>
+          <div class="check" aria-hidden="true">✓</div>
+        </div>
+        <h3>Hedvig Forest Readers</h3>
+        <p class="rationale">Unik oversized forest-acetate reader + brushed-brass core. Anchor: "mörkare grön"-customer-voice + Pantone AW26 Kombu Green</p>
+      </article>
+      <article class="card" data-slug="lotta-deep-plum-readers" data-name="Lotta Deep Plum Readers" tabindex="0">
+        <div class="img-wrap">
+          <img loading="lazy" src="thumbs/lotta-deep-plum-readers.jpg" alt="Lotta Deep Plum Readers">
+          <button class="zoom" data-slug="lotta-deep-plum-readers" data-name="Lotta Deep Plum Readers" aria-label="Visa större bild" type="button">🔍</button>
+          <div class="check" aria-hidden="true">✓</div>
+        </div>
+        <h3>Lotta Deep Plum Readers</h3>
+        <p class="rationale">Unik soft-square deep-plum acetate everyday-reader + gold-tone wire. Anchor: cross-cutting plum-gap + work-suitable register</p>
+      </article>
+      <article class="card" data-slug="pia-grey-tortoise-readers" data-name="Pia Grey Tortoise Readers" tabindex="0">
+        <div class="img-wrap">
+          <img loading="lazy" src="thumbs/pia-grey-tortoise-readers.jpg" alt="Pia Grey Tortoise Readers">
+          <button class="zoom" data-slug="pia-grey-tortoise-readers" data-name="Pia Grey Tortoise Readers" aria-label="Visa större bild" type="button">🔍</button>
+          <div class="check" aria-hidden="true">✓</div>
+        </div>
+        <h3>Pia Grey Tortoise Readers</h3>
+        <p class="rationale">Unik cool grey-tortoise marbled round panto-reader + clear lens. Anchor: FI customer voice direct named-ask för grey-tortoise</p>
+      </article>
+      <article class="card" data-slug="vilja-chocolate-readers" data-name="Vilja Chocolate Readers" tabindex="0">
+        <div class="img-wrap">
+          <img loading="lazy" src="thumbs/vilja-chocolate-readers.jpg" alt="Vilja Chocolate Readers">
+          <button class="zoom" data-slug="vilja-chocolate-readers" data-name="Vilja Chocolate Readers" aria-label="Visa större bild" type="button">🔍</button>
+          <div class="check" aria-hidden="true">✓</div>
+        </div>
+        <h3>Vilja Chocolate Readers</h3>
+        <p class="rationale">Unik compact chocolate soft-square reader (mindre proportioner). Anchor: 26 "too big" Yayloh-returer + narrow-face customer-voice</p>
+      </article>
+      <article class="card" data-slug="helga-milky-brown-sunglasses" data-name="Helga Milky Brown Sunglasses" tabindex="0">
+        <div class="img-wrap">
+          <img loading="lazy" src="thumbs/helga-milky-brown-sunglasses.jpg" alt="Helga Milky Brown Sunglasses">
+          <button class="zoom" data-slug="helga-milky-brown-sunglasses" data-name="Helga Milky Brown Sunglasses" aria-label="Visa större bild" type="button">🔍</button>
+          <div class="check" aria-hidden="true">✓</div>
+        </div>
+        <h3>Helga Milky Brown Sunglasses</h3>
+        <p class="rationale">Unik semi-translucent milky-brown sunglass + brown gradient tint. Anchor: Norway sellout-evidence + Pantone Muted Clay soft-neutral</p>
+      </article>
+      <article class="card" data-slug="ronja-champagne-gold-tinted" data-name="Ronja Champagne Gold Tinted" tabindex="0">
+        <div class="img-wrap">
+          <img loading="lazy" src="thumbs/ronja-champagne-gold-tinted.jpg" alt="Ronja Champagne Gold Tinted">
+          <button class="zoom" data-slug="ronja-champagne-gold-tinted" data-name="Ronja Champagne Gold Tinted" aria-label="Visa större bild" type="button">🔍</button>
+          <div class="check" aria-hidden="true">✓</div>
+        </div>
+        <h3>Ronja Champagne Gold Tinted</h3>
+        <p class="rationale">Unik champagne-gold metal frame + pale amber tinted optical lens. Anchor: warm-metal AW26 trend (9/11 luxury houses) + GLAM tinted-reader</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+  <div class="lb-content">
+    <div class="lb-head">
+      <h2 id="lb-title"></h2>
+      <button class="lb-close" id="lb-close" aria-label="Stäng">×</button>
+    </div>
+    <div class="lb-views" id="lb-views">
+      <button data-view="3q" class="active">Three-quarter</button>
+      <button data-view="front">Front</button>
+      <button data-view="closeup">Close-up</button>
+    </div>
+    <div class="lb-image-wrap"><img id="lb-image" alt=""></div>
+    <div class="lb-nav">
+      <span>Tryck ←/→ för att byta vy · Esc för att stänga</span>
+    </div>
+  </div>
+</div>
+
+<footer class="bar">
+  <div class="summary">
+    <strong><span id="count">0</span> valda</strong>
+    <span class="breakdown" id="breakdown"></span>
+  </div>
+  <div class="actions">
+    <button class="secondary" id="clear" disabled>Rensa</button>
+    <button id="submit" disabled>Skicka mina val</button>
+  </div>
+</footer>
+
+<dialog id="note-dlg">
+  <div class="dlg-body">
+    <h3>En sista not?</h3>
+    <p>Valfritt — om du vill skicka med en kommentar (t.ex. "Therese Forest känns för mörk", "petite-modellen bra men i deep plum istället").</p>
+    <textarea id="note" placeholder="Kommentar (valfritt)…"></textarea>
+    <div class="dlg-actions">
+      <button type="button" class="cancel" id="dlg-cancel">Avbryt</button>
+      <button type="button" class="submit" id="dlg-submit">Öppna mail</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function() {
+  const KEY = "glas-valkort-aw26-v1";
+  const RECIPIENT = "christoffer@glaseyewear.com";
+  const SKUS = [
+    { slug: "signe-deep-plum-sunglasses", name: "Signe Deep Plum Sunglasses" },
+    { slug: "hedvig-forest-readers", name: "Hedvig Forest Readers" },
+    { slug: "lotta-deep-plum-readers", name: "Lotta Deep Plum Readers" },
+    { slug: "pia-grey-tortoise-readers", name: "Pia Grey Tortoise Readers" },
+    { slug: "vilja-chocolate-readers", name: "Vilja Chocolate Readers" },
+    { slug: "helga-milky-brown-sunglasses", name: "Helga Milky Brown Sunglasses" },
+    { slug: "ronja-champagne-gold-tinted", name: "Ronja Champagne Gold Tinted" }
+  ];
+  const VIEWS = ["3q", "front", "closeup"];
+  const VIEW_LABELS = { "3q": "Three-quarter", "front": "Front", "closeup": "Close-up" };
+
+  const cards = document.querySelectorAll(".card");
+  const countEl = document.getElementById("count");
+  const breakdownEl = document.getElementById("breakdown");
+  const submitBtn = document.getElementById("submit");
+  const clearBtn = document.getElementById("clear");
+  const dlg = document.getElementById("note-dlg");
+  const noteEl = document.getElementById("note");
+  const lightbox = document.getElementById("lightbox");
+  const lbTitle = document.getElementById("lb-title");
+  const lbImage = document.getElementById("lb-image");
+  const lbViewBtns = document.querySelectorAll("#lb-views button");
+
+  let saved;
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e) { saved = []; }
+  const selected = new Set(saved);
+  cards.forEach(c => {
+    if (selected.has(c.dataset.slug)) c.classList.add("selected");
+  });
+  update();
+
+  function update() {
+    countEl.textContent = selected.size;
+    submitBtn.disabled = selected.size === 0;
+    clearBtn.disabled = selected.size === 0;
+    breakdownEl.textContent = selected.size > 0 ? `(av ${SKUS.length} möjliga)` : "";
+    localStorage.setItem(KEY, JSON.stringify([...selected]));
+  }
+
+  function toggle(card) {
+    const k = card.dataset.slug;
+    if (selected.has(k)) { selected.delete(k); card.classList.remove("selected"); }
+    else { selected.add(k); card.classList.add("selected"); }
+    update();
+  }
+
+  cards.forEach(card => {
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".zoom")) return;  // zoom click handled separately
+      toggle(card);
+    });
+    card.addEventListener("keydown", e => {
+      if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(card); }
+    });
+  });
+
+  // lightbox
+  let currentSlug = null;
+  let currentViewIdx = 0;
+
+  function openLightbox(slug, name) {
+    currentSlug = slug;
+    currentViewIdx = 0;
+    lbTitle.textContent = name;
+    setView(0);
+    lightbox.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("open");
+    document.body.style.overflow = "";
+    currentSlug = null;
+  }
+
+  function setView(idx) {
+    currentViewIdx = (idx + VIEWS.length) % VIEWS.length;
+    const view = VIEWS[currentViewIdx];
+    lbImage.src = `large/${currentSlug}_${view}.jpg`;
+    lbImage.alt = lbTitle.textContent + " " + VIEW_LABELS[view];
+    lbViewBtns.forEach((b, i) => {
+      b.classList.toggle("active", i === currentViewIdx);
+    });
+  }
+
+  document.querySelectorAll(".zoom").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openLightbox(btn.dataset.slug, btn.dataset.name);
+    });
+  });
+  lbViewBtns.forEach((btn, i) => {
+    btn.addEventListener("click", () => setView(i));
+  });
+  document.getElementById("lb-close").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("open")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") setView(currentViewIdx - 1);
+    if (e.key === "ArrowRight") setView(currentViewIdx + 1);
+  });
+
+  clearBtn.addEventListener("click", () => {
+    if (!confirm("Rensa alla val?")) return;
+    selected.clear();
+    cards.forEach(c => c.classList.remove("selected"));
+    update();
+  });
+
+  submitBtn.addEventListener("click", () => {
+    noteEl.value = "";
+    dlg.showModal();
+    setTimeout(() => noteEl.focus(), 50);
+  });
+
+  document.getElementById("dlg-cancel").addEventListener("click", () => dlg.close());
+
+  document.getElementById("dlg-submit").addEventListener("click", () => {
+    const slugToName = Object.fromEntries(SKUS.map(s => [s.slug, s.name]));
+    const chosen = [...selected].map(s => slugToName[s]).filter(Boolean).sort();
+    let body = "Marias val — AW26 Capacity-Fill packshots\n";
+    body += "=".repeat(48) + "\n\n";
+    if (chosen.length === 0) {
+      body += "(inga val)\n";
+    } else {
+      chosen.forEach(n => { body += "  ✓ " + n + "\n"; });
+    }
+    body += "\nTotalt: " + selected.size + " av " + SKUS.length + " styles valda\n";
+    const note = noteEl.value.trim();
+    if (note) { body += "\nNot från Maria:\n" + note + "\n"; }
+    body += "\n---\nSkickat via valkort: " + window.location.href;
+    const subject = "AW26 packshots — Marias val (" + selected.size + " av " + SKUS.length + ")";
+    const url = "mailto:" + RECIPIENT + "?subject=" + encodeURIComponent(subject)
+              + "&body=" + encodeURIComponent(body);
+    dlg.close();
+    window.location.href = url;
+  });
+})();
+</script>
+</body>
+</html>
