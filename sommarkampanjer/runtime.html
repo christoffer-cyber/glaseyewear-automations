@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLAS · Agent-runtime — hur det körs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ece4d6; --card:#f4eee2; --card-2:#efe7d8;
+  --ink:#2a2620; --ink-soft:#6f665a; --ink-faint:#9c9281; --line:#c9bca5;
+  --sage:#6f7c5c; --clay:#b06f46; --taupe:#9a8c74; --gold:#a8854e;
+  --shadow:0 1px 2px rgba(42,38,32,.08), 0 10px 30px rgba(42,38,32,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:"Hanken Grotesk",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+  background-image:radial-gradient(120% 90% at 10% 0%,#f1eadc 0%,rgba(241,234,220,0) 55%),
+    radial-gradient(120% 90% at 92% 100%,#e6dcc9 0%,rgba(230,220,201,0) 55%);
+  -webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");mix-blend-mode:multiply}
+.wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:30px 28px 64px}
+
+header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:26px}
+.brand{font-family:"Fraunces",serif;font-weight:300;letter-spacing:.42em;font-size:12.5px;text-transform:uppercase;color:var(--ink-soft)}
+h1{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(28px,4vw,42px);line-height:1.05;margin:6px 0 0}
+h1 em{font-style:italic;color:var(--gold)}
+.sub{color:var(--ink-soft);font-size:14.5px;max-width:62ch;margin-top:10px;line-height:1.55}
+
+h2{font-family:"Fraunces",serif;font-weight:400;font-size:23px;margin:34px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.lead{font-family:"Fraunces",serif;font-style:italic;font-size:18px;line-height:1.45;color:var(--ink);margin:0 0 14px}
+p,li{font-size:14px;line-height:1.55;color:var(--ink)}
+.muted{color:var(--ink-soft)}
+
+/* triggers/state cards */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:10px 0 18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:5px;padding:14px 16px;box-shadow:var(--shadow)}
+.kpi .t{font-family:"Fraunces",serif;font-size:16px;color:var(--ink);margin-bottom:4px}
+.kpi .d{font-size:12.5px;color:var(--ink-soft);line-height:1.45}
+
+/* the flow */
+.flow{display:flex;flex-direction:column;gap:8px;margin:10px 0 18px}
+.step{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:13px 16px;box-shadow:var(--shadow);position:relative}
+.step.human{background:#f4e8dd;border-color:var(--clay)}
+.step.live{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.step.live .t,.step.live .lab{color:var(--paper)}
+.step.live .desc{color:#d8cfbe}
+.step .t{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-soft);font-weight:500;padding-top:3px}
+.step.human .t{color:var(--clay)}
+.step .lab{font-family:"Fraunces",serif;font-size:17px;margin:0 0 2px}
+.step .agent{display:inline-block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-right:8px}
+.step.human .agent{color:var(--clay)}
+.step .desc{font-size:13px;color:var(--ink-soft);line-height:1.45;margin-top:2px}
+.step .desc code{background:rgba(42,38,32,.08);padding:1px 5px;border-radius:3px;font-size:12px;font-family:"JetBrains Mono",monospace}
+.step::after{content:"↓";position:absolute;left:46px;bottom:-15px;color:var(--ink-faint);font-size:18px;z-index:2;line-height:1}
+.step:last-child::after{display:none}
+.step.gap{background:transparent;border:1px dashed var(--line);box-shadow:none}
+
+/* concrete walkthrough */
+.walk{background:var(--card);border:1px solid var(--line);border-radius:5px;padding:18px 20px;box-shadow:var(--shadow);font-size:13.5px;line-height:1.6}
+.walk h3{font-family:"Fraunces",serif;font-weight:500;font-size:18px;margin:0 0 8px}
+.walk ol{margin:0;padding-left:18px}
+.walk li{margin-bottom:3px}
+.walk code{background:rgba(42,38,32,.08);padding:1px 5px;border-radius:3px;font-size:12px;font-family:"JetBrains Mono",monospace}
+
+.callout{background:var(--card-2);border-left:3px solid var(--gold);border-radius:0 5px 5px 0;padding:14px 16px;font-size:13.5px;line-height:1.55;margin:12px 0}
+.callout.warn{border-left-color:var(--clay)}
+.callout b{color:var(--ink)}
+
+footer{margin-top:30px;border-top:1px solid var(--line);padding-top:14px;font-size:12px;color:var(--ink-faint);line-height:1.5}
+
+@media(max-width:780px){.cards3{grid-template-columns:1fr}.step{grid-template-columns:70px 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">GLAS · Agent-runtime</div>
+    <h1>Hur det <em>körs</em> — från brief till live</h1>
+    <p class="sub">När agenterna är skrivna, vad är det egentligen som triggar dem? Var ligger state:t? När kommer du som människa in?</p>
+  </header>
+
+  <p class="lead">Tre saker att hålla i huvudet: <b>state lever i en fil</b> (campaign.yaml), <b>orchestrator:n triggar agenter</b> baserat på datum i den filen, och <b>du som människa är aldrig out-of-loop</b> — du gate:ar 3 punkter via Slack.</p>
+
+  <div class="cards3">
+    <div class="kpi"><div class="t">State</div><div class="d"><code>campaign.yaml</code> per kampanj. Versionerad i git. Innehåller mål, beats, asset_manifest med status per asset.</div></div>
+    <div class="kpi"><div class="t">Trigger</div><div class="d">Orchestrator (Ronja scheduled-job, körs varje timme). Läser alla campaign.yaml, kollar vad som ska köras nu baserat på beat-datum.</div></div>
+    <div class="kpi"><div class="t">Människa</div><div class="d">Tre approval-gates: image-QA, klaviyo-drafts, Shopify-config. Notifieras via Slack med deep-link till artefakten.</div></div>
+  </div>
+
+  <h2>Flödet — från T-21 dagar till T+7</h2>
+  <p class="muted" style="margin:0 0 14px">Exempel: en drop med launch på T0. Klockslag är ungefärliga — orchestrator:n följer beat-datumen i campaign.yaml.</p>
+
+  <div class="flow">
+
+    <div class="step">
+      <div class="t">T-21</div>
+      <div>
+        <div><span class="agent">Strategist (du + agent)</span></div>
+        <div class="lab">Skapa campaign.yaml</div>
+        <div class="desc">Du eller Strategist-agenten producerar specen för pulsen. Pushar <code>campaign.yaml</code> till <code>active/campaigns/2026-07-pastel-pearls.yaml</code> + skapar Asana parent-task med subtasks per asset. <b>Status: planned</b>.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="t">T-14 / 09:00</div>
+      <div>
+        <div><span class="agent">Orchestrator</span></div>
+        <div class="lab">Cron läser campaign.yaml, ser att brief är due</div>
+        <div class="desc">Ronja scheduled-job kör varje timme: scannar alla aktiva campaign.yaml. Hittar "brief due T-14". Triggar Brief Writer-agenten. <b>Status: brief_running</b>.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="t">T-14 / 09:05</div>
+      <div>
+        <div><span class="agent">Brief Writer-agent</span></div>
+        <div class="lab">Skriver brief.md + aicontentgenerator job.yaml</div>
+        <div class="desc">Läser spec, brand-anchors, lager. Producerar <code>active/aicontentgenerator/2026-07-pastel-pearls-brief.md</code> + matchande job.yaml. Triggar Image-agenten. <b>Status: image_running</b>.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="t">T-13</div>
+      <div>
+        <div><span class="agent">Image-agent (aicontentgenerator)</span></div>
+        <div class="lab">Genererar V1-bilder till Drive</div>
+        <div class="desc">Gemini-pipeline kör: strategist → prompt-writer → V1 (15 bilder). Outputs till Drive-kampanjmapp. Triggar Image-QA. <b>Status: qa_pending</b>.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="t">T-13 / 11:30</div>
+      <div>
+        <div><span class="agent">Image-QA-agent</span></div>
+        <div class="lab">Auto-screen + bygger contact sheet</div>
+        <div class="desc">Gemini 2.5 Pro screenar mot eyewear-rubrik (frame-geometry, AI-tells, text, color-block). Outputs interactive HTML contact sheet i <code>active/reframing-matrix/</code>. Skickar Slack-notis till dig.</div>
+      </div>
+    </div>
+
+    <div class="step human">
+      <div class="t">T-13 / 11:32</div>
+      <div>
+        <div><span class="agent">DU · Slack-gate</span></div>
+        <div class="lab">Approve/reject bilder</div>
+        <div class="desc">Slack: <i>"15 bilder klara, contact sheet: [länk]. Reply 'approve <code>S01,S03,S07,...</code>' eller 'reject all'."</i> Du svarar. Approval skrivs till <code>approved_manifest.json</code>. Orchestrator triggar nästa steg. <b>Status: copy_running</b>.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="t">T-10</div>
+      <div>
+        <div><span class="agent">Copy-agent + Klaviyo Builder</span></div>
+        <div class="lab">klaviyo-campaigns full pipeline</div>
+        <div class="desc">Copywriter → Designer (MJML) → Critic-loop → Translator × 6 marknader → Klaviyo CLI skapar DRAFT-kampanjer. Skickar Slack: <i>"Drafts klara i Klaviyo, granska + skemalägg."</i> <b>Status: klaviyo_draft</b>.</div>
+      </div>
+    </div>
+
+    <div class="step human">
+      <div class="t">T-9</div>
+      <div>
+        <div><span class="agent">DU · Klaviyo-gate</span></div>
+        <div class="lab">Granska drafts × 6, schemalägg</div>
+        <div class="desc">Klaviyo-skillen sänder/schemalägger aldrig själv — du går in i Klaviyo UI, granskar, sätter send-tid per marknad. Det är medvetet säkerhetsstopp.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="t">T-7</div>
+      <div>
+        <div><span class="agent">Shopify Setup-agent</span></div>
+        <div class="lab">Skapar kollektion, rabattkod, hero/bar (scheduled)</div>
+        <div class="desc">Skapar sale-kollektion, rabattkod med start/slut-datum, schemalägger hero+bar-aktivering via theme-block. Allt med start-datum = T0. Diff postas till Slack. <b>Status: shopify_pending_verify</b>.</div>
+      </div>
+    </div>
+
+    <div class="step human">
+      <div class="t">T-7 / 13:00</div>
+      <div>
+        <div><span class="agent">DU · Shopify-gate</span></div>
+        <div class="lab">Verifiera Shopify-konfig (5 min)</div>
+        <div class="desc">Slack-länk till sammanställning: "Skapad rabattkod SS25 -30%, sale-kollektion med 47 produkter, hero schedulerad live 2026-07-21 09:00 CEST. Konfirma?". Du svarar yes. <b>Status: live_pending</b>.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="t">T-3</div>
+      <div>
+        <div><span class="agent">B2B Sync-agent</span></div>
+        <div class="lab">Skickar heads-up till retailers</div>
+        <div class="desc">Mejlar wholesale-kontakter: "Publik drop 21/7, så ni vet". Bara info, ingen åtgärd krävs. Skyddar relationen.</div>
+      </div>
+    </div>
+
+    <div class="step live">
+      <div class="t">T 0 · 09:00 CEST</div>
+      <div>
+        <div><span class="agent">LIVE</span></div>
+        <div class="lab">Allt aktiveras automatiskt enligt schedulering</div>
+        <div class="desc">Klaviyo skickar mejl per marknad. Shopify aktiverar rabatten + hero + bar. Sale-kollektion är synlig. Du gör ingenting — det bara händer.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="t">T+1 … T+7</div>
+      <div>
+        <div><span class="agent">Performance-agent</span></div>
+        <div class="lab">Daglig ShopifyQL + Klaviyo + Yayloh-pull</div>
+        <div class="desc">Skapar daily KPI-snapshot (net_sales, ordrar per kod, open rate per marknad). Skickar morgon-summary till Slack. Vid kampanj-slut: post-mortem skrivs till <code>campaign-history.json</code> → feeds Strategist-agentens minne för nästa runda.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>Konkret exempel — Pastel Pearls-droppen (juli)</h2>
+  <div class="walk">
+    <h3>Tidslinje från campaign.yaml till live</h3>
+    <ol>
+      <li><b>17/6 (T-21):</b> Strategist (jag) committar <code>2026-07-pastel-pearls.yaml</code> till repot. Asana parent-task skapas.</li>
+      <li><b>24/6 09:00 (T-14):</b> Orchestrator vaknar, ser brief due. Triggar Brief Writer.</li>
+      <li><b>24/6 09:05:</b> Brief Writer producerar <code>2026-07-pastel-pearls-brief.md</code>. Triggar aicontentgenerator.</li>
+      <li><b>24/6 09:30:</b> Image-agent kör. Drive får 15 bilder. Image-QA bygger contact sheet.</li>
+      <li><b>24/6 11:30:</b> Slack-notis till dig: <i>"Bilder klara, granska."</i> Du svarar approve S01-S12. State advance:ar.</li>
+      <li><b>28/6:</b> Copy + klaviyo-campaigns kör. DRAFT × 6 i Klaviyo. Slack: <i>"Drafts klara."</i></li>
+      <li><b>29/6:</b> Du granskar drafts i Klaviyo UI, schemalägger send 8/7 09:00 per marknad.</li>
+      <li><b>1/7:</b> Shopify Setup-agent skapar Pastel-kollektion + sätter Molly/Maya progressiva ACTIVE (scheduled). Slack-diff till dig.</li>
+      <li><b>1/7 13:00:</b> Du klickar "yes" på Slack. State: live_pending.</li>
+      <li><b>5/7:</b> B2B Sync skickar retailer heads-up (Pastel är release, ej rea, så inte kritiskt — men kanal-hygien).</li>
+      <li><b>8/7 09:00 CEST:</b> 🚀 LIVE. Mejl ut × 6 marknader. Pastel-kollektion synlig. Hero + bar aktiva. Du gör ingenting.</li>
+      <li><b>9/7–18/7:</b> Performance-agent skickar daglig KPI-summary i Slack varje morgon kl 09:00. Du dricker kaffe.</li>
+    </ol>
+  </div>
+
+  <h2>Var det kan gå fel + hur det hanteras</h2>
+  <div class="callout warn"><b>Agent-fel:</b> om en agent kraschar (t.ex. aicontentgenerator failar p.g.a. rate-limit) → orchestrator loggar fel till Asana subtask + Slack-notis till dig. Inga tysta fel.</div>
+  <div class="callout warn"><b>Time-out på gate:</b> om du inte svarar på en Slack-gate inom X timmar → orchestrator påminner. Om kampanjens deadline närmar sig → eskalerar (t.ex. röd-flagga i daily summary).</div>
+  <div class="callout"><b>Mid-campaign-justering:</b> du kan editera <code>campaign.yaml</code> när som helst. Orchestrator läser nästa cron-tick, anpassar. T.ex. "byt subject för Email 2" → nästa morgon är drafts updaterade.</div>
+
+  <h2>Vad det här betyder för dig</h2>
+  <ul>
+    <li><b>Du beslutar fortfarande</b> — du gate:ar 3 punkter per kampanj (~5 min × 3 = 15 min totalt per kampanj). Och du editerar campaign.yaml när du vill.</li>
+    <li><b>Du gör inte längre produktionen</b> — ingen manuell brief-skrivning, ingen Klaviyo-HTML-bygge, ingen Shopify-konfig.</li>
+    <li><b>Du ser allt i Slack</b> — du behöver inte logga in i 5 system per dag. Daily morning-summary + gate-notiser räcker.</li>
+    <li><b>13 sommarkampanjer → ca 45 min av din tid per vecka</b>, jämfört med dagens ~heltid på exekvering.</li>
+  </ul>
+
+  <h2>Vad som måste byggas för att det här ska funka</h2>
+  <ol>
+    <li><b>Strategist formaliseras</b> i glas-campaign-skillen (Part 2 i planen) → producerar campaign.yaml-schema</li>
+    <li><b>Shopify Setup-agent</b> — det största nybygget (~2-4 veckors arbete)</li>
+    <li><b>Orchestrator</b> — Ronja scheduled-job som läser campaign.yaml, triggar agenter, hanterar state-transitions (~1-2 veckor)</li>
+    <li><b>Slack-integration</b> för gates + notiser — finns delvis</li>
+    <li><b>State-machine</b> — enkel JSON eller YAML-fält i campaign.yaml + git-log som audit-trail</li>
+  </ol>
+
+  <footer>
+    GLAS Agent-runtime · planering till live, end-to-end. Komplement till kampanjboken: <a href="/" style="color:var(--gold)">campaign-book.html</a>. Frågor: orchestrator-arkitektur, Shopify Setup-agent scope, Slack-integration?
+  </footer>
+</div>
+</body>
+</html>

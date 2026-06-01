@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLAS · Sommarkampanjer 2026 — kampanjbok v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ece4d6; --paper-2:#e3d8c5; --card:#f4eee2; --card-2:#efe7d8;
+  --ink:#2a2620; --ink-soft:#6f665a; --ink-faint:#9c9281; --line:#c9bca5;
+  --sage:#6f7c5c; --clay:#b06f46; --taupe:#9a8c74; --gold:#a8854e;
+  --bl:#5b7b8a; --grace:#a8854e; --pastel:#c2929a; --bas:#6f7c5c; --rester:#9a8c74; --aw:#6e5b7b;
+  --shadow:0 1px 2px rgba(42,38,32,.08), 0 10px 30px rgba(42,38,32,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:"Hanken Grotesk",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+  background-image:radial-gradient(120% 90% at 10% 0%,#f1eadc 0%,rgba(241,234,220,0) 55%),
+    radial-gradient(120% 90% at 92% 100%,#e6dcc9 0%,rgba(230,220,201,0) 55%);
+  -webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply}
+.wrap{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:30px 28px 64px}
+
+header{border-bottom:1px solid var(--line);padding-bottom:18px}
+.brand{font-family:"Fraunces",serif;font-weight:300;letter-spacing:.42em;font-size:12.5px;text-transform:uppercase;color:var(--ink-soft)}
+h1{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(28px,4.4vw,46px);line-height:1.02;margin:6px 0 0}
+h1 em{font-style:italic;color:var(--gold)}
+.sub{color:var(--ink-soft);font-size:14.5px;max-width:62ch;margin-top:9px;line-height:1.5}
+.ver{display:inline-block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-top:8px;border:1px solid var(--gold);border-radius:30px;padding:2px 10px}
+
+nav{position:sticky;top:0;z-index:12;display:flex;flex-wrap:wrap;gap:4px;padding:12px 0;margin:14px 0 22px;
+  background:linear-gradient(var(--paper),var(--paper) 70%,rgba(236,228,214,0));backdrop-filter:blur(2px)}
+nav button{font-family:"Fraunces",serif;font-size:15px;letter-spacing:.01em;border:1px solid transparent;
+  background:none;color:var(--ink-soft);padding:8px 16px;border-radius:30px;cursor:pointer;transition:all .18s}
+nav button:hover{color:var(--ink)}
+nav button.active{background:var(--ink);color:var(--paper)}
+
+.tab{display:none;animation:fade .4s ease}
+.tab.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+h2.section{font-family:"Fraunces",serif;font-weight:400;font-size:26px;margin:0 0 4px}
+.lead{font-family:"Fraunces",serif;font-style:italic;font-size:19px;line-height:1.4;color:var(--ink);margin:0 0 18px;max-width:64ch}
+.muted{color:var(--ink-soft);font-size:14px;line-height:1.55;max-width:72ch}
+
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;letter-spacing:.01em;border-radius:30px;padding:3px 10px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.chip .d{width:8px;height:8px;border-radius:50%}
+.tag-crm{border-color:#9aa6b0;color:#56707e}
+.tag-site{border-color:var(--sage);color:var(--sage)}
+.build-lag{color:var(--sage)} .build-medel{color:var(--taupe)} .build-hog{color:var(--clay);font-weight:600}
+
+/* CALENDAR */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.lg{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft)}
+.lg .sw{width:16px;height:13px;border-radius:3px;display:inline-block}
+.month{margin-bottom:26px}
+.month .mh{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.month .mh h3{font-family:"Fraunces",serif;font-weight:400;font-size:23px;margin:0}
+.month .mh .note{font-size:12px;color:var(--ink-faint);font-style:italic;max-width:62%}
+.bands{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.band{font-size:11px;padding:5px 10px;border-radius:3px;color:#fff;line-height:1.2;display:flex;justify-content:space-between;gap:14px}
+.band.sale{background:var(--clay)}
+.band.umbrella{background:var(--aw)}
+.band.theme{background:var(--taupe)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal .hd{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-faint);text-align:center;padding-bottom:2px}
+.cell{min-height:80px;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:5px 6px}
+.cell.blank{background:transparent;border:none}
+.cell.we{background:var(--card-2)}
+.cell .dn{font-family:"Fraunces",serif;color:var(--ink-faint);font-size:12px;display:block;margin-bottom:2px}
+.ev{display:block;margin-top:3px;border-radius:3px;padding:2px 5px;line-height:1.2;font-size:9.5px}
+.ev.send{background:var(--ink);color:var(--paper);cursor:pointer}
+.ev.launch{background:var(--gold);color:#fff;font-weight:600;cursor:pointer}
+.ev.hol{background:transparent;border:1px dashed var(--line);color:var(--ink-soft)}
+.ev.retail{background:var(--card-2);border:1px solid var(--clay);color:var(--clay)}
+.ev.live{background:var(--clay);color:#fff}
+.calsrc{font-size:11px;color:var(--ink-faint);margin-top:6px;line-height:1.5}
+
+/* TESEN */
+.thesis .big{font-family:"Fraunces",serif;font-size:clamp(20px,2.5vw,27px);line-height:1.3;font-style:italic;margin-bottom:16px}
+.levers{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:6px 0 22px}
+.lever-card{border:1px solid var(--line);border-radius:6px;padding:18px;box-shadow:var(--shadow)}
+.lever-card.pris{background:var(--card)} .lever-card.begar{background:#eef0e8;border-color:var(--sage)}
+.lever-card h4{font-family:"Fraunces",serif;font-weight:500;font-size:19px;margin:0 0 6px}
+.lever-card.begar h4{color:var(--sage)}
+.lever-card p{font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin:0}
+.arte{display:grid;gap:10px}
+.art{display:grid;grid-template-columns:158px 1fr;gap:14px;align-items:start;border-bottom:1px solid var(--line);padding:11px 2px}
+.art .k{font-family:"Fraunces",serif;font-size:15px}
+.art .ex{font-size:13px;color:var(--ink-soft);line-height:1.45}
+.art .ex b{color:var(--ink);font-weight:500}
+.callout{background:var(--card-2);border-left:3px solid var(--gold);border-radius:0 5px 5px 0;padding:14px 16px;font-size:13.5px;line-height:1.55;margin-top:8px}
+.callout.warn{border-left-color:var(--clay)}
+
+/* tables */
+table.grid{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+table.grid th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-faint);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.grid td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.4}
+table.grid tr:hover td{background:rgba(244,238,226,.6)}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cluster-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle}
+
+.lev-list{display:grid;gap:11px}
+.lev{background:var(--card);border:1px solid var(--line);border-radius:5px;padding:15px 17px;box-shadow:var(--shadow);display:grid;gap:6px}
+.lev .h{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.lev .h .nm{font-family:"Fraunces",serif;font-size:18px}
+.lev .lv{font-size:13.5px;color:var(--ink)}
+.lev .np{font-size:12.5px;color:var(--ink-soft);font-style:italic}
+.lev .np b{font-style:normal;color:var(--clay)}
+
+.scrim{position:fixed;inset:0;background:rgba(42,38,32,.4);z-index:30;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.open{opacity:1;pointer-events:auto}
+.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%) scale(.98);z-index:31;width:min(720px,92vw);max-height:88vh;overflow:auto;
+  background:var(--card);border:1px solid var(--line);border-radius:7px;box-shadow:0 24px 70px rgba(42,38,32,.3);padding:28px;opacity:0;pointer-events:none;transition:all .25s}
+.modal.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.modal .x{position:absolute;top:16px;right:20px;font-size:24px;color:var(--ink-soft);cursor:pointer;border:none;background:none;line-height:1}
+.modal .eye{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--ink-faint)}
+.modal h3{font-family:"Fraunces",serif;font-weight:400;font-size:27px;margin:7px 0 2px}
+.modal .mo{font-family:"Fraunces",serif;font-style:italic;color:var(--gold);font-size:15px}
+.modal .blk{margin-top:18px}
+.modal .blk .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-faint);margin-bottom:6px}
+.modal .lvtext{font-size:14px;line-height:1.5}
+.modal .beats{font-size:13px;color:var(--ink-soft);line-height:1.6}
+
+footer{margin-top:34px;border-top:1px solid var(--line);padding-top:14px;font-size:12px;color:var(--ink-faint);line-height:1.5}
+@media(max-width:860px){.levers{grid-template-columns:1fr}.art{grid-template-columns:1fr}.cell{min-height:60px}.ev{font-size:9px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">GLAS · Reframing</div>
+    <h1>Sommarkampanjer 2026 — <em>kampanjbok</em></h1>
+    <span class="ver">v3 · whiteboard-versionen</span>
+    <p class="sub">Hela planen 5 juni → 1 september, uppdaterad efter whiteboard-sessionen. Sommarrea löper länge, augusti = Back-to-Work + Members Days hela månaden. Klicka en kampanj för asset-manifest.</p>
+  </header>
+
+  <nav id="nav">
+    <button data-tab="tid" class="active">Tidslinje</button>
+    <button data-tab="tes">Tesen</button>
+    <button data-tab="lag">Lagret</button>
+    <button data-tab="ins">Insats</button>
+    <button data-tab="hav">Hävstång</button>
+    <button data-tab="pri">Prioritet</button>
+  </nav>
+
+  <!-- TIDSLINJE -->
+  <section class="tab active" id="tab-tid">
+    <h2 class="section">Tidslinje</h2>
+    <p class="muted" style="margin-bottom:14px">Band visar pågående kampanjer (sommarrea, Members Days, BTW-tema). Klicka ett utskick för detalj. Högtider/rea-perioder för att undvika krockar och kapitalisera på tillfällen.</p>
+    <div class="legend">
+      <span class="lg"><span class="sw" style="background:var(--gold)"></span>Lansering</span>
+      <span class="lg"><span class="sw" style="background:var(--ink)"></span>Utskick</span>
+      <span class="lg"><span class="sw" style="background:transparent;border:1px dashed var(--line)"></span>Högtid (EU)</span>
+      <span class="lg"><span class="sw" style="background:var(--card-2);border:1px solid var(--clay)"></span>Extern rea/wholesale</span>
+      <span class="lg"><span class="sw" style="background:var(--clay)"></span>Pågående rea (vår)</span>
+      <span class="lg"><span class="sw" style="background:var(--aw)"></span>Members Days / tema</span>
+    </div>
+    <div id="cals"></div>
+    <div class="calsrc">Sommarrea ≈ 11/6 → 27/7, upp till 50% (exakt rabatt-fördelning TBD). Members Days hela augusti (-30% > 1200 SEK på ett köp + pre-access till alla aug-släpp). NK 2026-datum ej offentligt. Wholesale: AW26 till återförsäljare *innan* publikt drop 1–10/8 — bekräfta.</div>
+  </section>
+
+  <!-- TESEN -->
+  <section class="tab" id="tab-tes">
+    <h2 class="section">Tesen</h2>
+    <div class="thesis">
+      <div class="big">Vi utgick från <em>lagret</em>. Två spakar styr efterfrågan — <em>pris</em> och <em>begär</em>. Sommaren använder båda, medvetet.</div>
+      <div class="levers">
+        <div class="lever-card pris"><h4>Pris</h4><p>Rabatt sänker tröskeln. Kostar marginal, tränar kunden. Används medvetet i sommarens stora band — sommarrea + Members Days-popup — där säsong och marknad förväntar sig det. Och i CRM (Grace-arc, BOGO) där det är B2B-tyst.</p></div>
+        <div class="lever-card begar"><h4>Begär</h4><p>Allt annat. Höjer värdet i stället för att sänka priset — full marginal, B2B-säkert. Drops, behovs-edits, heritage-stories. Augusti och slutet av juli vilar tungt här. Begär byggs av konkreta artefakter.</p></div>
+      </div>
+      <h3 style="font-family:'Fraunces',serif;font-weight:500;font-size:18px;margin:4px 0 6px">Begär, uppackat i artefakter</h3>
+      <div class="arte">
+        <div class="art"><div class="k">Edit / kurering</div><div class="ex">Lyft ut bågar och ge dem en namngiven kapsel. <b>Ex:</b> Pastel Pearls · Reading Light · Blue Light-veckan.</div></div>
+        <div class="art"><div class="k">Editorial-bild</div><div class="ex">Placera bågen i en identitet kunden vill ha. <b>Ex:</b> Back-to-work-estetik (aug) · Margaret Howell-kvinna · summer-edit.</div></div>
+        <div class="art"><div class="k">Berättelse / copy</div><div class="ex">Arv + mening i ord. <b>Ex:</b> Heritage Stories (sista juli) · "paret för skärmen" · AW26-narrativet.</div></div>
+        <div class="art"><div class="k">Tidssättning</div><div class="ex">Scarcity + deadline. <b>Ex:</b> "när de är slut är de slut" · early access 48h · Members Days "bara i augusti".</div></div>
+        <div class="art"><div class="k">Tillfälle / behov</div><div class="ex">Koppla produkten till en användning. <b>Ex:</b> Blue Light-vecka (skärmen) · Therese Sun (sommar) · "ett par i varje rum".</div></div>
+        <div class="art"><div class="k">Tröskel-mekanik</div><div class="ex">Höj snittordern med en *anledning att lägga till*, inte rabatt på första. <b>Ex:</b> Members Days-popup (-30% > 1200 SEK på ett köp) · GWP-tröskel · BL-uppgradering vid Readers-köp.</div></div>
+        <div class="art"><div class="k">Exklusivitet</div><div class="ex">Medlem före alla andra. <b>Ex:</b> early access · Members Days · GWP gated.</div></div>
+      </div>
+      <div class="callout">Exekvering: editorial-bilder genereras av AI-pipelinen. Reading Light + Pastel Pearls + Therese Sun + Natalie Blush har bilder klara. <b>AW26 (Dahlia + Jasmine) behöver content</b> — Eric, akut för aug 1–10. GWP Care Set behöver liten visual. Resten är kollektion + copy + mejl.</div>
+    </div>
+  </section>
+
+  <!-- LAGRET -->
+  <section class="tab" id="tab-lag">
+    <h2 class="section">Lagret — det vi utgick från</h2>
+    <p class="lead">6,52 MSEK COGS i ~73 000 bågar (~70 MSEK retail). Kassan är koncentrerad i tre klumpar; sommarrean adresserar dem brett.</p>
+    <table class="grid">
+      <thead><tr><th>Kassaklump</th><th class="num">Par</th><th class="num">Värde COGS</th><th>Drivs av</th></tr></thead>
+      <tbody>
+        <tr><td><span class="cluster-dot" style="background:var(--bl)"></span><b>Blue Light</b> (kategori)</td><td class="num">35 843</td><td class="num">3 230 000</td><td>Blue Light-veckan (aug) · Sommarrea · Pastel Pearls BL-varianter</td></tr>
+        <tr><td><span class="cluster-dot" style="background:var(--grace)"></span><b>Grace Rose Gold</b> (en färg)</td><td class="num">~8 200</td><td class="num">~656 000</td><td>Grace-arc juni (CRM) + sommarrea-bidrag</td></tr>
+        <tr><td><span class="cluster-dot" style="background:var(--pastel)"></span><b>Pastel-familjen</b></td><td class="num">~10 000</td><td class="num">~865 000</td><td>Pastel-drop juni (lens-val Readers/BL/Progressive)</td></tr>
+        <tr><td><span class="cluster-dot" style="background:var(--rester)"></span>Sun + sunglas</td><td class="num">~7 350</td><td class="num">~671 000</td><td>Therese Dark Brown Sun · sommarrea</td></tr>
+      </tbody>
+    </table>
+    <div class="callout" style="margin-top:18px"><b>AW26-tillskott:</b> Dahlia (Black Readers + Turtle Brown) och Jasmine släpps 1–10/8. Bilder + lager-info för dessa lever utanför nuvarande inventory-summary — uppdateras vid build.</div>
+  </section>
+
+  <!-- INSATS -->
+  <section class="tab" id="tab-ins">
+    <h2 class="section">Insats — vad varje kampanj kräver</h2>
+    <p class="lead">Creative genereras av AI-pipelinen. AW26-content och GWP-mekaniken är de tunga byggen.</p>
+    <table class="grid">
+      <thead><tr><th>Kampanj</th><th>Bygg</th><th>Kräver</th></tr></thead>
+      <tbody id="insBody"></tbody>
+    </table>
+    <p class="muted" style="margin-top:14px">Producenter: <b>aicontentgenerator</b> · <b>klaviyo-campaigns</b> (× 6 marknader) · <b>Eric</b> (Shopify-config, rabatter, GWP-function, AW26-content-koordinering) · <b>Christoffer</b> (brief, copy, godkännanden). Paid (Meta/Google) separat.</p>
+  </section>
+
+  <!-- HÄVSTÅNG -->
+  <section class="tab" id="tab-hav">
+    <h2 class="section">Hävstång per kampanj</h2>
+    <p class="lead">Vad driver köpet — pris, begär, eller en kombo.</p>
+    <div class="lev-list" id="havList"></div>
+  </section>
+
+  <!-- PRIORITET -->
+  <section class="tab" id="tab-pri">
+    <h2 class="section">Prioritet</h2>
+    <p class="muted" style="margin-bottom:6px">Hur kampanjerna rangordnas på kassa × insats × säsongspassform.</p>
+    <div class="rank" id="rankList" style="display:flex;flex-direction:column;gap:9px"></div>
+  </section>
+
+  <footer>
+    Kampanjbok v3 · whiteboard-versionen (2026-05-31). Detaljer i specen (<code>2026-05-27-merchandising-spec-summer-2026.md</code>). E-post via <b>klaviyo-campaigns</b>, bilder via <b>aicontentgenerator</b>. GWP-förslag från Timmys sheet (option C för aug, option D som sommarrea-boost). Inspirations-sida: <a href="./inspiration.html" style="color:var(--gold)">/inspiration.html</a>.
+  </footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="modal" id="modal"><button class="x" id="modalX">×</button><div id="modalBody"></div></div>
+
+<script>
+const CL={BL:'var(--bl)',Grace:'var(--grace)',Pastel:'var(--pastel)',Bas:'var(--bas)',Rester:'var(--rester)',AW:'var(--aw)',Bred:'var(--clay)'};
+const ST={klart:'var(--sage)','att göra':'var(--taupe)','kräver Eric':'var(--clay)','SAKNAS — Eric':'var(--clay)'};
+
+const CAMP=[
+ {prio:13,time:1,pulse:"A",month:"Juni",name:"Members-aktivering",archetype:"members-activation",
+  cluster:"Hela basen",clusterKey:"Bas",channels:["CRM","On-site"],build:"Låg",buildCls:"build-lag",requires:"Christoffer + Eric (on-site-text)",
+  lever:"Aktiverar en glömd förmån (20%) → reaktivering.",whyNotPrice:"Rabatten finns redan — vi <b>kommunicerar</b> den.",
+  why:"Lägsta insats, sätter 20%-golvet allt annat blir additivt på.",
+  beats:"Tis 9/6 launch (Publik+CRM). Evergreen on-site därefter.",
+  assets:[["E-post × 6 marknader","klaviyo-campaigns","att göra"],["On-site member-messaging","Eric / Shopify","att göra"]]},
+
+ {prio:8,time:2,pulse:"B",month:"Juni",name:"Natalie Blush Nude-släpp",archetype:"drop",
+  cluster:"Ny produkt",clusterKey:"Bred",channels:["On-site","CRM"],build:"Låg",buildCls:"build-lag",requires:"aicontentgenerator (klart) + Eric",
+  lever:"Produktsläpp tidigt i sommarperioden, full marginal.",whyNotPrice:"Nytt — kuriosa/identitet driver köpet, ej rabatt.",
+  why:"Snyggt sommaroppnings-drop. Creative klart (bilder 27/5).",
+  beats:"Ons 3/6 launch (tar över direkt efter 2-för-99) · Fre 5/6 reminder/styling.",
+  assets:[["Editorial-bilder","aicontentgenerator","klart"],["Kollektion + hero/bar","Eric / Shopify","att göra"],["E-post × 6","klaviyo-campaigns","att göra"]]},
+
+ {prio:1,time:3,pulse:"C",month:"Juni",name:"Sommarrea (band ~11/6–27/7)",archetype:"sale",
+  cluster:"Bred (arkiv + flera klumpar)",clusterKey:"Bred",channels:["On-site","CRM","Paid (separat)"],build:"Medel",buildCls:"build-medel",requires:"Eric (rabatt-stege) + content",
+  lever:"Den enda säsongsrean. Upp till -50% i flera djup-stegninger.",whyNotPrice:"Detta <b>är</b> pris-spaken. Säsong + extern rea-period (BE jul, DE jul/aug, NK ~slutet juni) gör det B2B-acceptabelt — alla rear samtidigt.",
+  why:"Lång stor rea var saknad. Adresserar flera kassaklumpar samtidigt. Boost: Option D (Beach Bag-gåva) first 40 kunder vid launch.",
+  beats:"Ons 11/6 launch · veckovisa djupare-rabatt-pulses · slut 27/7 (sön).",
+  assets:[["Rabatt-stege i Shopify","Eric / Shopify","att göra"],["Sale-kollektion + hero/bar (uppdateras vid varje djup)","Eric / Shopify","att göra"],["E-post × 6 vid varje milstolpe","klaviyo-campaigns","att göra"],["Option D boost (Beach Bag GWP, 40 st)","Eric + ops","att göra"]]},
+
+ {prio:4,time:4,pulse:"D",month:"Juni",name:"Pastel Pearls-drop",archetype:"drop",
+  cluster:"Pastel ~865k (akt. ~347k draft)",clusterKey:"Pastel",channels:["On-site","CRM"],build:"Låg–medel",buildCls:"build-medel",requires:"aicontentgenerator (klart) + Eric",
+  lever:"Lens-val-kapsel (Readers/BL/Progressive).",whyNotPrice:"Limited release, fullpris — sortimentsbredd + scarcity driver köpet.",
+  why:"Stort lager + färdigt creative + aktiverar inlåst progressive-draft. Lagt i juni för max-fönster.",
+  beats:"Tis 16/6 early access · Tor 18/6 launch · Tis 23/6 reminder.",
+  assets:[["Editorial-bilder","aicontentgenerator","klart"],["Progressiva DRAFT→ACTIVE (Molly + Maya)","Eric / Shopify","att göra"],["Lens-val-kollektion + hero/bar","Eric / Shopify","att göra"],["E-post × 6","klaviyo-campaigns","att göra"]]},
+
+ {prio:11,time:5,pulse:"E",month:"Juni",name:"Grace Rose Gold-arc",archetype:"member-flash",
+  cluster:"Grace Rose Gold 432k",clusterKey:"Grace",channels:["CRM"],build:"Låg",buildCls:"build-lag",requires:"Eric (rabattkod) + klaviyo",
+  lever:"Member-exklusiv rabatt på största enskilda posten.",whyNotPrice:"Det <b>är</b> pris — men CRM-tyst, B2B-säkert.",
+  why:"Naggar Grace medan sommarrean rullar. Tactical CRM-arc.",
+  beats:"Tis 23/6 erbjudande · Tor 25/6 'ends tonight' · Mån 29/6 last units.",
+  assets:[["Rabattkod-config","Eric / Shopify","att göra"],["E-post × 3 (återanv. bilder)","klaviyo-campaigns","att göra"]]},
+
+ {prio:9,time:6,pulse:"F",month:"Juni",name:"BOGO",archetype:"sale-mechanic",
+  cluster:"Bred (komplement till sommarrean)",clusterKey:"Bred",channels:["On-site","CRM"],build:"Medel",buildCls:"build-medel",requires:"Eric (Shopify Function eller manuell BOGO)",
+  lever:"Buy-one-get-one som extra puch i sista juni.",whyNotPrice:"Pris-mekanik, units-effekt (dubblar units per kund).",
+  why:"Late-juni-boost ovanpå sommarrean. Tar volym när första djup-stegen tappat tempo.",
+  beats:"Sön 21/6 launch · Tor 25/6 reminder · Tis 30/6 last day.",
+  assets:[["BOGO Shopify Function/regel","Eric / Shopify","kräver Eric"],["Hero + bar","Eric / Shopify","att göra"],["E-post × 6","klaviyo-campaigns","att göra"]]},
+
+ {prio:7,time:7,pulse:"G",month:"Juli",name:"Therese Dark Brown Sun-släpp",archetype:"drop",
+  cluster:"Sun (litet)",clusterKey:"Rester",channels:["On-site","CRM"],build:"Låg",buildCls:"build-lag",requires:"aicontentgenerator (klart) + Eric",
+  lever:"Sommar-sun-släpp. Ersätter Progressive Sun Reader.",whyNotPrice:"Fullpris, sommar-säsongs-fit.",
+  why:"Klart creative (apr 26, i trio med Chloe/Maya Dark Brown). Liten men säsongs-passande.",
+  beats:"Mån 6/7 early access · Ons 8/7 launch · Fre 10/7 reminder.",
+  assets:[["Editorial-bilder","aicontentgenerator","klart"],["Kollektion + hero/bar","Eric / Shopify","att göra"],["E-post × 6","klaviyo-campaigns","att göra"]]},
+
+ {prio:12,time:8,pulse:"H",month:"Juli",name:"Heritage Stories (Begär-puls)",archetype:"editorial",
+  cluster:"Brand · ej direkt kassa",clusterKey:"Bred",channels:["CRM","On-site"],build:"Låg",buildCls:"build-lag",requires:"Christoffer + aicontentgenerator",
+  lever:"Reframing-fönster utan rabatt. Heritage-narrativ.",whyNotPrice:"Detta <b>är</b> begär-spaken renodlat. Bygger varumärket mellan sommarrean och augusti-släppen.",
+  why:"Andningspaus mellan sommarrea (slut 27/7) och augusti-launches. Höjer brand-equity inför AW26.",
+  beats:"Mån 28/7 story 1 (arkiv-historik) · Tor 31/7 story 2 (hantverk/material).",
+  assets:[["Editorial-bilder/copy","aicontentgenerator + Christoffer","att göra"],["Landing-essay","Christoffer","att göra"],["E-post × 6","klaviyo-campaigns","att göra"]]},
+
+ {prio:2,time:9,pulse:"I",month:"Augusti",name:"AW26-släpp (Dahlia + Jasmine)",archetype:"launch",
+  cluster:"Ny kollektion",clusterKey:"AW",channels:["On-site","CRM"],build:"Hög",buildCls:"build-hog",requires:"Eric + aicontentgenerator (content SAKNAS — akut)",
+  lever:"Höstkollektions-premiär. Brand-defining moment.",whyNotPrice:"Fullpris, premier av AW26. Inget rabattmoment.",
+  why:"Första AW26-frames publikt. Tema 'back to work' (bildspråk). <b>B2B-kritiskt:</b> bekräfta att retailers fått sina AW26-order innan publikt drop.",
+  beats:"Mån 3/8 teaser · Ons 5/8 launch Dahlia · Fre 7/8 launch Jasmine · pre-access via Members Days.",
+  assets:[["AW26 editorial-content","aicontentgenerator","SAKNAS — Eric"],["Kollektion + hero/bar","Eric / Shopify","att göra"],["E-post × 6","klaviyo-campaigns","att göra"],["B2B heads-up (retailers fått ordrarna?)","Christoffer","kräver Eric"]]},
+
+ {prio:3,time:10,pulse:"J",month:"Augusti",name:"Reading Light-drop",archetype:"drop",
+  cluster:"Rakel-familjen",clusterKey:"Rester",channels:["On-site","CRM"],build:"Låg",buildCls:"build-lag",requires:"aicontentgenerator (klart) + Eric",
+  lever:"Färgdrop — färgen är nyheten. Stöd-launch in i augusti.",whyNotPrice:"Fullpris färg-statement.",
+  why:"Klart creative (v3). Placerad efter AW26-släppet. Members får pre-access via Members Days.",
+  beats:"Ons 12/8 early access (members via Members Days) · Fre 14/8 launch publikt · Tor 20/8 reminder.",
+  assets:[["Editorial-bilder","aicontentgenerator","klart"],["Färg-kollektion + hero/bar","Eric / Shopify","att göra"],["E-post × 6","klaviyo-campaigns","att göra"]]},
+
+ {prio:10,time:11,pulse:"K",month:"Augusti",name:"Blue Light-veckan",archetype:"use-case-edit",
+  cluster:"Blue Light 3,23 MSEK",clusterKey:"BL",channels:["On-site","CRM"],build:"Medel",buildCls:"build-medel",requires:"Eric (regel: gratis BL-uppgrade vid Reader-köp)",
+  lever:"Educational edit — köp Readers, få Blue Light gratis-uppgradering.",whyNotPrice:"Hybridmekanik: education + tröskel-erbjudande, inte rakt prisavdrag på första-par.",
+  why:"Halva lagret sitter i Blue Light. Edukation + lågtröskel-upgrade tömmer kategorin smart.",
+  beats:"Mån 17/8 launch (edukation + offer) · Fre 21/8 reminder.",
+  assets:[["Editorial-bilder (kontor/skärm)","aicontentgenerator","att göra"],["BL-uppgradering-regel i Shopify","Eric / Shopify","kräver Eric"],["Educational landing-copy","Christoffer","att göra"],["E-post × 6","klaviyo-campaigns","att göra"]]},
+
+ {prio:6,time:12,pulse:"L",month:"Augusti",name:"GWP — Care Set (Option C)",archetype:"gwp",
+  cluster:"Tillbehör (lågrisk-kostnad)",clusterKey:"Bred",channels:["On-site","CRM"],build:"Medel",buildCls:"build-medel",requires:"Eric (GWP Shopify Function) + ops",
+  lever:"Gåva (Care kit + White hard case + kedja, retail 590 / landed 63 kr).",whyNotPrice:"Tröskel + gåva. Höjer AOV utan att rabattera priset.",
+  why:"Timmys förslag C. Lägst risk på 21-dagars-fönster, lagertak ~1 760. Kedjefärg kan väljas i checkout (sprider uttag).",
+  beats:"Fre 21/8 launch (Members pre-access) · Mån 24/8 reminder · Fre 28/8 last week.",
+  assets:[["GWP Shopify Function + cart-progress + kedjeval","Eric / Shopify","kräver Eric"],["Gåvo-visual (mini)","aicontentgenerator","att göra"],["E-post × 6","klaviyo-campaigns","att göra"]]},
+
+ {prio:5,time:13,pulse:"M",month:"Augusti",name:"Members Days (popup hela aug)",archetype:"umbrella",
+  cluster:"Bred — alla köp över 1200 SEK",clusterKey:"AW",channels:["On-site","CRM"],build:"Låg",buildCls:"build-lag",requires:"Eric (popup-config)",
+  lever:"-30% på ett köp > 1200 SEK + pre-access till alla aug-släpp.",whyNotPrice:"Hybrid: tröskel-rabatt + exklusivitet/pre-access. Pre-access = begär; -30% = pris.",
+  why:"Augusti-paraply. Höjer AOV (1200 SEK-tröskel) och gör Members-värdet konkret hela månaden. Pre-access kopplar in Reading Light + GWP.",
+  beats:"Fre 1/8 launch + popup live · veckovis Members-nudge · Mån 31/8 last day.",
+  assets:[["Popup -30% > 1200 SEK","Eric / Shopify","kräver Eric"],["On-site Members Days-banner","Eric / Shopify","att göra"],["E-post × 6 (launch + 2 reminders)","klaviyo-campaigns","att göra"]]}
+];
+const pulseToId={};CAMP.forEach(c=>pulseToId[c.pulse]=c.prio);
+
+// calendar events
+const EV={
+ // JUNI
+ "2026-06-01":[{t:"2-för-119/99 slutar",k:"live"}],
+ "2026-06-03":[{t:"B · Natalie Blush Nude LANSERING",k:"launch",p:"B"}],
+ "2026-06-04":[{t:"Corpus Christi · DE/AT",k:"hol"}],
+ "2026-06-09":[{t:"A · Members-aktivering",k:"launch",p:"A"}],
+ "2026-06-11":[{t:"C · Sommarrea LANSERING (+Option D boost)",k:"launch",p:"C"}],
+ "2026-06-16":[{t:"D · Pastel early access",k:"send",p:"D"}],
+ "2026-06-18":[{t:"D · Pastel Pearls LANSERING",k:"launch",p:"D"}],
+ "2026-06-19":[{t:"Midsommarafton · SE/FI",k:"hol"}],
+ "2026-06-20":[{t:"Midsommardagen",k:"hol"}],
+ "2026-06-21":[{t:"F · BOGO LANSERING",k:"launch",p:"F"}],
+ "2026-06-23":[{t:"E · Grace-arc",k:"send",p:"E"},{t:"Sankthans · NO/DK",k:"hol"}],
+ "2026-06-25":[{t:"E · Grace ends tonight",k:"send",p:"E"}],
+ "2026-06-27":[{t:"NK/UK sommarrea ~ (ej bekräftat)",k:"retail"}],
+ "2026-06-29":[{t:"E · Grace last units",k:"send",p:"E"}],
+ "2026-06-30":[{t:"F · BOGO last day",k:"send",p:"F"}],
+ // JULI
+ "2026-07-01":[{t:"BE sommarrea (1–31/7)",k:"retail"}],
+ "2026-07-06":[{t:"G · Therese Sun early access",k:"send",p:"G"}],
+ "2026-07-08":[{t:"G · Therese Dark Brown Sun LANSERING",k:"launch",p:"G"}],
+ "2026-07-14":[{t:"C · Sommarrea djupare-stege",k:"send",p:"C"}],
+ "2026-07-21":[{t:"C · Sommarrea sista vecka",k:"send",p:"C"},{t:"Belgiens nationaldag",k:"hol"}],
+ "2026-07-27":[{t:"C · Sommarrea SLUT",k:"send",p:"C"},{t:"DE sommarrea ~27/7",k:"retail"}],
+ "2026-07-28":[{t:"H · Heritage Story 1",k:"send",p:"H"}],
+ "2026-07-31":[{t:"H · Heritage Story 2",k:"send",p:"H"}],
+ // AUGUSTI
+ "2026-08-01":[{t:"M · Members Days START (popup)",k:"launch",p:"M"},{t:"Schweiz nationaldag",k:"hol"}],
+ "2026-08-03":[{t:"I · AW26 teaser",k:"send",p:"I"}],
+ "2026-08-05":[{t:"I · AW26 Dahlia LANSERING",k:"launch",p:"I"}],
+ "2026-08-07":[{t:"I · AW26 Jasmine LANSERING",k:"launch",p:"I"}],
+ "2026-08-12":[{t:"J · Reading Light early access (members)",k:"send",p:"J"}],
+ "2026-08-14":[{t:"J · Reading Light LANSERING",k:"launch",p:"J"}],
+ "2026-08-15":[{t:"Mariä Himmelfahrt · AT/DE-kat",k:"hol"}],
+ "2026-08-17":[{t:"K · Blue Light-veckan + gratis BL-uppgrade",k:"launch",p:"K"}],
+ "2026-08-20":[{t:"J · Reading Light reminder",k:"send",p:"J"}],
+ "2026-08-21":[{t:"L · GWP Care Set LANSERING (members pre-access)",k:"launch",p:"L"},{t:"K · Blue Light reminder",k:"send",p:"K"}],
+ "2026-08-24":[{t:"L · GWP reminder",k:"send",p:"L"}],
+ "2026-08-28":[{t:"L · GWP last week",k:"send",p:"L"}],
+ "2026-08-31":[{t:"M · Members Days SLUT",k:"send",p:"M"},{t:"UK Summer BH",k:"hol"}]
+};
+
+const monthsMeta=[
+ {m0:5,label:"Juni",note:"Sommarrea startar 11/6 (band till 27/7) · Pastel Pearls flyttat hit · midsommar tyst",bands:[{cls:"sale",t:"SOMMARREA pågår från 11/6 ↓"}]},
+ {m0:6,label:"Juli",note:"Sommarrea klimax + slut 27/7 · Therese Sun-släpp · Heritage Stories sista veckan",bands:[{cls:"sale",t:"SOMMARREA fortsätter t.o.m. 27/7 ↓"}]},
+ {m0:7,label:"Augusti",note:"Back-to-Work-TEMA hela månaden · Members Days hela månaden (-30% > 1200 SEK + pre-access) · AW26-premiär 1–10 · Reading Light + Blue Light-veckan 11–20 · GWP 21–31",bands:[
+   {cls:"umbrella",t:"MEMBERS DAYS · -30% > 1200 SEK + pre-access (hela aug)"},
+   {cls:"theme",t:"BACK-TO-WORK-TEMA (bildspråk hela aug)"}
+ ]}
+];
+const WD=["Mån","Tis","Ons","Tor","Fre","Lör","Sön"];
+const pad=n=>String(n).padStart(2,'0');
+
+const $=id=>document.getElementById(id);
+const chip=(t,cls)=>`<span class="chip ${cls||''}">${t}</span>`;
+
+function renderCals(){
+  $('cals').innerHTML=monthsMeta.map(mm=>{
+    const first=new Date(2026,mm.m0,1);
+    const offset=(first.getDay()+6)%7;
+    const days=new Date(2026,mm.m0+1,0).getDate();
+    let cells=WD.map(w=>`<div class="hd">${w}</div>`).join('');
+    for(let i=0;i<offset;i++)cells+=`<div class="cell blank"></div>`;
+    for(let d=1;d<=days;d++){
+      const key=`2026-${pad(mm.m0+1)}-${pad(d)}`;
+      const col=(offset+d-1)%7;
+      const we=col>=5?'we':'';
+      const evs=(EV[key]||[]).map(e=>{
+        const clickable=e.p?` data-id="${pulseToId[e.p]}"`:'';
+        return `<span class="ev ${e.k}"${clickable}>${e.t}</span>`;
+      }).join('');
+      cells+=`<div class="cell ${we}"><span class="dn">${d}</span>${evs}</div>`;
+    }
+    const bandsHtml=mm.bands?`<div class="bands">${mm.bands.map(b=>`<div class="band ${b.cls}"><span>${b.t}</span></div>`).join('')}</div>`:'';
+    return `<div class="month"><div class="mh"><h3>${mm.label} 2026</h3><span class="note">${mm.note}</span></div>${bandsHtml}<div class="cal">${cells}</div></div>`;
+  }).join('');
+  bindCards();
+}
+
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  $('tab-'+b.dataset.tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+$('insBody').innerHTML=[...CAMP].sort((a,b)=>a.time-b.time).map(c=>
+  `<tr data-id="${c.prio}" style="cursor:pointer"><td><b>${c.name}</b><br><span style="font-size:11.5px;color:var(--ink-faint)">Puls ${c.pulse} · ${c.month}</span></td>
+   <td><span class="${c.buildCls}">${c.build}</span></td><td>${c.requires}</td></tr>`).join('');
+
+$('havList').innerHTML=[...CAMP].sort((a,b)=>a.time-b.time).map(c=>
+  `<div class="lev" data-id="${c.prio}" style="cursor:pointer">
+    <div class="h"><span class="nm">${c.name}</span><span class="chip"><span class="d" style="background:${CL[c.clusterKey]}"></span>${c.cluster}</span></div>
+    <div class="lv">${c.lever}</div><div class="np"><b>Inte (bara) pris:</b> ${c.whyNotPrice}</div></div>`).join('');
+
+$('rankList').innerHTML=[...CAMP].sort((a,b)=>a.prio-b.prio).map(c=>`<div class="rk" data-id="${c.prio}" style="display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:13px 16px;cursor:pointer;box-shadow:var(--shadow)">
+  <div style="font-family:'Fraunces',serif;text-align:center"><div style="font-size:26px;color:var(--gold);line-height:1">#${c.prio}</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-faint)">${c.month}</div></div>
+  <div><div style="font-family:'Fraunces',serif;font-size:17px">${c.name}</div><div style="font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.4">${c.why}</div></div></div>`).join('');
+
+function openModal(id){
+  const c=CAMP.find(x=>x.prio===id);if(!c)return;
+  $('modalBody').innerHTML=`
+    <div class="eye">Puls ${c.pulse} · ${c.month} · ${c.archetype}</div>
+    <h3>${c.name}</h3><div class="mo">prio #${c.prio}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px">
+      ${c.channels.map(ch=>chip(ch,ch==='CRM'?'tag-crm':'tag-site')).join('')}
+      <span class="chip"><span class="d" style="background:${CL[c.clusterKey]}"></span>${c.cluster}</span>
+      <span class="chip">Bygg: <span class="${c.buildCls}" style="margin-left:4px">${c.build}</span></span></div>
+    <div class="blk"><div class="k">Hävstång</div><div class="lvtext">${c.lever}<br><span style="color:var(--ink-soft)">${c.whyNotPrice}</span></div></div>
+    <div class="blk"><div class="k">Varför vald</div><div class="lvtext">${c.why}</div></div>
+    <div class="blk"><div class="k">Beats</div><div class="beats">${c.beats}</div></div>
+    <div class="blk"><div class="k">Asset-manifest</div>
+      <table class="grid"><thead><tr><th>Asset</th><th>Producent</th><th>Status</th></tr></thead><tbody>
+      ${c.assets.map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td><span class="chip" style="border-color:${ST[a[2]]||'var(--line)'};color:${ST[a[2]]||'var(--ink-soft)'}">${a[2]}</span></td></tr>`).join('')}
+      </tbody></table>
+      <div style="font-size:11.5px;color:var(--ink-faint);margin-top:8px">Materialiseras som Asana-subtasks vid bygget. Paid hanteras separat.</div></div>`;
+  $('scrim').classList.add('open');$('modal').classList.add('open');
+}
+function closeModal(){$('scrim').classList.remove('open');$('modal').classList.remove('open');}
+$('scrim').onclick=closeModal;$('modalX').onclick=closeModal;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+function bindCards(){document.querySelectorAll('[data-id]').forEach(el=>{el.onclick=()=>openModal(+el.dataset.id);});}
+
+renderCals();bindCards();
+</script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLAS · Sommaraktiveringar — beslutsvy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ece4d6; --paper-2:#e3d8c5; --card:#f4eee2;
+  --ink:#2a2620; --ink-soft:#6f665a; --ink-faint:#9c9281; --line:#c9bca5;
+  --sage:#6f7c5c; --clay:#b06f46; --taupe:#9a8c74; --gold:#a8854e;
+  --bl:#5b7b8a; --grace:#a8854e; --pastel:#c2929a; --bas:#6f7c5c;
+  --shadow:0 1px 2px rgba(42,38,32,.08), 0 8px 24px rgba(42,38,32,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:"Hanken Grotesk",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+  background-image:radial-gradient(120% 90% at 12% 0%,#f0e9db 0%,rgba(240,233,219,0) 55%),
+    radial-gradient(120% 90% at 92% 100%,#e6dcc9 0%,rgba(230,220,201,0) 55%);
+  -webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply}
+.wrap{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:30px 30px 56px}
+
+header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:20px}
+.brand{font-family:"Fraunces",serif;font-weight:300;letter-spacing:.42em;font-size:13px;text-transform:uppercase;color:var(--ink-soft)}
+h1{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(28px,4vw,44px);line-height:1.02;margin:6px 0 0}
+h1 em{font-style:italic;color:var(--gold)}
+.sub{color:var(--ink-soft);font-size:14.5px;max-width:62ch;margin-top:10px;line-height:1.5}
+
+.toggle{display:inline-flex;border:1px solid var(--line);border-radius:30px;padding:3px;margin-bottom:20px;background:var(--card)}
+.toggle button{font-family:"Fraunces",serif;font-size:14px;letter-spacing:.02em;border:none;background:none;
+  color:var(--ink-soft);padding:8px 20px;border-radius:30px;cursor:pointer;transition:all .2s}
+.toggle button.active{background:var(--ink);color:var(--paper)}
+
+.stage{display:grid;grid-template-columns:1fr 376px;gap:22px;align-items:start}
+
+.list{display:flex;flex-direction:column;gap:11px}
+.act{display:grid;grid-template-columns:54px 1fr;gap:16px;align-items:center;background:var(--card);
+  border:1px solid var(--line);border-radius:4px;padding:15px 18px;cursor:pointer;box-shadow:var(--shadow);
+  transition:transform .18s,border-color .18s;opacity:0;animation:rise .45s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.act:hover{transform:translateY(-2px);border-color:var(--ink-faint)}
+.act.sel{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink), var(--shadow)}
+.marker{font-family:"Fraunces",serif;font-weight:400;text-align:center}
+.marker .big{font-size:30px;line-height:1;color:var(--gold)}
+.marker .small{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-faint);margin-top:3px}
+.act .name{font-family:"Fraunces",serif;font-size:19px;line-height:1.1}
+.act .name .pulse{font-family:"Hanken Grotesk";font-size:11px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase;margin-left:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 7px}
+.c{font-size:11px;letter-spacing:.01em;border-radius:30px;padding:3px 10px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.c .d{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.why{font-size:13px;color:var(--ink-soft);line-height:1.45}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:24px;box-shadow:var(--shadow);position:sticky;top:20px}
+.panel .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-faint)}
+.panel h2{font-family:"Fraunces",serif;font-weight:400;font-size:25px;line-height:1.08;margin:8px 0 2px}
+.panel .month{font-family:"Fraunces",serif;font-style:italic;color:var(--gold);font-size:15px}
+.facts{margin:18px 0;display:grid;gap:12px}
+.fact{display:grid;grid-template-columns:96px 1fr;gap:10px;font-size:13px;align-items:start}
+.fact .k{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.1em;font-size:10.5px;padding-top:2px}
+.fact .v{color:var(--ink);line-height:1.4}
+.beats{margin-top:6px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+.beats b{color:var(--ink);font-family:"Fraunces",serif;font-weight:500}
+.intro .lead{font-family:"Fraunces",serif;font-style:italic;font-size:18px;line-height:1.4;margin:2px 0 16px}
+.principle{font-size:13.5px;line-height:1.6;color:var(--ink-soft)}
+.principle b{color:var(--ink)}
+.principle ol{margin:10px 0 0;padding-left:20px}.principle li{margin-bottom:7px}
+.legend{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:9px}
+
+.section{margin-top:30px}
+.section h3{font-family:"Fraunces",serif;font-weight:400;font-size:20px;margin:0 0 4px}
+.section .sd{font-size:13px;color:var(--ink-faint);margin-bottom:14px}
+.absorbed{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:9px}
+.ab{background:rgba(244,238,226,.5);border:1px dashed var(--line);border-radius:4px;padding:11px 14px;opacity:.8}
+.ab .n{font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.ab .r{font-size:12px;color:var(--ink-faint);line-height:1.4;margin-top:2px}
+.always{display:flex;flex-wrap:wrap;gap:10px}
+.al{background:var(--sage);color:#f4eee2;border-radius:4px;padding:11px 15px;font-size:13px;max-width:280px}
+.al b{font-family:"Fraunces",serif;font-weight:500;display:block;margin-bottom:2px}
+footer{margin-top:30px;font-size:12px;color:var(--ink-faint);line-height:1.5;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:920px){.stage{grid-template-columns:1fr}.panel{position:static}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">GLAS · Reframing</div>
+    <h1>Sommaraktiveringar — <em>beslutsvy</em></h1>
+    <p class="sub">Varför just dessa åtta — och i vilken ordning. Växla mellan prioritet (vad som är mest värt) och tidslinje (när det körs). De mest värdefulla ligger inte först: säsong + bygg-readiness styr <em>när</em>, inte <em>om</em>.</p>
+  </header>
+
+  <div class="toggle">
+    <button id="bPrio" class="active">Prioritet</button>
+    <button id="bTime">Tidslinje</button>
+  </div>
+
+  <div class="stage">
+    <div class="list" id="list"></div>
+    <div class="panel" id="panel"></div>
+  </div>
+
+  <div class="section">
+    <h3>Bortvalda / absorberade</h3>
+    <div class="sd">Inte förkastade — uppslukade av en vald aktivering, uppskjutna (bygge/kapacitet), eller flyttade till always-on.</div>
+    <div class="absorbed" id="absorbed"></div>
+  </div>
+
+  <div class="section">
+    <h3>Always-on (ingen broadcast)</h3>
+    <div class="sd">Bär intäkt i bakgrunden hela sommaren.</div>
+    <div class="always" id="always"></div>
+  </div>
+
+  <footer>
+    Prioritet = kassaklumpens storlek × marginalkvalitet × låg bygg-tyngd, med Members-aktivering som foundation. Lagervärden = live Shopify 2026-05-27. Se specen för full kontext.
+  </footer>
+</div>
+
+<script>
+const CL={BL:'var(--bl)',Grace:'var(--grace)',Pastel:'var(--pastel)',Bas:'var(--bas)',Rester:'var(--taupe)',Rakel:'var(--taupe)'};
+const MARG={Full:'var(--sage)',Upp:'var(--sage)',Mixed:'var(--taupe)',Erosion:'var(--clay)'};
+
+const ACTS=[
+ {prio:1,time:1,pulse:"A",month:"Juni",name:"Members-aktivering",
+  cluster:"Hela basen",clusterKey:"Bas",season:"Juni",build:"Låg",margin:"Mixed",
+  why:"Lägsta insats, högsta hävstång — väcker en bas som inte vet att 20%-förmånen finns.",
+  full:"Måste komma först: den sätter 20%-golvet som gör varje senare drop additiv. Ger 20% men till folk som annars inte hade köpt → i praktiken inkrementellt vid ~80% marginal. Ingen ny mekanik (rabatten finns redan), bara comms + on-site.",
+  beats:"Tis 9/6 launch (Publik+CRM). Evergreen on-site därefter."},
+ {prio:2,time:6,pulse:"F",month:"Augusti",name:"Skärmparet (Blue Light)",
+  cluster:"Blue Light · 3,23 MSEK",clusterKey:"BL",season:"Augusti",build:"Låg",margin:"Full",
+  why:"Största enskilda kassahävstången, full marginal, låg insats — men underkommunicerat idag.",
+  full:"Blue Light = 48% av allt lagervärde. Educational edit (skärmtrötthet) utan rabatt = full marginal. Tidsatt aug för skärm-narrativet (back-to-work), men BL är säsongsoberoende. Zoey Antracyt som hero tömmer dessutom en oadresserad ~300k-lucka. Prio #2 men ligger i aug — därav skillnaden mot tidslinjen.",
+  beats:"Tis 11/8 launch · Fre 14/8 'ett par i varje rum'. Publik."},
+ {prio:3,time:4,pulse:"D",month:"Juli",name:"Pastel Pearls-drop",
+  cluster:"Pastel ~865k (akt. ~347k draft)",clusterKey:"Pastel",season:"Juli",build:"Låg–medel",margin:"Full",
+  why:"Stort lager + färdigt creative + aktiverar inlåst progressive-draft. Volym-arbetshästen.",
+  full:"Pastell läsglas-kapsel såld med lins-val (Readers/Blue Light/Progressive) → fångar hela ~10k-familjen, inte bara de 1 552 single-vision-paren. 85% av kassan sitter i Blue Light + Progressive; progressiva ligger i DRAFT och aktiveras av droppen. Limited release = full marginal, B2B-säkert.",
+  beats:"Mån 6/7 early access · Ons 8/7 launch+paid · Fre 10/7 styling · Tis 14/7 'almost gone'."},
+ {prio:4,time:5,pulse:"E",month:"Juli",name:"GWP — Secret Gift (Grace)",
+  cluster:"Grace Rose Gold · 432k/656k",clusterKey:"Grace",season:"Juli",build:"Hög",margin:"Mixed",
+  why:"Riktar er mest överviktiga post + lyfter AOV. Enda höga bygget — Eric-beroende.",
+  full:"Grace Rose Gold Readers (5 475 par / 432k) är största enskilda posten; hela färgen ~656k = 10% av allt lager. Dödlager-som-gåva: tröskel (150€) driver AOV, gåvan kostar ~COGS. Högt bygge (Shopify Function + cart-progress + ops) → juni byggtid, juli launch. Räcker inte ensamt för hela Grace → kombineras med arc (C) + leaving (H).",
+  beats:"Tis 21/7 launch · Fre 24/7 reminder · Mån 27/7 last chance. Publik+CRM."},
+ {prio:5,time:3,pulse:"C",month:"Juni",name:"Grace Rose Gold-arc",
+  cluster:"Grace Rose Gold · 432k",clusterKey:"Grace",season:"Juni",build:"Låg",margin:"Erosion",
+  why:"Grace är för stor för ett enda drag — CRM-arc börjar tömma medan GWP-motorn byggs.",
+  full:"Pris-spak (rabatt) → hålls i CRM, B2B-tyst. Låg insats (rabattkod). Börjar nagga på den största posten i juni innan GWP är klar. Erosion på marginal, men koncentrationen i Grace (10% av allt lager) motiverar att jobba den från två håll.",
+  beats:"Tis 23/6 erbjudande · Tor 25/6 'ends tonight' · Mån 29/6 last units. CRM."},
+ {prio:6,time:7,pulse:"G",month:"Augusti",name:"Reading Light-drop",
+  cluster:"Rakel-familjen ~500–600k",clusterKey:"Rakel",season:"Augusti",build:"Låg–medel",margin:"Full",
+  why:"Färgdrop med klart creative, passar höst-övergången. Medelstort lager, full marginal.",
+  full:"Rakel i statement-färger (gul/röd/deep chestnut). Färgen är nyheten. Creative redan producerat (Reading Light v3-briefen). Full marginal, B2B-säkert. Placerad i aug för höst-tonaliteten.",
+  beats:"Mån 17/8 early access · Ons 19/8 launch+paid · Mån 24/8 'almost gone'."},
+ {prio:7,time:2,pulse:"B",month:"Juni",name:"Progressive Sun Reader-drop",
+  cluster:"Litet ~82k — ej kassadrag",clusterKey:"Rester",season:"Juni",build:"Låg–medel",margin:"Upp",
+  why:"Vald för säsong + marginalexpansion + drop-trovärdighet — inte volym.",
+  full:"Litet lager (776 par) = liten kassa, men: (1) peak sol = säsong, (2) underprissatt + inget kundankare → ren PRISHÖJNING utan Omnibus-risk = marginalexpansion, (3) äkta scarcity etablerar att limited-modellen är på riktigt. Prio lågt på kassa, men rätt junioppnare.",
+  beats:"Mån 15/6 early access · Ons 17/6 launch+paid · Tis 30/6 'almost gone'. Members→Publik."},
+ {prio:8,time:8,pulse:"H",month:"Augusti",name:"”Leaving the collection”",
+  cluster:"Arkiv-rester (Grace, Pastel)",clusterKey:"Rester",season:"Augusti",build:"Låg",margin:"Mixed",
+  why:"Urgency-stängning som tömmer det droppen inte rörde, före AW26.",
+  full:"Flagga arkiv som på väg ut → urgency utan rabatt. Låg insats (messaging + 'last units'-tagg). Stänger sommarfönstret och rensar rester (Grace, Pastel) innan höstens AW26-fokus. Hög kompletteringseffekt.",
+  beats:"Tor 27/8 'lämnar i september' · Mån 31/8 last units. Publik+CRM."}
+];
+
+const ABSORBED=[
+ {n:"Sol & läs (Sun Readers)",r:"Absorberad i Progressive Sun-droppens reminder. Sol-lager för litet för egen puls."},
+ {n:"The Set / multi-par-bundle",r:"Absorberad i Skärmparets 'ett par i varje rum'-beat."},
+ {n:"Velvet-rope early access",r:"Inbyggd i varje drop-arc (T-2), inte en egen play."},
+ {n:"Arkiv-clearance / Valvet",r:"Mekanism inuti Grace-arc + Leaving, inte fristående."},
+ {n:"Nickelfri / hudvänligt",r:"Löpande stödargument i editsen, inte egen puls."},
+ {n:"Decoy premium-utgåva",r:"Modifierare på drop-prissättning, inte egen puls."},
+ {n:"Mystery box",r:"Uppskjuten — högt ops/bygge. Ev. sensommar om kapacitet finns."},
+ {n:"Buy-one-gift-one",r:"Uppskjuten — present-tillfällen senare (höst/jul)."},
+ {n:"Quiz 'hitta dina par'",r:"Always-on infra-bygge, launchas när klar (ej en puls)."},
+ {n:"Post-purchase upsell",r:"Always-on flow, inte en broadcast-puls."}
+];
+const ALWAYS=[
+ {t:"Members 20%",d:"Evergreen on-site efter juni-aktiveringen."},
+ {t:"Flows",d:"Welcome / abandoned cart / browse / post-purchase — ~30–40% av mejl-intäkt."},
+ {t:"B2B heads-up",d:"Tyst mejl till återförsäljare före varje publik drop. AW26 i höst."},
+ {t:"Quiz-bygge",d:"Byggs över sommaren, launchas när klar."}
+];
+
+let mode="prio", selected=null;
+const list=document.getElementById('list'), panel=document.getElementById('panel');
+
+function chip(label,color){return `<span class="c">${color?`<span class="d" style="background:${color}"></span>`:''}${label}</span>`;}
+
+function render(){
+  const arr=[...ACTS].sort((a,b)=>mode==="prio"?a.prio-b.prio:a.time-b.time);
+  list.innerHTML=arr.map((a,i)=>`
+   <div class="act ${selected===a.prio?'sel':''}" data-id="${a.prio}" style="animation-delay:${i*45}ms">
+     <div class="marker">
+       <div class="big">${mode==="prio"?'#'+a.prio:a.month.slice(0,3)}</div>
+       <div class="small">${mode==="prio"?a.month:'puls '+a.pulse}</div>
+     </div>
+     <div>
+       <div class="name">${a.name}<span class="pulse">Puls ${a.pulse}</span></div>
+       <div class="chips">
+         ${chip(a.cluster,CL[a.clusterKey])}
+         ${chip("Marginal: "+a.margin,MARG[a.margin])}
+         ${chip("Bygg: "+a.build)}
+       </div>
+       <div class="why">${a.why}</div>
+     </div>
+   </div>`).join('');
+  list.querySelectorAll('.act').forEach(el=>el.addEventListener('click',()=>{selected=+el.dataset.id;render();renderPanel();}));
+}
+
+function renderPanel(){
+  if(selected===null){
+    panel.innerHTML=`<div class="intro">
+      <div class="eyebrow">Prioriteringsprincip</div>
+      <p class="lead">Hur de åtta valdes och rangordnades.</p>
+      <div class="principle">
+        <ol>
+          <li><b>Foundation först.</b> Members-aktivering multiplicerar allt annat → alltid #1.</li>
+          <li><b>Sen: kassaklump × marginal × låg bygg-tyngd.</b> Störst inlåst kassa, vid full marginal, för minst bygge — rankas högst.</li>
+          <li><b>Säsong + bygg-readiness styr <em>när</em>, inte <em>om</em>.</b> Därför kan en hög-prio-play (Skärmparet #2) ligga sent, och en låg-prio (Progressive Sun #7) öppna i juni.</li>
+        </ol>
+        <div style="margin-top:14px">Klicka en aktivering för fullständigt resonemang + beats.</div>
+      </div>
+      <div class="legend">
+        ${chip("Blue Light",CL.BL)}${chip("Grace Rose Gold",CL.Grace)}${chip("Pastel",CL.Pastel)}${chip("Baslinje",CL.Bas)}
+      </div>
+    </div>`;
+    return;
+  }
+  const a=ACTS.find(x=>x.prio===selected);
+  panel.innerHTML=`
+    <div class="eyebrow">Puls ${a.pulse} · prio #${a.prio}</div>
+    <h2>${a.name}</h2>
+    <div class="month">${a.month}</div>
+    <div class="facts">
+      <div class="fact"><div class="k">Kassaklump</div><div class="v">${a.cluster}</div></div>
+      <div class="fact"><div class="k">Säsong</div><div class="v">${a.season} — varför då</div></div>
+      <div class="fact"><div class="k">Bygg-tyngd</div><div class="v">${a.build}</div></div>
+      <div class="fact"><div class="k">Marginal</div><div class="v">${a.margin}</div></div>
+    </div>
+    <div class="why" style="font-size:14px;color:var(--ink)">${a.full}</div>
+    <div class="beats"><b>Beats:</b> ${a.beats}</div>`;
+}
+
+document.getElementById('bPrio').addEventListener('click',function(){mode="prio";this.classList.add('active');document.getElementById('bTime').classList.remove('active');render();});
+document.getElementById('bTime').addEventListener('click',function(){mode="time";this.classList.add('active');document.getElementById('bPrio').classList.remove('active');render();});
+
+document.getElementById('absorbed').innerHTML=ABSORBED.map(a=>`<div class="ab"><div class="n">${a.n}</div><div class="r">${a.r}</div></div>`).join('');
+document.getElementById('always').innerHTML=ALWAYS.map(a=>`<div class="al"><b>${a.t}</b>${a.d}</div>`).join('');
+
+render();renderPanel();
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLAS · Reframing — visuell inspiration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ece4d6; --card:#f4eee2; --card-2:#efe7d8;
+  --ink:#2a2620; --ink-soft:#6f665a; --ink-faint:#9c9281; --line:#c9bca5;
+  --sage:#6f7c5c; --clay:#b06f46; --taupe:#9a8c74; --gold:#a8854e; --pastel:#c2929a;
+  --shadow:0 1px 2px rgba(42,38,32,.08), 0 10px 30px rgba(42,38,32,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:"Hanken Grotesk",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+  background-image:radial-gradient(120% 90% at 10% 0%,#f1eadc 0%,rgba(241,234,220,0) 55%),
+    radial-gradient(120% 90% at 92% 100%,#e6dcc9 0%,rgba(230,220,201,0) 55%);
+  -webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply}
+.wrap{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:30px 28px 64px}
+
+header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:26px}
+.brand{font-family:"Fraunces",serif;font-weight:300;letter-spacing:.42em;font-size:12.5px;text-transform:uppercase;color:var(--ink-soft)}
+h1{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:6px 0 0}
+h1 em{font-style:italic;color:var(--gold)}
+.sub{color:var(--ink-soft);font-size:14.5px;max-width:62ch;margin-top:9px;line-height:1.5}
+.back{font-size:12.5px;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+.back:hover{color:var(--ink)}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;transition:transform .16s,border-color .16s}
+.card:hover{transform:translateY(-2px);border-color:var(--ink-faint)}
+.card .hd{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.card .br{font-family:"Fraunces",serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.card h3{font-family:"Fraunces",serif;font-weight:400;font-size:21px;line-height:1.15;margin:0}
+.card .take{font-size:13.5px;color:var(--ink-soft);line-height:1.5;margin:0}
+.card .spk{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.04em;border-radius:30px;padding:3px 11px;border:1px solid var(--line);color:var(--ink-soft);align-self:flex-start}
+.card .spk .d{width:8px;height:8px;border-radius:50%}
+.card .glas{font-size:12.5px;color:var(--ink);background:var(--card-2);border-left:2px solid var(--sage);padding:8px 11px;border-radius:0 4px 4px 0;line-height:1.45}
+.card .glas b{color:var(--sage);font-weight:600}
+.card .links{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto;padding-top:6px}
+.card .links a{font-family:"Fraunces",serif;font-size:13px;text-decoration:none;color:var(--ink);background:transparent;border:1px solid var(--ink);border-radius:30px;padding:7px 14px;transition:all .18s;flex:1;text-align:center;min-width:90px}
+.card .links a.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.card .links a:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+.card .links a.primary:hover{background:var(--gold);border-color:var(--gold)}
+
+footer{margin-top:30px;border-top:1px solid var(--line);padding-top:14px;font-size:12px;color:var(--ink-faint);line-height:1.5}
+@media(max-width:780px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="/" class="back">← Kampanjboken</a>
+    <div class="brand" style="margin-top:14px">GLAS · Reframing-inspiration</div>
+    <h1>Tio koncept att <em>stjäla</em></h1>
+    <p class="sub">Andra varumärken som driver försäljning på <em>begär</em>, inte pris. Klicka <b>"Moodboard"</b> för visuell grid på Pinterest (snabbast), <b>"Kampanj"</b> för brand-sidan, eller <b>"Bilder"</b> för Google Images.</p>
+  </header>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="hd"><span class="br">01 · Cubitts</span></div>
+      <h3>"Archive"-releaser</h3>
+      <p class="take">Återsläpper egna gamla bågar som heritage-edition. Anti-throwaway-narrativ, samma produkt — ny inramning.</p>
+      <span class="spk"><span class="d" style="background:var(--sage)"></span>re-edit + arv</span>
+      <div class="glas"><b>GLAS:</b> direkt spegel av er drop-modell — exakt det Pastel Pearls och Reading Light gör.</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=Cubitts%20archive%20collection%20eyewear" target="_blank">Moodboard</a>
+        <a href="https://cubitts.com" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=Cubitts+archive+collection" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><span class="br">02 · Jacques Marie Mage</span></div>
+      <h3>Decade Collection</h3>
+      <p class="take">10-årsjubileumets reissue. Numrerade utgåvor, premium-paketering, samma silhuetter — bara åldrade och berättade.</p>
+      <span class="spk"><span class="d" style="background:var(--clay)"></span>scarcity + storytelling</span>
+      <div class="glas"><b>GLAS:</b> eyewear-nära. Årgångs-inramning på era arkiv-bågar; numrering ger samlarvärde utan ny produkt.</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=Jacques%20Marie%20Mage%20Decade%20Collection" target="_blank">Moodboard</a>
+        <a href="https://jacquesmariemage.com/pages/decade-mini-site" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=Jacques+Marie+Mage+Decade+Collection" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><span class="br">03 · IKEA</span></div>
+      <h3>Nytillverkad</h3>
+      <p class="take">~40 klassiker från 70-/80-/90-talen som dedikerad återupplagd kollektion. Massmarknad, svenskt, kommersiellt bevisat.</p>
+      <span class="spk"><span class="d" style="background:var(--sage)"></span>re-edit + arv</span>
+      <div class="glas"><b>GLAS:</b> visar att arkiv-reframing fungerar långt utanför nisch — er målgrupp känner igen modellen från IKEA.</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=IKEA%20Nytillverkad%20reissue" target="_blank">Moodboard</a>
+        <a href="https://www.ikea.com/se/sv/cat/nytillverkad-58258/" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=IKEA+Nytillverkad" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><span class="br">04 · Mansur Gavriel</span></div>
+      <h3>Bucket Bag-färgsläpp</h3>
+      <p class="take">En ikon-form, färgen är dropen. Återkommande släpp på samma silhuett — varje färg ett moment.</p>
+      <span class="spk"><span class="d" style="background:var(--pastel)"></span>re-edit · färg = nyhet</span>
+      <div class="glas"><b>GLAS:</b> exakt = Reading Light / Rakel Colors. Samma båge, färgen bär dropen.</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=Mansur%20Gavriel%20Bucket%20Bag%20colors" target="_blank">Moodboard</a>
+        <a href="https://www.mansurgavriel.com" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=Mansur+Gavriel+Bucket+Bag+colors" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><span class="br">05 · Levi's Vintage Clothing</span></div>
+      <h3>LVC-replikor</h3>
+      <p class="take">Replikor av historiska 501-modeller (1944, 1955, 1966...) säljs till markant högre pris än vanliga 501. Samma byxor, ny berättelse.</p>
+      <span class="spk"><span class="d" style="background:var(--gold)"></span>arv + prishöjning</span>
+      <div class="glas"><b>GLAS:</b> validerar prishöjnings-greppet på Progressive Sun. Arvet motiverar priset.</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=Levi%27s%20Vintage%20Clothing%20LVC%20501" target="_blank">Moodboard</a>
+        <a href="https://www.levi.com/US/en_US/features/levis-vintage-clothing" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=Levi%27s+Vintage+Clothing+LVC" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><span class="br">06 · Le Labo</span></div>
+      <h3>City Exclusives</h3>
+      <p class="take">Vissa dofter går bara att köpa i specifika städer (Tabac 28 i Paris, Bigarade Concentrée etc). Plats blir scarcity.</p>
+      <span class="spk"><span class="d" style="background:var(--taupe)"></span>re-context (plats)</span>
+      <div class="glas"><b>GLAS:</b> "Gotland Edit" eller Stockholm-only drop. Plats-bunden release med lokalt narrativ.</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=Le%20Labo%20city%20exclusives" target="_blank">Moodboard</a>
+        <a href="https://www.lelabofragrances.com/eu/en/our-fragrances/city-exclusives.html" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=Le+Labo+City+Exclusives" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><span class="br">07 · Margaret Howell</span></div>
+      <h3>Säsongslöshet som position</h3>
+      <p class="take">Säljer samma plagg år efter år. Ramar in det som tidlöshet/anti-trend — istället för att tvinga fram nyhet varje säsong.</p>
+      <span class="spk"><span class="d" style="background:var(--gold)"></span>re-story (tidlöshet)</span>
+      <div class="glas"><b>GLAS:</b> permission att INTE refresha allt. Era äldsta bestsellers kan reframe:as som permanenta. (Citeras redan som er aesthetisk-anchor.)</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=Margaret%20Howell%20SS26%20campaign" target="_blank">Moodboard</a>
+        <a href="https://www.margarethowell.co.uk/pages/spring-summer-2026-campaign" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=Margaret+Howell+SS26+campaign" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><span class="br">08 · Patagonia</span></div>
+      <h3>Worn Wear</h3>
+      <p class="take">Köper tillbaka, lagar, säljer som Renewed. Begagnat blir åtråvärt via värderingar — cirkulärt, anti-slit-och-släng.</p>
+      <span class="spk"><span class="d" style="background:var(--gold)"></span>re-story (värderingar)</span>
+      <div class="glas"><b>GLAS:</b> citeras redan i Pastel-briefen ("antidote to throwaway"). En framtida "GLAS Renewed" på inbytta bågar är realistisk.</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=Patagonia%20Worn%20Wear%20campaign" target="_blank">Moodboard</a>
+        <a href="https://wornwear.patagonia.com" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=Patagonia+Worn+Wear" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><span class="br">09 · Hermès</span></div>
+      <h3>Birkin / Kelly-väntelista</h3>
+      <p class="take">Samma väska i decennier. Värdet ligger i åtkomsten, inte produkten — extremfallet av manufactured scarcity.</p>
+      <span class="spk"><span class="d" style="background:var(--clay)"></span>re-time (allokering)</span>
+      <div class="glas"><b>GLAS:</b> inte 1:1, men principen — <b>vem</b> som kommer in <b>när</b> — är direkt applicerbar (members 48h före publik drop).</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=Hermes%20Birkin%20lookbook%20editorial" target="_blank">Moodboard</a>
+        <a href="https://www.hermes.com/uk/en/category/women/bags-and-small-leather-goods/bags-and-clutches/" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=Hermes+Birkin+Kelly+campaign" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><span class="br">10 · Toteme</span></div>
+      <h3>Capsule edits</h3>
+      <p class="take">Kuraterar befintliga plagg till namngivna kapslar med editorial. Få nya SKU:er, mycket berättelse.</p>
+      <span class="spk"><span class="d" style="background:var(--sage)"></span>re-edit + re-bild</span>
+      <div class="glas"><b>GLAS:</b> närmast er Margaret Howell-estetik. Mallen för hur Skärmparet och Pastel Pearls ska kommuniceras visuellt.</div>
+      <div class="links">
+        <a class="primary" href="https://www.pinterest.com/search/pins/?q=Toteme%20campaign%20capsule%20editorial" target="_blank">Moodboard</a>
+        <a href="https://toteme-studio.com" target="_blank">Kampanj</a>
+        <a href="https://www.google.com/search?tbm=isch&q=Toteme+campaign+capsule" target="_blank">Bilder</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Mönstret: samma produkt → nytt narrativ, ny inramning eller ny åtkomst. Ingen leder med rabatt. <br>
+    Visuellt material länkar till tredje part (Pinterest, brand-sidor, Google) — inget kopierat eller hostat här. Säg till om du vill ha fler i en specifik kategori (heritage, color drops, scarcity, plats-bundet).
+  </footer>
+</div>
+</body>
+</html>
