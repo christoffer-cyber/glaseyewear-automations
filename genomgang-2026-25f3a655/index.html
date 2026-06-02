@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>GLAS · Ekonomisk genomgång 2026</title>
+<style>
+:root{
+  --bg:#ece4d5; --paper:#faf6ee; --white:#fff; --ink:#2d2a26; --muted:#8c8171;
+  --cappuccino:#ac9e85; --sand:#e4dfd2; --line:#d6cfc0; --line-soft:#e8e1d3;
+  --accent:#6f8fd8; --accent-soft:#A0B8EF; --pos:#4f7a5c; --neg:#8b3a2e; --clay:#a8643f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+.deck{height:100vh;width:100vw;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.deck::-webkit-scrollbar{width:0}
+.slide{height:100vh;width:100vw;scroll-snap-align:start;scroll-snap-stop:always;position:relative;display:flex;flex-direction:column;justify-content:center;padding:8.5vh 7vw 7.5vh;overflow:hidden;background:radial-gradient(110% 80% at 92% 4%, #f4efe4, transparent 62%), var(--bg)}
+.brandmark{position:absolute;top:3.6vh;left:7vw;height:23px;width:auto;opacity:.9;z-index:5}
+.kicker{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cappuccino);font-weight:600;display:flex;gap:.85em;align-items:center}
+.kicker::before{content:"";width:30px;height:1px;background:var(--cappuccino);display:inline-block}
+h1,h2{font-weight:600;line-height:1.03;letter-spacing:-.03em;color:var(--ink)}
+h2{font-size:clamp(1.9rem,3.5vw,3.2rem);margin:.5em 0 .2em}
+.sub{color:var(--muted);font-size:clamp(.92rem,1.1vw,1.1rem);max-width:48ch;line-height:1.55}
+.idx{position:absolute;bottom:3.4vh;right:7vw;font-size:.72rem;letter-spacing:.18em;color:var(--muted);font-variant-numeric:tabular-nums}
+.foot{position:absolute;bottom:3.4vh;left:7vw;font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cappuccino)}
+.hint{position:fixed;bottom:3vh;left:50%;transform:translateX(-50%);font-size:.64rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;opacity:.55;z-index:30;transition:opacity .4s}
+.hint.hide{opacity:0}
+
+/* cover */
+.cover{justify-content:flex-end;padding:0;color:#fff;
+  background:linear-gradient(180deg, rgba(26,21,14,.04) 0%, rgba(26,21,14,.12) 42%, rgba(26,21,14,.74) 100%), url('deck_assets/cover.jpg') center 28%/cover no-repeat}
+.cover-logo{position:absolute;top:5vh;left:7vw;height:34px}
+.cover-inner{padding:0 7vw 9vh;max-width:1100px}
+.cover .kicker{color:#ece3d2}
+.cover .kicker::before{background:#ece3d2}
+.cover h1{font-size:clamp(2.6rem,6vw,5.6rem);font-weight:600;letter-spacing:-.035em;color:#fff;margin:.4em 0 .65em}
+.cover-stats{display:flex;gap:3.6rem;flex-wrap:wrap}
+.cover-stats b{display:block;font-size:clamp(1.5rem,2.6vw,2.3rem);font-weight:600;letter-spacing:-.02em}
+.cover-stats span{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#d8cfbe;margin-top:.45em;display:block}
+.cover .idx{color:#ece3d2}
+
+/* layout */
+.head{margin-bottom:2.6vh;max-width:66ch}
+.grid{display:grid;gap:2.2rem;align-items:start}
+.two{grid-template-columns:1.05fr .95fr}
+.chartwrap{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:1.5rem 1.5rem 1.1rem;box-shadow:0 1px 2px rgba(45,42,38,.04)}
+.chartwrap.tall{min-height:54vh;display:flex;flex-direction:column}
+.cw-title{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.2rem}
+.cw-title b{color:var(--ink);font-weight:600;letter-spacing:-.01em;font-size:1.02rem;text-transform:none}
+
+/* bars */
+.bars{display:flex;align-items:flex-end;gap:.5%;height:40vh;flex:1 1 40vh;position:relative;padding-top:18px}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative}
+.bar{width:62%;border-radius:2px 2px 0 0;height:0;transition:height 1s cubic-bezier(.22,1,.36,1);position:relative}
+.stack{width:62%;display:flex;flex-direction:column-reverse;border-radius:2px 2px 0 0;overflow:hidden;height:0;transition:height 1s cubic-bezier(.22,1,.36,1)}
+.seg{width:100%}
+.mlab{font-size:.6rem;color:var(--muted);margin-top:.5em;letter-spacing:.02em}
+.bval{position:absolute;top:-1.25em;font-size:.5rem;color:var(--muted);font-variant-numeric:tabular-nums;opacity:.75;transition:opacity .3s;white-space:nowrap;font-weight:600;letter-spacing:-.02em}
+.col:hover .bval{opacity:1;color:var(--ink)}
+.divider{position:absolute;top:0;bottom:22px;width:1px;background:repeating-linear-gradient(var(--cappuccino) 0 4px,transparent 4px 9px);opacity:.65}
+.divlab{position:absolute;top:-2px;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cappuccino)}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1.3rem;margin-top:1.1rem;font-size:.72rem;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:.5em}
+.dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+/* stats */
+.stats{display:flex;flex-direction:column;gap:1.4rem}
+.kpi{border-left:2px solid var(--ink);padding-left:1.1rem}
+.kpi .v{font-size:clamp(1.6rem,2.7vw,2.4rem);font-weight:600;line-height:1;letter-spacing:-.02em}
+.kpi .v small{font-size:.5em;color:var(--muted);font-weight:500}
+.kpi .l{font-size:.78rem;color:var(--muted);margin-top:.45em;line-height:1.5;max-width:34ch}
+.kpi.sage{border-color:var(--pos)} .kpi.clay{border-color:var(--clay)}
+
+/* hbars */
+.hbars{display:flex;flex-direction:column;gap:.65rem;margin-top:.3rem}
+.hrow{display:grid;grid-template-columns:135px 1fr 56px;align-items:center;gap:.8rem;font-size:.82rem}
+.hrow .hl{color:var(--ink)} .hrow .hp{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
+.htrack{height:12px;background:var(--sand);border-radius:6px;overflow:hidden}
+.hfill{height:100%;width:0;border-radius:6px;transition:width 1.1s cubic-bezier(.22,1,.36,1)}
+
+.takeaway{margin-top:1.4rem;font-size:.92rem;color:var(--ink);line-height:1.6;max-width:52ch;border-top:1px solid var(--line);padding-top:1rem}
+.takeaway b{color:var(--clay);font-weight:600}
+
+/* proposals */
+.props{display:flex;flex-direction:column;gap:.6rem;margin-top:1vh}
+.prop{display:grid;grid-template-columns:1fr auto auto;gap:1.3rem;align-items:center;padding:.85rem 1.2rem;background:var(--paper);border:1px solid var(--line);border-radius:9px;border-left:3px solid var(--ink)}
+.prop.hot{border-left-color:var(--clay)}
+.prop .t{font-weight:600;font-size:1.02rem;letter-spacing:-.01em}
+.prop .r{color:var(--muted);font-size:.81rem;margin-top:.2em;line-height:1.45;max-width:64ch}
+.prop .imp{color:var(--pos);font-weight:600;font-size:1.02rem;white-space:nowrap;text-align:right}
+.prop .imp small{color:var(--muted);font-size:.6em;font-weight:500}
+.prop .imp.tbd{color:var(--muted)}
+.prop .eff{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:.34em .85em;white-space:nowrap}
+.props-foot{margin-top:1.1rem;font-size:.92rem;color:var(--ink);border-top:1px solid var(--line);padding-top:.9rem}
+.props-foot b{color:var(--pos);font-weight:600}
+@media print{
+  @page{size:1340px 770px;margin:0}
+  html,body{overflow:visible!important;background:var(--bg)}
+  #deck{height:auto!important;overflow:visible!important;scroll-snap-type:none!important}
+  .slide{height:770px!important;page-break-after:always;break-after:page}
+  .slide:last-child{page-break-after:auto;break-after:auto}
+  .hint{display:none!important}
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 COVER -->
+<section class="slide cover" data-anim>
+  <img class="cover-logo" src="deck_assets/logo_white.png" alt="GLAS">
+  <div class="cover-inner">
+    <div class="kicker">Internt · Styrelse · Konfidentiellt</div>
+    <h1>Ekonomisk<br>genomgång 2026</h1>
+    <div class="cover-stats">
+      <div><b>44,0 MSEK</b><span>Nettoomsättning helår</span></div>
+      <div><b>+2,3 MSEK</b><span>Operativ EBITDA</span></div>
+      <div><b>~+5 MSEK</b><span>2027 (est.)</span></div>
+    </div>
+  </div>
+  <div class="idx">01</div>
+</section>
+
+<!-- 2 ÖVERSIKT -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Översikt</div>
+    <h2>Från förlust till bärkraft — H1 vänder till H2</h2>
+    <p class="sub">Tung ingång (lagernedskrivning &amp; uppsägningskostnader belastar H1), men den slimmade kostnadsbasen och Q4-säsongen lyfter andra halvåret tydligt.</p>
+  </div>
+  <div class="grid two">
+    <div class="chartwrap tall">
+      <div class="cw-title"><b>Operativ EBITDA per månad</b><span>kSEK</span></div>
+      <div class="bars" id="c_ebitda"></div>
+    </div>
+    <div class="stats">
+      <div class="kpi"><div class="v">44,0 <small>MSEK</small></div><div class="l">Nettoomsättning — D2C 80%, B2B 16%, consignment 4%.</div></div>
+      <div class="kpi sage"><div class="v">+2,3 <small>MSEK</small></div><div class="l">Operativ EBITDA. H1 −0,6 MSEK → H2 +2,9 MSEK; jämnare H2 (stark sommar, dec +0,7M).</div></div>
+      <div class="kpi clay"><div class="v">~27%</div><div class="l">Täckningsbidrag av netto. Fast opex slimmas −50% mot 2025.</div></div>
+    </div>
+  </div>
+  <div class="foot">GLAS · 2026</div><div class="idx">02</div>
+</section>
+
+<!-- 3 D2C -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Omsättning · D2C</div>
+    <h2>D2C bär bolaget — 35,1 MSEK, 80% av netto</h2>
+    <p class="sub">Säsong kalibrerad mot 2024–25 utfall (Centra+Shopify): sommaren peak (solglasögon), nov svagt båda åren, dec topp (rena 2024; 2025 Q4 migrations-störd). Normaliserad — ej rabattdrivna kampanjtoppar.</p>
+  </div>
+  <div class="grid two">
+    <div class="chartwrap tall">
+      <div class="cw-title"><b>D2C nettoomsättning per månad</b><span>kSEK · grön linje = GP3</span></div>
+      <div class="bars" id="c_d2c"></div>
+    </div>
+    <div class="stats">
+      <div class="kpi"><div class="v">35,1 <small>MSEK</small></div><div class="l">D2C helår — 80% av nettoomsättningen.</div></div>
+      <div class="kpi"><div class="v">~2,99 <small>MSEK/mån</small></div><div class="l">April-bas. Reviderad säsong: jul/aug 1,05–1,10× (solglasögon) · nov 0,90× · dec 1,20×.</div></div>
+      <div class="kpi clay"><div class="v">~31%</div><div class="l">Meta+Google av D2C — den tunga rörliga posten (all marknadsföring ~35%).</div></div>
+    </div>
+  </div>
+  <div class="foot">GLAS · 2026</div><div class="idx">03</div>
+</section>
+
+<!-- 4 B2B -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Omsättning · Wholesale</div>
+    <h2>Wholesale vänder — B2B + consignment, 8,8 MSEK</h2>
+    <p class="sub">B2B och consignment hör ihop (sälj till återförsäljare). April-botten var timing, inte tappad efterfrågan. Maj ~500k inne, juni 500k klart; B2B-uppskalning till 600k från aug. Drivare: nya key accounts + travel retail.</p>
+  </div>
+  <div class="grid two">
+    <div class="chartwrap tall">
+      <div class="cw-title"><b>Wholesale per månad — B2B + consignment</b><span>kSEK</span></div>
+      <div class="bars" id="c_b2b"></div>
+      <div class="legend" id="wh_legend"></div>
+    </div>
+    <div class="stats">
+      <div class="kpi sage"><div class="v">~34%</div><div class="l">Wholesale GP3 (linjen): B2B ~40% · consignment ~20%. Klart högre än D2C — ingen Meta/Google, låg frakt.</div></div>
+      <div class="kpi"><div class="v">8,8 <small>MSEK</small></div><div class="l">Wholesale helår: B2B 6,9M + consignment 1,9M. Internt B2B-mål 800k/mån = uppsida.</div></div>
+      <div class="kpi"><div class="v">+1,3 <small>MSEK</small></div><div class="l">EBITDA-effekt av B2B-vändningen vs 150k-antagandet.</div></div>
+    </div>
+  </div>
+  <div class="foot">GLAS · 2026</div><div class="idx">04</div>
+</section>
+
+<!-- 5 FRAKT I -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Postpac &amp; frakt · I</div>
+    <h2>Frakt &amp; fulfillment — 6,7 MSEK, näst största rörliga kostnaden</h2>
+    <p class="sub">Allt fulfillment går via en 3PL (Postpac) — 98% av all fraktspend. Lumpig bokföring (mars-spik = periodiserings­artefakt), men ~50 kr/skickad enhet är den verkliga styckkostnaden (inrikes ~23, intl ~143 per försändelse).</p>
+  </div>
+  <div class="grid two">
+    <div class="chartwrap tall">
+      <div class="cw-title"><b>Fulfillment per månad</b><span>kSEK</span></div>
+      <div class="bars" id="c_ful"></div>
+    </div>
+    <div class="stats">
+      <div class="kpi clay"><div class="v">6,7 <small>MSEK</small></div><div class="l">Fulfillment helår — ~15% av netto, ~19% av D2C.</div></div>
+      <div class="kpi"><div class="v">~50 <small>kr/enhet</small></div><div class="l">Styckkostnad D2C (Q1: 1 455 kSEK / 29 152 skickade enheter).</div></div>
+      <div class="kpi"><div class="v">98%</div><div class="l">Av fraktspend via Postpac (3PL). Direkta carriers (DHL m.fl.) marginella → leverantörsberoende att bevaka.</div></div>
+    </div>
+  </div>
+  <div class="foot">GLAS · 2026 · Fortnox kto 4017 + leverantörsfakturor</div><div class="idx">05</div>
+</section>
+
+<!-- 6 FRAKT II -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Postpac &amp; frakt · II — radnivå</div>
+    <h2>Vad Postpac-notan faktiskt innehåller</h2>
+    <p class="sub">Alla Postpac-fakturor jan–apr, radspecade (2,21 MSEK): frakt är ~40% av notan — och internationell frakt (UPS Europa/världen) ensam ~51% av frakten. Inrikes är billigt; utrikes driver kostnaden.</p>
+  </div>
+  <div class="grid two">
+    <div class="chartwrap">
+      <div class="cw-title"><b>Postpac-notan — sammansättning</b><span>jan–apr · % av nota</span></div>
+      <div class="hbars" id="c_postpac"></div>
+    </div>
+    <div class="chartwrap">
+      <div class="cw-title"><b>Frakten — per carrier / geografi</b><span>% av frakt</span></div>
+      <div class="hbars" id="c_frakt"></div>
+      <div class="takeaway"><b>Hävstång:</b> internationell frakt (UPS) är hälften av frakten på en bråkdel av ordrarna. Frizon för optimering: carrier-mix &amp; intl-fraktpriser.</div>
+    </div>
+  </div>
+  <div class="foot">GLAS · 2026 · Postpac-fakturor jan–apr, radnivå (9 st) · övrigt = ej kodtolkad rad (lager/hantering)</div><div class="idx">06</div>
+</section>
+
+<!-- 7 OPEX -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Fasta omkostnader · OPEX</div>
+    <h2>Kostnadsbasen halveras — ~564k/mån</h2>
+    <p class="sub">Personal trappas ned (Amanda jun, Anya/AnnaL jul, Timmy/Giuseppe sep), lokal → 0 från aug. Från ~1,1 MSEK/mån i H1 till steady-state ~0,56 MSEK/mån från sep.</p>
+  </div>
+  <div class="chartwrap tall" style="margin-top:.5vh">
+    <div class="cw-title"><b>OPEX per månad — staplat per kategori</b><span>kSEK</span></div>
+    <div class="bars" id="c_opex" style="min-height:34vh"></div>
+    <div class="legend" id="opex_legend"></div>
+  </div>
+  <div class="foot">GLAS · 2026</div><div class="idx">07</div>
+</section>
+
+<!-- 8 KASSA & LIKVIDITET -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Kassa &amp; likviditet</div>
+    <h2>Kassan håller — botten ~1,9M headroom i juli</h2>
+    <p class="sub">SEB-headroom (5,0M-ram minus utnyttjande) maj–dec. Lägst i juli (~1,9M kvar, utnyttjande ~3,1M), bygger till ~3,3M vid årsskiftet. Ingen breach i basfallet.</p>
+  </div>
+  <div class="grid two">
+    <div class="chartwrap tall">
+      <div class="cw-title"><b>SEB-headroom mot 5,0M-ram</b><span>kSEK · maj–dec</span></div>
+      <div class="bars" id="c_cash"></div>
+    </div>
+    <div class="stats">
+      <div class="kpi clay"><div class="v">~1,9 <small>MSEK</small></div><div class="l">Botten (juli) — kvar av 5M-ramen. Max utnyttjande ~3,1M.</div></div>
+      <div class="kpi sage"><div class="v">~+3,7 <small>MSEK</small></div><div class="l">Lagerneddragning maj–dec (11,4 → 7,7M; ÅR-ankrat 13,1M ingående). Frigör kassa — nivå/takt avstäms m. Yanrong.</div></div>
+      <div class="kpi"><div class="v">−3,3 <small>MSEK</small></div><div class="l">Återkommande utflöden/år: Almi 1,5M + Sameway 1,6M (maj–sep) + moms ~0,2M.</div></div>
+    </div>
+  </div>
+  <div class="takeaway" style="max-width:54ch">⚠ <b>Känsligast — Q1-moms.</b> Basfall 65k (export/OSS-tung mix). Blir den ~800k → −0,7M i juni, botten ~1,1M — fortfarande inom ram men tunt. Bekräfta med Yanrong i juni. Skattekonto i övrigt rörligt (moms + löner), ej fast post.</div>
+  <div class="foot">GLAS · 2026 · konservativ AR-lag-brygga</div><div class="idx">08</div>
+</section>
+
+<!-- 9 FÖRSLAG I -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Förslag · I — Intäkter &amp; marginal</div>
+    <h2>Lågt hängande frukt — mer pengar, enkla grepp</h2>
+  </div>
+  <div class="props">
+    <div class="prop hot">
+      <div><div class="t">Fraktavgift UK — £15</div><div class="r">UK utanför EU: ni äter idag både UPS-frakt (~143 kr) och tull (~100 kr, inom Postpac-notan) på ~6 500 ordrar/år, helt gratis. Schweiz tar 29 CHF med bibehållen AOV → kunder tål det. Impact = brutto, före ev. konverteringsbortfall.</div></div>
+      <div class="imp">~0,6–1,0 M<small>/år</small></div><div class="eff">Inställning</div>
+    </div>
+    <div class="prop hot">
+      <div><div class="t">Fraktavgift Norge — efter UK</div><div class="r">Samma logik som UK (icke-EU, frakt + tull absorberas). Rulla ut ~2 veckor efter UK när effekten är mätt.</div></div>
+      <div class="imp">~0,3–0,5 M<small>/år</small></div><div class="eff">Inställning</div>
+    </div>
+    <div class="prop">
+      <div><div class="t">Google Ads 4 % → 100k/mån</div><div class="r">Marknadsföringen är 96 % Meta (4,9 M) / 4 % Google. Branded sök är billig inkrementell volym. Flytta Eric från content → acquisition &amp; flows.</div></div>
+      <div class="imp">Lägre CAC</div><div class="eff">Omfördela Eric</div>
+    </div>
+    <div class="prop">
+      <div><div class="t">Klaviyo / email-flows fullt utbyggda</div><div class="r">Redan ~50 % av ordrarna från email. Abandoned cart, post-purchase, winback — intäkt till nära noll marginalkostnad vs 30 % Meta-spend.</div></div>
+      <div class="imp">~0 CAC-intäkt</div><div class="eff">Eric</div>
+    </div>
+    <div class="prop">
+      <div><div class="t">Väx B2B mot 800k/mån</div><div class="r">B2B har 40 % marginal vs D2C 27 % — varje wholesale-krona väger 1,5×. Momentum finns (key accounts + travel retail).</div></div>
+      <div class="imp">+0,3 M<small>/+100k/mån</small></div><div class="eff">Säljfokus</div>
+    </div>
+  </div>
+  <div class="foot">GLAS · 2026 · Impact = estimat</div><div class="idx">09</div>
+</section>
+
+<!-- 10 FÖRSLAG II -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Förslag · II — Kostnad &amp; drift</div>
+    <h2>Slimma vidare — pengar vi redan tjänat in</h2>
+  </div>
+  <div class="props">
+    <div class="prop">
+      <div><div class="t">Konsolidera intl-carrier → UPS</div><div class="r">DHL (420 kr/pkt) och FedEx (377 kr) används för enstaka paket när UPS kostar 183. Ingen uppenbar anledning.</div></div>
+      <div class="imp">~90k<small>/år</small></div><div class="eff">Inställning</div>
+    </div>
+    <div class="prop hot">
+      <div><div class="t">Freja scope-cut → lön + skatt</div><div class="r">Från 765k-takt till ~180–240k/år. 98 % av Fortnox-arbetet är automatiserbart. Pågår.</div></div>
+      <div class="imp">~0,5 M<small>/år</small></div><div class="eff">Pågår</div>
+    </div>
+    <div class="prop">
+      <div><div class="t">SaaS-audit</div><div class="r">IT/software ~1,3 MSEK/år (run-rate 108k/mån). Prime Penguin (31k) ev. redundant mot Postpac/Ongoing WMS. Genomlys oanvända verktyg.</div></div>
+      <div class="imp">~50–150k<small>/år</small></div><div class="eff">Genomlysning</div>
+    </div>
+    <div class="prop">
+      <div><div class="t">Trimma consignment</div><div class="r">~20 % marginal och krymper (Depart stängt, GADD stänger). Frigör fokus och kapital → wholesale (40 %).</div></div>
+      <div class="imp">Mix → marginal</div><div class="eff">Mix-beslut</div>
+    </div>
+    <div class="prop">
+      <div><div class="t">Returer + Postpac-omförhandling</div><div class="r">Returer = frakt ×2 + handling (optimera Yayloh-avgifter). Postpac = 6,7 M/år, 98 % av frakten — volym finns för bättre pris på lagring/plock.</div></div>
+      <div class="imp tbd">TBD</div><div class="eff">Förhandling</div>
+    </div>
+  </div>
+  <div class="props-foot">Summa hård återvinning ≈ <b>1,5–2,3 MSEK/år</b> + tillväxtuppsida (B2B, Google, email) → lyfter EBITDA från +2,3M mot <b>~+4M</b>.</div>
+  <div class="foot">GLAS · 2026 · Impact = estimat</div><div class="idx">10</div>
+</section>
+
+<!-- 11 SLUTSATS -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Slutsats</div>
+    <h2>Lean bas + B2B-hävstång = +2,3M i år, ~+5M 2027 (est.)</h2>
+  </div>
+  <div class="grid two">
+    <div class="stats">
+      <div class="kpi sage"><div class="v">+2,3 → +5,0 <small>MSEK</small></div><div class="l">Operativ EBITDA 2026 → 2027 (konservativt). Hela hävstången 2027 = kostnadsbesparingarnas fulla helårseffekt.</div></div>
+      <div class="kpi clay"><div class="v">Frakt</div><div class="l">Största odisciplinerade rörliga kostnaden efter COGS. Intl-frakt = optimeringspotential.</div></div>
+      <div class="kpi"><div class="v">B2B</div><div class="l">Högst marginal (~40%), tydligt momentum. Varje uppväxlad wholesale-krona väger tyngst i EBITDA.</div></div>
+    </div>
+    <div class="chartwrap tall">
+      <div class="cw-title"><b>EBITDA (staplar) vs TB/GP3 (grön linje)</b><span>kSEK/mån · gap = opex</span></div>
+      <div class="bars" id="c_tb"></div>
+    </div>
+  </div>
+  <div class="foot">GLAS · 2026</div><div class="idx">11</div>
+</section>
+
+<!-- 12 FINANSIELL STÄLLNING / BOKSLUT 2025 -->
+<section class="slide" data-anim>
+  <div class="head">
+    <div class="kicker">Bokslut 2025 · finansiell ställning</div>
+    <h2>Solvent trots engångsförlusten — eget kapital intakt</h2>
+    <p class="sub">Signerad årsredovisning (Forvis Mazars). 2025 tyngs av en engångspost — nedskrivning av äldre lager — inte av den löpande driften. Balansräkningen är fortsatt solvent och ingen kontrollbalansräkning aktualiseras. Samma underlag ligger till grund för Almi-uppföljningen.</p>
+  </div>
+  <div class="grid two">
+    <div class="stats">
+      <div class="kpi"><div class="v">38,6 <small>MSEK</small></div><div class="l">Nettoomsättning 2025 — i nivå med 2024 (38,5 MSEK).</div></div>
+      <div class="kpi clay"><div class="v">−4,75 <small>MSEK</small></div><div class="l">Resultat efter finansiella poster — drivet av en engångsnedskrivning av äldre lager (balansåtgärd) och tung H1, ej löpande drift.</div></div>
+    </div>
+    <div class="stats">
+      <div class="kpi sage"><div class="v">+4,6 <small>MSEK</small></div><div class="l">Eget kapital per 31 dec — soliditet ~24%. Förlusten bärs av överkursfonden; ingen kontrollbalansräkning aktualiseras.</div></div>
+      <div class="kpi" style="border-color:#8b3a2e"><div class="v">3,4 <small>MSEK</small></div><div class="l">Kontrollpunkt: Fortnox-liggaren stämmer inte mot reviderad ÅR — årsbokslutsjusteringar (lagernedskrivning + resultatdisposition) ej bokförda i liggaren. Flaggat till Freja för rättning; påverkar även ingående balanser 2026.</div></div>
+    </div>
+  </div>
+  <div class="foot">GLAS · 2026</div><div class="idx">12</div>
+</section>
+
+</div>
+<div class="hint" id="hint">↓ scrolla · ← → piltangenter</div>
+
+<script>
+const D = {
+  months:["Jan","Feb","Mar","Apr","Maj","Jun","Jul","Aug","Sep","Okt","Nov","Dec"],
+  actual_n:4,
+  d2c:[2828.6,1823.4,2721.9,2986.6,2986.6,2986.6,3135.9,3285.3,2986.6,3135.9,2687.9,3583.9],
+  b2b:[945.6,891.4,442.1,134,500,500,500,600,600,600,600,600],
+  cons:[141.7,123.6,158.1,193.4,193.4,164.4,164.4,164.4,139.7,139.7,139.7,181.7],
+  d2c_gm3:[438.2,130.6,802.0,769.3,814.4,814.3,855.2,896.0,814.4,855.1,733.0,977.4],
+  wh_gm3:[201.7,521.0,189.2,93.0,230.8,225.1,225.1,263.6,258.8,258.8,258.8,267.0],
+  ful:[668.1,442.2,569.2,595.4,540.3,535.4,560.7,586.1,531.2,556.5,480.4,639.8],
+  ebitda:[-195,-640.9,-276.7,196.6,116.3,167,305.1,431.3,509.3,549.9,427.8,680.5],
+  tb:[845.2,445.6,858.8,994.7,1045.2,1039.4,1080.2,1159.6,1073.3,1113.9,991.8,1244.5],
+  opex:{
+    "Personal":[434.3,511,479.1,508.8,508.8,452.3,355,355,190.7,190.7,190.7,190.7],
+    "Konsulter":[302.6,315.9,346.5,276.6,196.2,196.2,196.2,196.2,196.2,196.2,196.2,196.2],
+    "Software/IT":[144.1,160.9,151.1,107.6,107.6,107.6,107.6,107.6,107.6,107.6,107.6,107.6],
+    "Lokal":[59.7,70.3,93.4,46.8,46.8,46.8,46.8,0,0,0,0,0],
+    "Övrigt":[123.7,51.4,77.2,69.5,69.5,69.5,69.5,69.5,69.5,69.5,69.5,69.5]
+  },
+  headroom:[2076.8,2025.8,1855.3,2046.6,2307.8,2582.9,3017.1,3318.2],
+  cashMonths:["Maj","Jun","Jul","Aug","Sep","Okt","Nov","Dec"],
+  postpac:[["Frakt",39.7],["Order / plock / pack",18.1],["Lagring",6.2],["Timarbete",4.7],["Inleverans",3.6],["Returhantering",2.4],["Övrigt (lager/hantering)",24.7]],
+  frakt:[["UPS — intl (Europa/världen)",51.0],["Inrikes paket (SE)",30.0],["Norge",5.4],["DHL intl",3.4],["Instabee SE",3.4],["FedEx intl",3.3],["PostNord SE",2.9]]
+};
+/* GLAS-palett: ink, grön (pos), terrakotta (clay/cost), rost (neg), periwinkle (accent), cappuccino */
+const C={brass:'#2d2a26',sage:'#4f7a5c',clay:'#a8643f',red:'#8b3a2e',blue:'#6f8fd8',dim:'#ac9e85'};
+const OPEXC={"Personal":C.brass,"Konsulter":C.clay,"Software/IT":C.blue,"Lokal":C.sage,"Övrigt":C.dim};
+const fmt=n=>Math.round(n).toLocaleString('sv-SE');
+
+function barChart(id, data, opt={}){
+  const el=document.getElementById(id); if(!el) return;
+  const max=Math.max(...data.map(d=>Math.abs(d.v)), 1);
+  el.innerHTML='';
+  data.forEach((d,i)=>{
+    const col=document.createElement('div'); col.className='col';
+    const bar=document.createElement('div'); bar.className='bar';
+    bar.style.background=d.c||C.brass;
+    if(d.plan){ bar.style.background='transparent'; bar.style.border='1px solid '+(d.c||C.brass); bar.style.backgroundImage='repeating-linear-gradient(135deg,'+(d.c||C.brass)+'40 0 4px,transparent 4px 8px)'; }
+    const val=document.createElement('div'); val.className='bval'; val.textContent=fmt(d.v); bar.appendChild(val);
+    const lab=document.createElement('div'); lab.className='mlab'; lab.textContent=d.m;
+    const h=Math.max(2,Math.abs(d.v)/max*100);
+    bar.dataset.h=h; col.appendChild(bar); col.appendChild(lab);
+    el.appendChild(col);
+  });
+  if(opt.divider){
+    const dv=document.createElement('div'); dv.className='divider';
+    dv.style.left=(opt.divider/data.length*100)+'%';
+    const dl=document.createElement('div'); dl.className='divlab'; dl.textContent='budget →'; dl.style.left=(opt.divider/data.length*100+.5)+'%';
+    el.appendChild(dv); el.appendChild(dl);
+  }
+}
+function negChart(id,vals,months,an,opt={}){
+  const el=document.getElementById(id); if(!el) return; el.innerHTML='';
+  el.style.position='relative';
+  const max=opt.max!=null?opt.max:Math.max(...vals,0.0001), min=opt.min!=null?opt.min:Math.min(...vals,-0.0001); const span=max-min;
+  const zero=max/span*100;
+  vals.forEach((v,i)=>{
+    const col=document.createElement('div'); col.className='col'; col.style.position='relative'; col.style.justifyContent='stretch';
+    const pos=v>=0; const c=pos?C.sage:C.red;
+    const up=document.createElement('div'); up.style.cssText='height:'+zero+'%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;width:100%';
+    const lo=document.createElement('div'); lo.style.cssText='height:'+(100-zero)+'%;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;width:100%';
+    const bar=document.createElement('div'); bar.className='bar'; bar.style.width='62%';
+    bar.style.background=(i<an)?c:'transparent';
+    if(i>=an){bar.style.border='1px solid '+c; bar.style.backgroundImage='repeating-linear-gradient(135deg,'+c+'40 0 4px,transparent 4px 8px)';}
+    bar.dataset.h = pos ? (v/max*100) : (Math.abs(v)/Math.abs(min)*100);
+    if(!pos) bar.style.borderRadius='0 0 2px 2px';
+    const val=document.createElement('div'); val.className='bval'; val.textContent=fmt(v);
+    if(!pos){val.style.top='auto'; val.style.bottom='-1.25em';}
+    bar.appendChild(val);
+    (pos?up:lo).appendChild(bar);
+    col.appendChild(up); col.appendChild(lo);
+    const lab=document.createElement('div'); lab.className='mlab'; lab.textContent=months[i];
+    lab.style.position='absolute'; lab.style.width='100%'; lab.style.textAlign='center'; lab.style.top='calc('+zero+'% + 5px)'; lab.style.left='0';
+    col.appendChild(lab);
+    el.appendChild(col);
+  });
+  const zl=document.createElement('div'); zl.style.cssText='position:absolute;left:0;right:0;top:'+zero+'%;height:1px;background:var(--ink);opacity:.5;z-index:1';
+  el.appendChild(zl);
+  const dv=document.createElement('div'); dv.className='divider'; dv.style.left=(an/vals.length*100)+'%'; el.appendChild(dv);
+  if(opt.line){
+    const ns='http://www.w3.org/2000/svg', L=opt.line, n=L.length, col=opt.lineColor||C.sage;
+    const svg=document.createElementNS(ns,'svg'); svg.setAttribute('viewBox','0 0 100 100'); svg.setAttribute('preserveAspectRatio','none');
+    svg.style.cssText='position:absolute;left:0;right:0;top:18px;height:calc(100% - 33px);width:100%;pointer-events:none;overflow:visible;z-index:4;opacity:0;transition:opacity .5s .5s';
+    const X=i=>(i+0.5)/n*100, Y=v=>(max-v)/span*100;
+    const mk=(f,t,dash)=>{let d='';for(let i=f;i<=t;i++){d+=(i===f?'M':'L')+X(i).toFixed(2)+' '+Y(L[i]).toFixed(2)+' ';}const p=document.createElementNS(ns,'path');p.setAttribute('d',d);p.setAttribute('fill','none');p.setAttribute('stroke',col);p.setAttribute('stroke-width','2');p.setAttribute('vector-effect','non-scaling-stroke');p.setAttribute('stroke-linejoin','round');if(dash)p.setAttribute('stroke-dasharray','4 3');svg.appendChild(p);};
+    mk(0,an-1,false); mk(an-1,n-1,true);
+    L.forEach((v,i)=>{const c=document.createElementNS(ns,'circle');c.setAttribute('cx',X(i));c.setAttribute('cy',Y(v));c.setAttribute('r','1.1');c.setAttribute('vector-effect','non-scaling-stroke');c.setAttribute('fill',i<an?col:'#faf6ee');c.setAttribute('stroke',col);c.setAttribute('stroke-width','1.5');svg.appendChild(c);});
+    el.appendChild(svg); requestAnimationFrame(()=>{svg.style.opacity='1';});
+  }
+}
+function cashChart(id, vals, labels, ram){
+  const el=document.getElementById(id); if(!el) return; el.innerHTML=''; el.style.position='relative';
+  const min=Math.min(...vals);
+  vals.forEach((v,i)=>{
+    const col=document.createElement('div'); col.className='col';
+    const bar=document.createElement('div'); bar.className='bar'; const c=(v===min)?C.clay:C.sage;
+    bar.style.background=c; bar.dataset.h=v/ram*100;
+    const val=document.createElement('div'); val.className='bval'; val.textContent=fmt(v); val.style.opacity='.85'; bar.appendChild(val);
+    const lab=document.createElement('div'); lab.className='mlab'; lab.textContent=labels[i];
+    col.appendChild(bar); col.appendChild(lab); el.appendChild(col);
+  });
+  const cl=document.createElement('div'); cl.style.cssText='position:absolute;left:0;right:0;top:18px;border-top:1px dashed '+C.muted+';z-index:3';
+  const cap=document.createElement('div'); cap.style.cssText='position:absolute;top:20px;right:6px;font-size:.55rem;letter-spacing:.06em;color:var(--muted)'; cap.textContent='SEB-ram 5,0M';
+  el.appendChild(cl); el.appendChild(cap);
+}
+function stackChart(id,obj,months,an){
+  const el=document.getElementById(id); if(!el) return; el.innerHTML='';
+  const keys=Object.keys(obj);
+  const totals=months.map((_,i)=>keys.reduce((s,k)=>s+obj[k][i],0));
+  const max=Math.max(...totals);
+  months.forEach((m,i)=>{
+    const col=document.createElement('div'); col.className='col';
+    const st=document.createElement('div'); st.className='stack';
+    if(i>=an) st.style.opacity='.55';
+    keys.forEach(k=>{
+      const seg=document.createElement('div'); seg.className='seg';
+      seg.style.background=OPEXC[k]; seg.style.height=(obj[k][i]/totals[i]*100)+'%';
+      st.appendChild(seg);
+    });
+    const val=document.createElement('div'); val.className='bval'; val.textContent=fmt(totals[i]); st.appendChild(val);
+    st.dataset.h=totals[i]/max*100;
+    col.appendChild(st);
+    const lab=document.createElement('div'); lab.className='mlab'; lab.textContent=m; col.appendChild(lab);
+    el.appendChild(col);
+  });
+  const dv=document.createElement('div'); dv.className='divider'; dv.style.left=(an/months.length*100)+'%'; el.appendChild(dv);
+  const lg=document.getElementById('opex_legend');
+  if(lg) lg.innerHTML=keys.map(k=>`<span><i class="dot" style="background:${OPEXC[k]}"></i>${k}</span>`).join('');
+}
+function hbars(id,data){
+  const el=document.getElementById(id); if(!el) return; el.innerHTML='';
+  const max=Math.max(...data.map(d=>d[1]));
+  data.forEach((d,i)=>{
+    const row=document.createElement('div'); row.className='hrow';
+    const c=(i===0?C.clay:C.brass);
+    row.innerHTML=`<div class="hl">${d[0]}</div><div class="htrack"><div class="hfill" data-w="${d[1]/max*100}" style="background:${c}"></div></div><div class="hp">${d[1].toFixed(1)}%</div>`;
+    el.appendChild(row);
+  });
+}
+
+// stacked revenue chart (segments per month) -> returns max for line scaling
+function stackedRev(id, segs, colors, an, opt={}){
+  const el=document.getElementById(id); if(!el) return 1; el.innerHTML='';
+  const keys=Object.keys(segs);
+  const totals=D.months.map((_,i)=>keys.reduce((s,k)=>s+segs[k][i],0));
+  const max=Math.max(...totals,1);
+  D.months.forEach((m,i)=>{
+    const col=document.createElement('div'); col.className='col';
+    const st=document.createElement('div'); st.className='stack';
+    keys.forEach(k=>{
+      const seg=document.createElement('div'); seg.className='seg'; const c=colors[k];
+      if(i<an){ seg.style.background=c; }
+      else { seg.style.background='transparent'; seg.style.boxShadow='inset 0 0 0 1px '+c+'88'; seg.style.backgroundImage='repeating-linear-gradient(135deg,'+c+'40 0 4px,transparent 4px 8px)'; }
+      seg.style.height=(segs[k][i]/totals[i]*100)+'%';
+      st.appendChild(seg);
+    });
+    const val=document.createElement('div'); val.className='bval'; val.textContent=fmt(totals[i]); st.appendChild(val);
+    st.dataset.h=totals[i]/max*100; col.appendChild(st);
+    const lab=document.createElement('div'); lab.className='mlab'; lab.textContent=m; col.appendChild(lab);
+    el.appendChild(col);
+  });
+  if(opt.divider){const dv=document.createElement('div');dv.className='divider';dv.style.left=(opt.divider/12*100)+'%';el.appendChild(dv);
+    const dl=document.createElement('div');dl.className='divlab';dl.textContent='budget →';dl.style.left=(opt.divider/12*100+.5)+'%';el.appendChild(dl);}
+  if(opt.legend){const lg=document.getElementById(opt.legend); if(lg) lg.innerHTML=keys.map(k=>`<span><i class="dot" style="background:${colors[k]}"></i>${k}</span>`).join('')+`<span><i class="dot" style="background:${C.sage};border-radius:50%"></i>GP3 (täckningsbidrag)</span>`;}
+  return max;
+}
+// GP3 contribution line over bars (solid=utfall, dashed=estimat)
+function gp3Line(id, vals, max, an){
+  const el=document.getElementById(id); if(!el) return;
+  const ns='http://www.w3.org/2000/svg', n=vals.length;
+  const svg=document.createElementNS(ns,'svg'); svg.setAttribute('viewBox','0 0 100 100'); svg.setAttribute('preserveAspectRatio','none');
+  svg.style.cssText='position:absolute;left:0;right:0;top:18px;height:calc(100% - 33px);width:100%;pointer-events:none;overflow:visible;z-index:4;opacity:0;transition:opacity .5s .5s';
+  const X=i=>(i+0.5)/n*100, Y=v=>(1-v/max)*100;
+  const mkpath=(from,to,dash)=>{let d='';for(let i=from;i<=to;i++){d+=(i===from?'M':'L')+X(i).toFixed(2)+' '+Y(vals[i]).toFixed(2)+' ';}
+    const p=document.createElementNS(ns,'path');p.setAttribute('d',d);p.setAttribute('fill','none');p.setAttribute('stroke',C.sage);p.setAttribute('stroke-width','2');p.setAttribute('vector-effect','non-scaling-stroke');p.setAttribute('stroke-linejoin','round');if(dash)p.setAttribute('stroke-dasharray','4 3');svg.appendChild(p);};
+  mkpath(0,an-1,false); mkpath(an-1,n-1,true);
+  vals.forEach((v,i)=>{const c=document.createElementNS(ns,'circle');c.setAttribute('cx',X(i));c.setAttribute('cy',Y(v));c.setAttribute('r','1.1');c.setAttribute('vector-effect','non-scaling-stroke');c.setAttribute('fill',i<an?C.sage:'#faf6ee');c.setAttribute('stroke',C.sage);c.setAttribute('stroke-width','1.5');svg.appendChild(c);});
+  el.appendChild(svg); requestAnimationFrame(()=>{svg.style.opacity='1';});
+}
+
+// build
+const maxD2C=Math.max(...D.d2c);
+barChart('c_d2c', D.d2c.map((v,i)=>({m:D.months[i],v,c:C.brass,plan:i>=D.actual_n})), {divider:D.actual_n});
+gp3Line('c_d2c', D.d2c_gm3, maxD2C, D.actual_n);
+const maxWh=stackedRev('c_b2b', {'B2B':D.b2b,'Consignment':D.cons}, {'B2B':C.blue,'Consignment':C.dim}, D.actual_n, {divider:D.actual_n, legend:'wh_legend'});
+gp3Line('c_b2b', D.wh_gm3, maxWh, D.actual_n);
+barChart('c_ful', D.ful.map((v,i)=>({m:D.months[i],v,c:C.clay,plan:i>=D.actual_n})), {divider:D.actual_n});
+negChart('c_ebitda', D.ebitda, D.months, D.actual_n);
+negChart('c_tb', D.ebitda, D.months, D.actual_n, {max:Math.max(...D.tb), min:Math.min(...D.ebitda,0), line:D.tb, lineColor:C.sage});
+stackChart('c_opex', D.opex, D.months, D.actual_n);
+cashChart('c_cash', D.headroom, D.cashMonths, 5000);
+hbars('c_postpac', D.postpac);
+hbars('c_frakt', D.frakt);
+
+// inject GLAS-logo on content slides
+document.querySelectorAll('.slide:not(.cover)').forEach(s=>{
+  const im=document.createElement('img'); im.className='brandmark'; im.src='deck_assets/logo_black.png'; im.alt='GLAS';
+  s.insertBefore(im, s.firstChild);
+});
+
+// animate bars when slide enters view
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar,.stack').forEach((b,i)=>{ setTimeout(()=>{ b.style.height=(b.dataset.h||0)+'%'; }, i*45); });
+      e.target.querySelectorAll('.hfill').forEach((b,i)=>{ setTimeout(()=>{ b.style.width=(b.dataset.w||0)+'%'; }, 200+i*90); });
+      e.target.classList.add('seen');
+    }
+  });
+},{threshold:.4});
+document.querySelectorAll('.slide').forEach(s=>io.observe(s));
+
+// nav
+const deck=document.getElementById('deck');
+const slides=[...document.querySelectorAll('.slide')];
+let cur=0;
+function go(n){cur=Math.max(0,Math.min(slides.length-1,n)); slides[cur].scrollIntoView({behavior:'smooth'});}
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(cur+1);}
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(cur-1);}
+});
+deck.addEventListener('scroll',()=>{cur=Math.round(deck.scrollTop/innerHeight); const h=document.getElementById('hint'); if(deck.scrollTop>50)h.classList.add('hide');});
+addEventListener('load',()=>{const m=location.hash.match(/\d+/); if(m){const i=+m[0]-1; deck.scrollTop=i*innerHeight; cur=i;}});
+const only=location.search.match(/only=(\d+)/);
+if(only){
+  const n=+only[1];
+  document.querySelectorAll('.slide').forEach((s,i)=>{ if(i+1!==n) s.style.display='none'; });
+  document.querySelectorAll('.bar,.stack').forEach(b=>b.style.height=(b.dataset.h||0)+'%');
+  document.querySelectorAll('.hfill').forEach(b=>b.style.width=(b.dataset.w||0)+'%');
+}
+if(location.search.includes('flat')){
+  const css=document.createElement('style');
+  css.textContent='.bar,.stack{transition:none!important}.hfill{transition:none!important}';
+  document.head.appendChild(css);
+  deck.style.height='auto'; deck.style.overflow='visible'; deck.style.scrollSnapType='none';
+  document.querySelectorAll('.slide').forEach(s=>{s.style.height='770px';});
+  document.querySelectorAll('.bar,.stack').forEach(b=>b.style.height=(b.dataset.h||0)+'%');
+  document.querySelectorAll('.hfill').forEach(b=>b.style.width=(b.dataset.w||0)+'%');
+  document.body.style.overflow='visible'; document.documentElement.style.overflow='visible';
+}
+</script>
+</body>
+</html>
